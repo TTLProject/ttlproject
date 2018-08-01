@@ -1,5 +1,12 @@
 <!DOCTYPE html>
+<%@page import="dao.ConnectionSteps"%>
+<%@page import="userbean.Userbean"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
 
@@ -33,11 +40,17 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800');
 @import url('scss/style.css')
 </style>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"
+	type="text/javascript"></script>
+
 	
 </head>
 
-<body>
-
+<body >
+<%
+		Userbean user = (Userbean) session.getAttribute("session1");
+	%>
 <section id="container" >
 <!--header start-->
 <header class="header fixed-top clearfix">
@@ -45,7 +58,7 @@
 <!--logo start-->
 <div class="brand">
 
-    <a href="ExecutiveIndex.jsp" class="logo">
+    <a href="ExecutiveIndex.html" class="logo">
         <h4 style="color:white;"><b><i>Ticket&Test Management</i></b></h4>
     </a>
     <div class="sidebar-toggle-box">
@@ -67,7 +80,7 @@
         <div class="leftside-navigation">
             <ul class="sidebar-menu" id="nav-accordion">
                 <li>
-                    <a class="active" href="EditExecutiveProfile.jsp">
+                    <a class="active" href="EditExecutiveProfile.html">
                         <i class="fa fa-pencil"></i>
                         <span>EditProfile</span>
                     </a>
@@ -80,28 +93,28 @@
                     <ul class="sub">
                             <li><a href="AddExecutiveTicket.jsp">Add Ticket</a></li>
                         <li><a href="#">Edit Ticket</a></li>
-                        <li><a href="ViewExecutiveTicket.jsp">View Ticket</a></li>
+                        <li><a href="ViewExecutiveTicket.html">View Ticket</a></li>
                     </ul>
                 </li>
                 
                 
                 <li class="sub-menu">
                     <a href="javascript:;">
-                        <i class="fa fa-laptop"></i>
+                        <i class="fa fa-check-square-o"></i>
                         <span>Test Management</span>
                     </a>
                     <ul class="sub">
-                     <li><a href="ExecutiveTestReport.jsp">Prepare TestReport</a></li>
-                        <li><a href="ExecutiveTestData.jsp">Prepare TestData </a></li>
-                        <li><a href="ExecutiveBugReport.jsp">Prepare BugReport</a></li>
-                        <li><a href="ViewExecutiveTestReport.jsp">ViewTestReport</a></li>
-						 <li><a href="ModifyExecutiveTestReport.jsp">ModifyTestReport</a></li>
+                     <li ><a href="ExecutiveTestReport.html">Prepare TestReport</a></li>
+                        <li><a href="ExecutiveTestData.html">Prepare TestData </a></li>
+                        <li><a href="ExecutiveBugReport.html">Prepare BugReport</a></li>
+                        <li><a href="ExecutiveViewTestReport.html">ViewTestReport</a></li>
+						 <li><a href="ExecutiveModifyTestReport.html">ModifyTestReport</a></li>
 						
                     </ul>
                 </li>
                 
                <li>
-                    <a href="Notifications.jsp">
+                    <a href="Notifications.html">
                         <i class="fa fa-bell-o"></i>
                         <span>Notifications </span>
                     </a>
@@ -116,68 +129,269 @@
 </aside>
 <!--sidebar end-->
     <!--main content start-->
-    <section id="main-content">
-        <section class="wrapper">
+    
+          <div id="btn">
+    <section id="main-content" >
+        <section class="wrapper" >
         <!-- page start-->
 
 
   <div id="table"  class="table-editable">
+ 
    
-    <table class="table" border="3">
+    <table class="table" border="3" >
       <tr>
         <th>Ticket Id</th>
         <th>Ticket Description</th>
 		<th>Project Name</th>
 		<th>Module Name</th>
-		<th>Requiremnet Name</th>
-		<th>Test Assigned By</th>
+		<th>Requirement Name</th>
+		<th>Ticket Assigned By</th>
+		<th>Ticket Assigned To</th>
 		<th>Date of Issue</th>
 		<th>Date of Completion</th>
 		<th>Status</th>
 		<th >Test Assigned To</th>
 
       </tr>
-      <tr >
-        <td class='unselectable'>hjhjjh</td>
-        <td contenteditable="true">stir-fry</td>
-		 <td contenteditable="true">stir-fry</td>
-		  <td contenteditable="true">stir-fry</td>
-		   <td contenteditable="true" >stir-fry</td>
-		   <td  ><select >
-			   <option >hdgfh</option>
-			    <option >Desihfdhgn</option>
+
+        <% 
+     
+        ConnectionSteps steps = new ConnectionSteps();
+		Connection conn = steps.connection();
+			PreparedStatement pstmt = conn.prepareStatement("select * from tickettable where username=? order by id");
+			pstmt.setString(1, user.getUsername());
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()){
 				
-			   <option >hgfhfshgf</option>
-			   </select>
+			
+					%>
+      <tr >
+        <td  ><div  class="update" data-id=<%=rs.getString("id")%> data-column="ticketid"> <%=rs.getString("ticketid") %></div></td>
+        <td ><div contenteditable class="update" data-id=<%=rs.getString("id")%> data-column="ticketdescription"><%=rs.getString("ticketdescription") %></div></td>
+		 <td ><div contenteditable class="update" data-id=<%=rs.getString("id")%> data-column="projectname"><%=rs.getString("projectname") %></div></td>
+		  <td ><div contenteditable class="update" data-id=<%=rs.getString("id")%> data-column="modulename"><%=rs.getString("modulename") %></div></td>
+		 
+		 <%String reqname=rs.getString("requirementname");
+		 if(reqname==null){
+		 %>
+		 
+		   <td ><div contenteditable class="update" data-id=<%=rs.getString("id")%> data-column="requirementname"></div></td>
+		 
+		 <%}else{ %>
+		   <td ><div contenteditable class="update" data-id=<%=rs.getString("id")%> data-column="requirementname"><%=rs.getString("requirementname") %></div></td>
+		 <%} %>
+		   <td  class='unselectable'>
+			   <div ><%=rs.getString("assignedby") %></div>
+			
 			   </td>
-		    <td class='unselectable'>MM/DD/YYYY</td>
-			 <td ><div class="styled-input">
-							<input class="date" id="datepicker" name="Text" type="text" value="MM/DD/YYYY" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'MM/DD/YYYY';}" required="">
+			    <td class='unselectable' ><div ><%=rs.getString("assignedto") %></div>
+			    
+			  
+			   </td>
+		    <td class='unselectable'><div ><%=rs.getString("dateofissue") %></div></td>
+		    <%
+String date=rs.getString("dateofcompletion");
+%>
+			<%--  <td  ><div calss="update" data-id=<%=rs.getString("id")%> data-column="dateofcompletion"><div class="styled-input" >
+							<input class="date"  name="Text" type="text"  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'MM/DD/YYYY';}" required="">
+						</div></div>
+			 
+			 --%>
+			 <%String status=rs.getString("status");
+			 if(status.equals("Completed")){%>
+			 
+			 
+	                   <td>
+	                   
+	                   
+					<%String doc=rs.getString("dateofcompletion");
+			 if(doc==null){%>	
+						
+						<div class="styled-input" ><div >
+							<input class="datepicker date"  name="Text" type="text"  data-id=<%=rs.getString("id")%> data-column="dateofcompletion">
+						</div></div>
+						
+						<%}else{ %>
+							<div class="styled-input" contenteditable="false"><div >
+							<input class="datepicker date"  name="Text" type="text"  data-id=<%=rs.getString("id")%> data-column="dateofcompletion" value=<%=rs.getString("dateofcompletion") %>>
+						</div></div>
+						<%} %>
+						
+						</td>
+<%}else{ %>
+
+<td class='unselectable'><div  contenteditable="false">
+							MM/DD/YYYY
 						</div></td>
 
-			   <td><select ID="ddlCountry" onChange="onCountrySelected()">
-			   <option value="Canada">Assign</option>
-			    <option value="Canada">Design</option>
+<%} %>
+<%
+
+if((status==null)||(status.equals("Assign"))){
+%>
+
+
+			   <td ><select class="update5" data-id=<%=rs.getString("id")%> data-column="status" >
+			   
+			   <option value="Assign">Assign</option>
+			    <option value="Design">Design</option>
 				
-			   <option value="Canada">Development</option>
+			   <option value="Development">Development</option>
 			 
-			   <option id="Canada" >Review</option>
-			   <option value="Canada">UnitTest</option>
-			   <option value="USA">Functionality Testing</option>
-			   <option value="USA">Deploy</option>
-			   <option value="USA">Completed</option>
+			   <option value="Review" >Review</option>
+			   <option value="UnitTest">UnitTest</option>
+			   <option value="FunctionalityTesting">Functionality Testing</option>
+			   <option value="Deploy">Deploy</option>
+			   <option value="Completed">Completed</option>
 			   </select>
 			   </td>
-                  <td contenteditable="true" id="trUSA"></td>
-
+			   <%}else if(status.equals("Design")){ %>
+			      <td ><select class="update5" data-id=<%=rs.getString("id")%> data-column="status" >
+			   
+			   <option value="Assign" disabled>Assign</option>
+			    <option value="Design">Design</option>
+				
+			   <option value="Development">Development</option>
+			 
+			   <option value="Review" >Review</option>
+			   <option value="UnitTest">UnitTest</option>
+			   <option value="FunctionalityTesting">Functionality Testing</option>
+			   <option value="Deploy">Deploy</option>
+			   <option value="Completed">Completed</option>
+			   </select>
+			   </td>
+			    <%}else if(status.equals("Development")){ %>
+			      <td ><select class="update5" data-id=<%=rs.getString("id")%> data-column="status" >
+			   
+			   <option value="Assign" disabled>Assign</option>
+			    <option value="Design" disabled>Design</option>
+				
+			   <option value="Development">Development</option>
+			 
+			   <option value="Review" >Review</option>
+			   <option value="UnitTest">UnitTest</option>
+			   <option value="FunctionalityTesting">Functionality Testing</option>
+			   <option value="Deploy">Deploy</option>
+			   <option value="Completed">Completed</option>
+			   </select>
+			   </td>
+			    <%}else if(status.equals("Review")){ %>
+			      <td ><select class="update5" data-id=<%=rs.getString("id")%> data-column="status" >
+			   
+			   <option value="Assign" disabled>Assign</option>
+			    <option value="Design" disabled>Design</option>
+				
+			   <option value="Development" disabled>Development</option>
+			 
+			   <option value="Review" >Review</option>
+			   <option value="UnitTest">UnitTest</option>
+			   <option value="FunctionalityTesting">Functionality Testing</option>
+			   <option value="Deploy">Deploy</option>
+			   <option value="Completed">Completed</option>
+			   </select>
+			   </td>
+			    <%}else if(status.equals("UnitTest")){ %>
+			      <td ><select class="update5" data-id=<%=rs.getString("id")%> data-column="status" >
+			   
+			   <option value="Assign" disabled>Assign</option>
+			    <option value="Design" disabled>Design</option>
+				
+			   <option value="Development" disabled>Development</option>
+			 
+			   <option value="Review" disabled>Review</option>
+			   <option value="UnitTest">UnitTest</option>
+			   <option value="FunctionalityTesting">Functionality Testing</option>
+			   <option value="Deploy">Deploy</option>
+			   <option value="Completed">Completed</option>
+			   </select>
+			   </td>
+			    <%}else if(status.equals("FunctionalityTesting")){ %>
+			      <td ><select class="update5" data-id=<%=rs.getString("id")%> data-column="status" >
+			   
+			   <option value="Assign" disabled>Assign</option>
+			    <option value="Design" disabled>Design</option>
+				
+			   <option value="Development" disabled>Development</option>
+			 
+			   <option value="Review" disabled>Review</option>
+			   <option value="UnitTest" disabled>UnitTest</option>
+			   <option value="FunctionalityTesting">Functionality Testing</option>
+			   <option value="Deploy">Deploy</option>
+			   <option value="Completed">Completed</option>
+			   </select>
+			   </td>
+			    <%}else if(status.equals("Deploy")) {%>
+			      <td ><select class="update5" data-id=<%=rs.getString("id")%> data-column="status" >
+			   
+			   <option value="Assign" disabled>Assign</option>
+			    <option value="Design" disabled>Design</option>
+				
+			   <option value="Development" disabled>Development</option>
+			 
+			   <option value="Review" disabled>Review</option>
+			   <option value="UnitTest" disabled>UnitTest</option>
+			   <option value="FunctionalityTesting" disabled>Functionality Testing</option>
+			   <option value="Deploy">Deploy</option>
+			   <option value="Completed">Completed</option>
+			   </select>
+			   </td>
+			    <%}else if(status.equals("Completed")) {%>
+			      <td ><select  >
+			   
+			   <option value="Assign" disabled>Assign</option>
+			    <option value="Design" disabled>Design</option>
+				
+			   <option value="Development" disabled>Development</option>
+			 
+			   <option value="Review" disabled>Review</option>
+			   <option value="UnitTest" disabled>UnitTest</option>
+			   <option value="FunctionalityTesting" disabled>Functionality Testing</option>
+			   <option value="Deploy" disabled>Deploy</option>
+			   <option value="Completed">Completed</option>
+			   </select>
+			   </td>
+			   	    <%}else  {%>
+			      <td ><select class="update5" data-id=<%=rs.getString("id")%> data-column="status" >
+			   
+			   <option value="Assign">Assign</option>
+			    <option value="Design">Design</option>
+				
+			   <option value="Development">Development</option>
+			 
+			   <option value="Review" >Review</option>
+			   <option value="UnitTest">UnitTest</option>
+			   <option value="FunctionalityTesting">Functionality Testing</option>
+			   <option value="Deploy">Deploy</option>
+			   <option value="Completed">Completed</option>
+			   </select>
+			   </td>
+			   <%} %>
+			   <%
+			   String s=rs.getString("status");
+			   System.out.println(s);
+			   if(s.equals("empty")||s.equals("Assign")||s.equals("Design")||s.equals("Development")||s.equals("Review")||s.equals("UnitTest")){ %>
+                  <td class='unselectable' ></td>
+                <%} else{
+                
+                %>
+                 <td >
+                 <div   data-id=<%=rs.getString("id")%> data-column="ticketid"> xcvnvv</div>
+                 </td>
+                 <%} %>
+                 
       <!-- This is our clonable table line -->
 </tr>
       <!-- This is our clonable table line -->
-     
+     <%	
+
+}
+        
+ %>
     </table>
-	
+ <div id="alert_message" align="center"></div>		
   </div>
-  
+      </div>
  
 		
 		
@@ -190,6 +404,7 @@
         <!-- page end-->
         </section>
     </section>
+
     <!--main content end-->
 <!--right sidebar start-->
 <div class="right-sidebar">
@@ -475,43 +690,96 @@
 
   
 
-<script type="text/javascript">
-
-window.onload=function(){
 
 
-document.getElementById("trUSA").style.display='none';
-
-
-
-}
-
-function onCountrySelected(){
-
-var country=document.getElementById("ddlCountry").value;
-if(country  == "Canada"){
-
-document.getElementById("trUSA").style.display='none';
-
-}else{
-document.getElementById("trUSA").style.display='';
-
-
-
-}
-
-
-
-
-}
-	
-	</script>
-<script>
-		$(function() {
-		$( "#datepicker,#datepicker" ).datepicker();
-		});
-	</script>
 		<script type="text/javascript" src="edit/js/jquery-2.1.4.min.js"></script>
 	<script src="edit/js/jquery-ui.js"></script>
 </body>
+
 </html>
+<script>
+		$(function() {
+		$( ".datepicker" ).datepicker();
+		});
+	</script>
+<script type="text/javascript" language="javascript" >
+ $(document).ready(function(){
+  
+ /*  fetch_data();
+
+  function fetch_data()
+  {
+   var dataTable = $('#user_data').DataTable({
+    "processing" : true,
+    "serverSide" : true,
+    "order" : [],
+    "ajax" : {
+     url:"fetch.php",
+     type:"POST"
+    }
+   });
+  } */
+  
+  function update_data(id, column_name, value)
+  {
+   $.ajax({
+    url:"UpdateServlet",
+    method:"POST",
+    data:{id:id, column_name:column_name, value:value},
+    success:function(data)
+    {
+     $('#alert_message').html('<div class="alert alert-success">'+data+'</div>');
+     $('#user_data').DataTable().destroy();
+     fetch_data();
+    }
+   });
+   setInterval(function(){
+    $('#alert_message').html('');
+   }, 1000);
+  }
+  function update_data1(id, column_name, value)
+  {
+   $.ajax({
+    url:"UpdateServlet",
+    method:"POST",
+    data:{id:id, column_name:column_name, value:value},
+    success:function(data)
+    {
+    	//$("#btn").load("EditExecutiveTicket.jsp #btn");
+    	location.reload();
+    	
+    }
+   });
+  
+  }
+
+  $(document).on('blur', '.update', function(){
+   var id = $(this).data("id");
+   var column_name = $(this).data("column");
+   var value = $(this).text();
+   update_data(id, column_name, value);
+  });
+
+  $(document).on('change', '.date', function(){
+	  var tr = $(this).closest("tr");
+	   var id = $(this).data("id");
+	   var column_name = $(this).data("column");
+	   var value = tr.find('.date').val();
+	   update_data(id, column_name, value);
+	  });
+ 
+  $(document).on('blur', '.update5', function(){
+	  var tr = $(this).closest("tr");
+	   var id = $(this).data("id");
+	   var column_name = $(this).data("column");
+	   var value = tr.find('.update5').val();
+	   update_data1(id, column_name, value);
+	  });
+  
+
+  
+
+  
+ 
+ });
+</script>

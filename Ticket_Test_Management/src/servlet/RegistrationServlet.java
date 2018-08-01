@@ -32,7 +32,7 @@ public class RegistrationServlet extends HttpServlet{
 		Userbean user=new Userbean();
 		user.setName(name);
 		user.setDomain(domain);
-		user.setId(id);
+		user.setEmpid(id);
 		user.setUsername(username);
 		user.setPassword(password);
 		user.setConfirmpassword(confirmpassword);

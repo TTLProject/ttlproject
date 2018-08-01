@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <%@page import="dao.ConnectionSteps"%>
 <%@page import="userbean.Userbean"%>
-<%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.Connection"%>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
 
@@ -22,9 +23,9 @@
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
 
     <!-- Custom styles for this template -->
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/style-responsive.css" rel="stylesheet" />
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="css/style1.css" rel="stylesheet">
+    <link href="css/style1-responsive.css" rel="stylesheet" />
+<link rel="stylesheet" href="edit/css/jquery-ui.css"/>
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]>
     <script src="js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -34,32 +35,44 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-	<link rel="stylesheet" href="edit/css/jquery-ui.css"/>
+	<style>
+@import url('http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800');
+@import url('scss/style.css')
+</style>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"
+	type="text/javascript"></script>
+
+	
 </head>
 
-<body>
+<body >
 <%
 		Userbean user = (Userbean) session.getAttribute("session1");
 	%>
 <section id="container" >
 <!--header start-->
 <header class="header fixed-top clearfix">
+<div class="clearfix">
 <!--logo start-->
 <div class="brand">
 
-   <a href="ExecutiveIndex.jsp" class="logo">
+    <a href="ExecutiveIndex.html" class="logo">
         <h4 style="color:white;"><b><i>Ticket&Test Management</i></b></h4>
     </a>
-	
     <div class="sidebar-toggle-box">
         <div class="fa fa-bars"></div>
     </div>
+	
 </div>
 <!--logo end-->
-
-<h2 align="center" style=color:white>Add Ticket</h2>
+<h3 style="color:#fff;" align="center"><b>EditTicket</b></h3>
 <h5 align="right"><a style="color:white;" href="Login.jsp"><i class="fa fa-key"></i><b> Log Out</b></a></h5>
+</div>
+
 </header>
+
 <!--header end-->
 <aside>
     <div id="sidebar" class="nav-collapse">
@@ -78,8 +91,8 @@
                         <span>Ticket Management</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="#">Add Ticket</a></li>
-                        <li><a href="EditExecutiveTicket.jsp">Edit Ticket</a></li>
+                            <li><a href="AddExecutiveTicket.jsp">Add Ticket</a></li>
+                        <li><a href="#">Edit Ticket</a></li>
                         <li><a href="ViewExecutiveTicket.html">View Ticket</a></li>
                     </ul>
                 </li>
@@ -91,7 +104,7 @@
                         <span>Test Management</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="ExecutiveTestReport.html">Prepare TestReport</a></li>
+                     <li ><a href="ExecutiveTestReport.html">Prepare TestReport</a></li>
                         <li><a href="ExecutiveTestData.html">Prepare TestData </a></li>
                         <li><a href="ExecutiveBugReport.html">Prepare BugReport</a></li>
                         <li><a href="ExecutiveViewTestReport.html">ViewTestReport</a></li>
@@ -117,180 +130,281 @@
 <!--sidebar end-->
     <!--main content start-->
     
-	   <section id="main-content" style="background: url(edit/images/bg3.jpg)"no-repeat;>
-        <section class="wrapper">
+          <div id="btn">
+    <section id="main-content" >
+        <section class="wrapper" >
         <!-- page start-->
 
+
+  <div id="table"  class="table-editable">
+ 
+   
+    <table class="table" border="3" >
+      <tr>
+        <th>Ticket Id</th>
+        <th>Ticket Description</th>
+		<th>Project Name</th>
+		<th>Module Name</th>
+		<th>Requirement Name</th>
+		<th>Ticket Assigned By</th>
+		<th>Ticket Assigned To</th>
+		<th>Date of Issue</th>
+		<th>Date of Completion</th>
+		<th>Status</th>
+		<th >Test Assigned To</th>
+
+      </tr>
+
+        <% 
+     
+        ConnectionSteps steps = new ConnectionSteps();
+		Connection conn = steps.connection();
+		PreparedStatement pstmt = conn.prepareStatement("select * from tickettable where username=? order by id");
+		pstmt.setString(1, user.getUsername());
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()){
+				
+			
+					%>
+      <tr >
+        <td  ><div  class="update" data-id=<%=rs.getString("id")%> data-column="ticketid"> <%=rs.getString("ticketid") %></div></td>
+        <td ><div contenteditable class="update" data-id=<%=rs.getString("id")%> data-column="ticketdescription"><%=rs.getString("ticketdescription") %></div></td>
+		 <td ><div contenteditable class="update" data-id=<%=rs.getString("id")%> data-column="projectname"><%=rs.getString("projectname") %></div></td>
+		  <td ><div contenteditable class="update" data-id=<%=rs.getString("id")%> data-column="modulename"><%=rs.getString("modulename") %></div></td>
+		 
+		 <%String reqname=rs.getString("requirementname");
+		 if(reqname==null){
+		 %>
+		 
+		   <td ><div contenteditable class="update" data-id=<%=rs.getString("id")%> data-column="requirementname"></div></td>
+		 
+		 <%}else{ %>
+		   <td ><div contenteditable class="update" data-id=<%=rs.getString("id")%> data-column="requirementname"><%=rs.getString("requirementname") %></div></td>
+		 <%} %>
+		   <td  class='unselectable'>
+			   <div ><%=rs.getString("assignedby") %></div>
+			
+			   </td>
+			    <td class='unselectable' ><div ><%=rs.getString("assignedto") %></div>
+			    
+			  
+			   </td>
+		    <td class='unselectable'><div ><%=rs.getString("dateofissue") %></div></td>
+		    <%
+String date=rs.getString("dateofcompletion");
+%>
+			<%--  <td  ><div calss="update" data-id=<%=rs.getString("id")%> data-column="dateofcompletion"><div class="styled-input" >
+							<input class="date"  name="Text" type="text"  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'MM/DD/YYYY';}" required="">
+						</div></div>
+			 
+			 --%>
+			 <%String status=rs.getString("status");
+			 if(status.equals("Completed")){%>
+			 
+			 
+	                   <td>
+	                   
+	                   
+					<%String doc=rs.getString("dateofcompletion");
+			 if(doc==null){%>	
+						
+						<div class="styled-input" ><div >
+							<input class="datepicker date"  name="Text" type="text"  data-id=<%=rs.getString("id")%> data-column="dateofcompletion">
+						</div></div>
+						
+						<%}else{ %>
+							<div class="styled-input" contenteditable="false"><div >
+							<input class="datepicker date"  name="Text" type="text"  data-id=<%=rs.getString("id")%> data-column="dateofcompletion" value=<%=rs.getString("dateofcompletion") %>>
+						</div></div>
+						<%} %>
+						
+						</td>
+<%}else{ %>
+
+<td class='unselectable'><div  contenteditable="false">
+							MM/DD/YYYY
+						</div></td>
+
+<%} %>
+<%
+
+if((status==null)||(status.equals("Assign"))){
+%>
+
+
+			   <td ><select class="update5" data-id=<%=rs.getString("id")%> data-column="status" >
+			   
+			   <option value="Assign">Assign</option>
+			    <option value="Design">Design</option>
+				
+			   <option value="Development">Development</option>
+			 
+			   <option value="Review" >Review</option>
+			   <option value="UnitTest">UnitTest</option>
+			   <option value="FunctionalityTesting">Functionality Testing</option>
+			   <option value="Deploy">Deploy</option>
+			   <option value="Completed">Completed</option>
+			   </select>
+			   </td>
+			   <%}else if(status.equals("Design")){ %>
+			      <td ><select class="update5" data-id=<%=rs.getString("id")%> data-column="status" >
+			   
+			   <option value="Assign" disabled>Assign</option>
+			    <option value="Design">Design</option>
+				
+			   <option value="Development">Development</option>
+			 
+			   <option value="Review" >Review</option>
+			   <option value="UnitTest">UnitTest</option>
+			   <option value="FunctionalityTesting">Functionality Testing</option>
+			   <option value="Deploy">Deploy</option>
+			   <option value="Completed">Completed</option>
+			   </select>
+			   </td>
+			    <%}else if(status.equals("Development")){ %>
+			      <td ><select class="update5" data-id=<%=rs.getString("id")%> data-column="status" >
+			   
+			   <option value="Assign" disabled>Assign</option>
+			    <option value="Design" disabled>Design</option>
+				
+			   <option value="Development">Development</option>
+			 
+			   <option value="Review" >Review</option>
+			   <option value="UnitTest">UnitTest</option>
+			   <option value="FunctionalityTesting">Functionality Testing</option>
+			   <option value="Deploy">Deploy</option>
+			   <option value="Completed">Completed</option>
+			   </select>
+			   </td>
+			    <%}else if(status.equals("Review")){ %>
+			      <td ><select class="update5" data-id=<%=rs.getString("id")%> data-column="status" >
+			   
+			   <option value="Assign" disabled>Assign</option>
+			    <option value="Design" disabled>Design</option>
+				
+			   <option value="Development" disabled>Development</option>
+			 
+			   <option value="Review" >Review</option>
+			   <option value="UnitTest">UnitTest</option>
+			   <option value="FunctionalityTesting">Functionality Testing</option>
+			   <option value="Deploy">Deploy</option>
+			   <option value="Completed">Completed</option>
+			   </select>
+			   </td>
+			    <%}else if(status.equals("UnitTest")){ %>
+			      <td ><select class="update5" data-id=<%=rs.getString("id")%> data-column="status" >
+			   
+			   <option value="Assign" disabled>Assign</option>
+			    <option value="Design" disabled>Design</option>
+				
+			   <option value="Development" disabled>Development</option>
+			 
+			   <option value="Review" disabled>Review</option>
+			   <option value="UnitTest">UnitTest</option>
+			   <option value="FunctionalityTesting">Functionality Testing</option>
+			   <option value="Deploy">Deploy</option>
+			   <option value="Completed">Completed</option>
+			   </select>
+			   </td>
+			    <%}else if(status.equals("FunctionalityTesting")){ %>
+			      <td ><select class="update5" data-id=<%=rs.getString("id")%> data-column="status" >
+			   
+			   <option value="Assign" disabled>Assign</option>
+			    <option value="Design" disabled>Design</option>
+				
+			   <option value="Development" disabled>Development</option>
+			 
+			   <option value="Review" disabled>Review</option>
+			   <option value="UnitTest" disabled>UnitTest</option>
+			   <option value="FunctionalityTesting">Functionality Testing</option>
+			   <option value="Deploy">Deploy</option>
+			   <option value="Completed">Completed</option>
+			   </select>
+			   </td>
+			    <%}else if(status.equals("Deploy")) {%>
+			      <td ><select class="update5" data-id=<%=rs.getString("id")%> data-column="status" >
+			   
+			   <option value="Assign" disabled>Assign</option>
+			    <option value="Design" disabled>Design</option>
+				
+			   <option value="Development" disabled>Development</option>
+			 
+			   <option value="Review" disabled>Review</option>
+			   <option value="UnitTest" disabled>UnitTest</option>
+			   <option value="FunctionalityTesting" disabled>Functionality Testing</option>
+			   <option value="Deploy">Deploy</option>
+			   <option value="Completed">Completed</option>
+			   </select>
+			   </td>
+			    <%}else if(status.equals("Completed")) {%>
+			      <td ><select  >
+			   
+			   <option value="Assign" disabled>Assign</option>
+			    <option value="Design" disabled>Design</option>
+				
+			   <option value="Development" disabled>Development</option>
+			 
+			   <option value="Review" disabled>Review</option>
+			   <option value="UnitTest" disabled>UnitTest</option>
+			   <option value="FunctionalityTesting" disabled>Functionality Testing</option>
+			   <option value="Deploy" disabled>Deploy</option>
+			   <option value="Completed">Completed</option>
+			   </select>
+			   </td>
+			   	    <%}else  {%>
+			      <td ><select class="update5" data-id=<%=rs.getString("id")%> data-column="status" >
+			   
+			   <option value="Assign">Assign</option>
+			    <option value="Design">Design</option>
+				
+			   <option value="Development">Development</option>
+			 
+			   <option value="Review" >Review</option>
+			   <option value="UnitTest">UnitTest</option>
+			   <option value="FunctionalityTesting">Functionality Testing</option>
+			   <option value="Deploy">Deploy</option>
+			   <option value="Completed">Completed</option>
+			   </select>
+			   </td>
+			   <%} %>
+			   <%
+			   String s=rs.getString("status");
+			   System.out.println(s);
+			   if(s.equals("empty")||s.equals("Assign")||s.equals("Design")||s.equals("Development")||s.equals("Review")||s.equals("UnitTest")){ %>
+                  <td class='unselectable' ></td>
+                <%} else{
+                
+                %>
+                 <td >
+                 <div   data-id=<%=rs.getString("id")%> data-column="ticketid"> xcvnvv</div>
+                 </td>
+                 <%} %>
+                 
+      <!-- This is our clonable table line -->
+</tr>
+      <!-- This is our clonable table line -->
+     <%	
+
+}
+        
+ %>
+    </table>
+ <div id="alert_message" align="center"></div>		
+  </div>
+      </div>
+ 
+		
+		
+		
         <div class="row">
             <div class="col-sm-12">
-               
-<div class="w3l-main">
-<div class="w3l-from">
-		<form action="TicketServlet" method="post">	
-		
-		<%
-		ConnectionSteps steps = new ConnectionSteps();
-		Connection conn = steps.connection();
-PreparedStatement pstmt = conn.prepareStatement("select * from tickettable where id=(select MAX(id) from tickettable where username=?) and username=?");
-pstmt.setString(1, user.getUsername());
-pstmt.setString(2, user.getUsername());
-
-ResultSet rs = pstmt.executeQuery();
-String s;
-if(rs.next()){
-s=rs.getString("ticketid");	
-int n1=s.length();
-//System.out.println(s.substring(3));
-int r=Integer.parseInt(s.substring(4)) + 1;
- String s2="TID-00"+r;
- //System.out.println(s2);
- //System.out.println(s2.length());
- int n2=s2.length();
- int n3=n1+1;
-
-if(n1==n2){
-	
-	 %>
-	 	<div class="w3l-user">
-				<label class="head">Ticket-Id<span class="w3l-star"> * </span></label>
-				<input type="text" name="ticketid" placeholder=""  required="" value=<%=s2%>>
-				</div>
-			
-		<%
-  } 
-
-else if(n3==n2){
-	int r1=Integer.parseInt(s.substring(4)) + 1;
-	 String s3="TID-0"+r1;
-	// System.out.println(s3);
-	 %>
-	 	<div class="w3l-user">
-				<label class="head">Ticket-Id<span class="w3l-star"> * </span></label>
-				<input type="text" name="ticketid" placeholder=""  required="" value=<%=s3%>>
-				</div>
-	 <% 
-}else{
-	int r2=Integer.parseInt(s.substring(4)) + 1;
-	 String s4="TID-"+r2;
-	 //System.out.println(s4);
-	 %>
-	 	<div class="w3l-user">
-				<label class="head">Ticket-Id<span class="w3l-star"> * </span></label>
-				<input type="text" name="ticketid" placeholder=""  required="" value=<%=s4%>>
-				</div>
-	 <% 
-	
-}
-
-}
-else{
-	 String id ="TID-001";
-	
-	%>
-
-	<div class="w3l-user" contenteditable="false">
-	<label class="head">Ticket-Id<span class="w3l-star"> * </span></label>
-	<input type="text" name="ticketid" placeholder=""  required="" value=<%=id%> readonly="readonly">
-	</div>
-<%} %>
-			<div class="w3l-rem">
-				<div class="w3l-right">
-					<label class="head">Ticket-description<span class="w3l-star"> * </span></label>
-					<textarea name="ticketdescription"></textarea>
-				</div>	
-			
-			</div>
-			<!--<div  class="w3l-options1">
-				<label class="head">Domain<span class="w3l-star"> * </span></label>	
-					<select class="category1" required="">
-						<option></option>
-						<option>java</option>
-					    <option>dotnet</option>
-                        <option>testing</option>						
-                        						
-					
-						
-					</select>
-			</div>-->
-			<input type="hidden" name="username" value=<%=user.getUsername() %>>
-			<div class="w3l-user">
-				<label class="head">Project Name<span class="w3l-star"> * </span></label>
-				<input type="text" name="projectname" placeholder=""  "required="">
-			</div>
-			<div class="w3l-user">
-				<label class="head">Module Name<span class="w3l-star"> * </span></label>
-				<input type="text" name="modulename"  placeholder="" required="">
-			</div>
-			<div class="w3l-user">
-				<label class="head">Requirement Name</label>
-				<input type="text" name="requirementname"  placeholder="">
-			</div>
-		
-			<div  class="w3l-options1">
-				<label class="head">Assigned To<span class="w3l-star"> * </span></label>	
-					<select class="category1" required="" name="assignedto">
-						<option>select</option>
-							  <% 
-					    ConnectionSteps steps2 = new ConnectionSteps();
-						Connection conn2 = steps2.connection();
-				PreparedStatement pstmt2 = conn2.prepareStatement("select * from registrationtable where domain=?");
-			
-			  pstmt2.setString(1, user.getDomain());
-			  ResultSet rs2 = pstmt2.executeQuery();
-			  while(rs2.next()){%>
-						<option value=<%=rs2.getString("name")%>><%=rs2.getString("name")%></option>
-				<%
-			  }
-
-                %>	   		
-						
-					 					
-                  <%--  <%
-			  }
-
-%> --%>
-					</select>
-			</div>
-			
-			
-			<div  class="w3l-options1">
-				<label class="head">Assigned By<span class="w3l-star"> * </span></label>	
-					<select class="category1" required="" name="assignedby">
-					
-						<option value=<%=user.getName() %>><%=user.getName() %></option>
-					   				
-                        						
-					
-						
-					</select>
-			</div>
-			<div class="w3l-date">
-					<label class="head">Date of Issue<span class="w3l-star"> * </span></label>
-						<div class="styled-input">
-							<input  class="date datepicker" name="dateofissue" type="text" placeholder="MM/DD/YYYY" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'MM/DD/YYYY';}" required="">
-						</div><br>
-					</div>
-			
-		
-		
-		         <div class="w3l-rem"  >
-				
-				<div class="btn center-block"  >
-				
-					<input type="submit" name="submit" value="Submit"/>
-				
-				</div>
-			</div>
-			
-		</form>
-	</div>
-		
-</div>		
+                
             </div>
         </div>
         <!-- page end-->
         </section>
     </section>
+
     <!--main content end-->
 <!--right sidebar start-->
 <div class="right-sidebar">
@@ -569,52 +683,103 @@ else{
 <!--common script init for all pages-->
 <script src="js/scripts.js"></script>
 
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src='http://ajax.googleapis.com/table/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
+<script src='https://netdna.bootstrapcdn.com/bootstrap/3.1.1/table/js/bootstrap.min.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/table/libs/underscore.js/1.6.0/underscore.js'></script>
+
+  
+
+
+
+		<script type="text/javascript" src="edit/js/jquery-2.1.4.min.js"></script>
+	<script src="edit/js/jquery-ui.js"></script>
+</body>
+
+</html>
 <script>
 		$(function() {
 		$( ".datepicker" ).datepicker();
 		});
 	</script>
-		<script type="text/javascript" src="edit/js/jquery-2.1.4.min.js"></script>
-	<script src="edit/js/jquery-ui.js"></script>
-</body>
-</html>
-<!-- <script>
+<script type="text/javascript" language="javascript" >
+ $(document).ready(function(){
+  
+ /*  fetch_data();
 
+  function fetch_data()
+  {
+   var dataTable = $('#user_data').DataTable({
+    "processing" : true,
+    "serverSide" : true,
+    "order" : [],
+    "ajax" : {
+     url:"fetch.php",
+     type:"POST"
+    }
+   });
+  } */
+  
+  function update_data(id, column_name, value)
+  {
+   $.ajax({
+    url:"UpdateServlet",
+    method:"POST",
+    data:{id:id, column_name:column_name, value:value},
+    success:function(data)
+    {
+     $('#alert_message').html('<div class="alert alert-success">'+data+'</div>');
+     $('#user_data').DataTable().destroy();
+     fetch_data();
+    }
+   });
+   setInterval(function(){
+    $('#alert_message').html('');
+   }, 1000);
+  }
+  function update_data1(id, column_name, value)
+  {
+   $.ajax({
+    url:"UpdateServlet",
+    method:"POST",
+    data:{id:id, column_name:column_name, value:value},
+    success:function(data)
+    {
+    	//$("#btn").load("EditExecutiveTicket.jsp #btn");
+    	location.reload();
+    	
+    }
+   });
+  
+  }
 
-$(document).ready(function(){
-	
-	 function Insert_Ticket(id, column_name, value)
-	  {
-	   $.ajax({
-	    url:"UpdateServlet",
-	    method:"POST",
-	    data:{id:id, column_name:column_name, value:value},
-	    success:function(data)
-	    {
-	     $('#alert_message').html('<div class="alert alert-success">'+data+'</div>');
-	   
-	     
-	    }
-	   });
-	 /*   setInterval(function(){
-	    $('#alert_message').html('');
-	   }, 5000); */
-	  }
+  $(document).on('blur', '.update', function(){
+   var id = $(this).data("id");
+   var column_name = $(this).data("column");
+   var value = $(this).text();
+   update_data(id, column_name, value);
+  });
 
-	  $(document).on('submit', '.submit', function(){
-	   var ticketid = $('.ticketid').val();
-	   var ticketdescription = $('.ticketdescription').val();
-	   var ticketdescription = $('.ticketdescription').val();
-	   var ticketdescription = $('.ticketdescription').val();
-	   var ticketdescription = $('.ticketdescription').val();
-	   var ticketdescription = $('.ticketdescription').val();
-	   var ticketdescription = $('.ticketdescription').val();
-	  
+  $(document).on('change', '.date', function(){
+	  var tr = $(this).closest("tr");
+	   var id = $(this).data("id");
+	   var column_name = $(this).data("column");
+	   var value = tr.find('.date').val();
 	   update_data(id, column_name, value);
 	  });
-	
-	
+ 
+  $(document).on('blur', '.update5', function(){
+	  var tr = $(this).closest("tr");
+	   var id = $(this).data("id");
+	   var column_name = $(this).data("column");
+	   var value = tr.find('.update5').val();
+	   update_data1(id, column_name, value);
+	  });
+  
 
-	
-});
-</script> -->
+  
+
+  
+ 
+ });
+</script>

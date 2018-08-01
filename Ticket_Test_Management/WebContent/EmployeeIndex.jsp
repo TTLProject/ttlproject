@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="userbean.Userbean"%>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -31,7 +32,9 @@
 </head>
 
 <body>
-
+<%
+		Userbean user = (Userbean) session.getAttribute("session1");
+	%>
 <section id="container" >
 <!--header start-->
 <header class="header fixed-top clearfix">
@@ -70,9 +73,9 @@
                         <span>Ticket Management</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="AddTicket.jsp">Add Ticket</a></li>
-                        <li><a href="EditTicket.jsp">Edit Ticket</a></li>
-                        <li><a href="ViewTicket.jsp">View Ticket</a></li>
+                        <li><a href="AddEmployeeTicket.jsp">Add Ticket</a></li>
+                        <li><a href="EditEmployeeTicket.jsp">Edit Ticket</a></li>
+                        <li><a href="ViewEmployeeTicket.jsp">View Ticket</a></li>
                     </ul>
                 </li>
                 

@@ -58,9 +58,9 @@ public class RegistrationDao {
 				user.setValid2(false);
 			}else {
 				user.setValid2(true);
-				PreparedStatement pstmt = conn.prepareStatement("insert into registrationtable(name,id,domain,username,password,confirmpassword,email,webmail,mobile,designation) values(?,?,?,?,?,?,?,?,?,?)");
+				PreparedStatement pstmt = conn.prepareStatement("insert into registrationtable(name,empid,domain,username,password,confirmpassword,email,webmail,mobile,designation) values(?,?,?,?,?,?,?,?,?,?)");
 				pstmt.setString(1, user.getName());
-				pstmt.setString(2, user.getId());
+				pstmt.setString(2, user.getEmpid());
 				pstmt.setString(3,user.getDomain());
 				pstmt.setString(4,user.getUsername());
 				pstmt.setString(5,user.getPassword());

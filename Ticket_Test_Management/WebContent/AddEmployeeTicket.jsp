@@ -67,7 +67,7 @@
         <div class="leftside-navigation">
             <ul class="sidebar-menu" id="nav-accordion">
                 <li>
-                    <a class="active" href="EditExecutiveProfile.html">
+                    <a class="active" href="EditEmployeeProfile.jsp">
                         <i class="fa fa-pencil"></i>
                         <span>EditProfile</span>
                     </a>
@@ -79,8 +79,8 @@
                     </a>
                     <ul class="sub">
                         <li><a href="#">Add Ticket</a></li>
-                        <li><a href="EditExecutiveTicket.jsp">Edit Ticket</a></li>
-                        <li><a href="ViewExecutiveTicket.html">View Ticket</a></li>
+                        <li><a href="EditEmployeeTicket.jsp">Edit Ticket</a></li>
+                        <li><a href="ViewEmployeeTicket.jsp">View Ticket</a></li>
                     </ul>
                 </li>
                 
@@ -230,7 +230,7 @@ else{
 				<label class="head">Assigned To<span class="w3l-star"> * </span></label>	
 					<select class="category1" required="" name="assignedto">
 						<option>select</option>
-							  <% 
+						  <% 
 					    ConnectionSteps steps2 = new ConnectionSteps();
 						Connection conn2 = steps2.connection();
 				PreparedStatement pstmt2 = conn2.prepareStatement("select * from registrationtable where domain=?");
@@ -242,8 +242,9 @@ else{
 				<%
 			  }
 
-                %>	   		
-						
+                %>	   				
+                        	
+					
 					 					
                   <%--  <%
 			  }
@@ -257,8 +258,20 @@ else{
 				<label class="head">Assigned By<span class="w3l-star"> * </span></label>	
 					<select class="category1" required="" name="assignedby">
 					
-						<option value=<%=user.getName() %>><%=user.getName() %></option>
-					   				
+					    <option >---select---</option>
+					    <% 
+					    ConnectionSteps steps1 = new ConnectionSteps();
+						Connection conn1 = steps1.connection();
+				PreparedStatement pstmt1 = conn1.prepareStatement("select * from registrationtable where domain=?");
+			
+			  pstmt1.setString(1, user.getDomain());
+			  ResultSet rs1 = pstmt1.executeQuery();
+			  while(rs1.next()){%>
+						<option value=<%=rs1.getString("name")%>><%=rs1.getString("name")%></option>
+				<%
+			  }
+
+                %>	   				
                         						
 					
 						

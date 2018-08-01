@@ -26,7 +26,7 @@ public class EmployeeLoginDao {
 				 user.setDesignation(rs.getString("designation"));
 				user.setEmail(rs.getString("email"));
 				user.setMobile(Long.parseLong(rs.getString("mobile")));
-				user.setId((rs.getString("id")));
+				user.setEmpid((rs.getString("id")));
 				
 				
 				

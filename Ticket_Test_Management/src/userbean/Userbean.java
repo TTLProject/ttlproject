@@ -2,22 +2,109 @@ package userbean;
 
 
 public class Userbean {
-	private String id;
+	private int id;
+	public String getEmpid() {
+		return empid;
+	}
+	public void setEmpid(String empid) {
+		this.empid = empid;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	private String empid;
 	private long mobile;
 	private String name,domain,username,password,confirmpassword,email,webmail,designation;
 	private boolean isValid, isValid1,isValid2;
-	
+	private String column_name,value;
+	private String ticketId,ticketDescription,projectName,moduleName,requirementName,assignedTo,assignedBy,dateOfIssue,dateOfCompletion,status,testAssignedTo;
+	public String getColumn_name() {
+		return column_name;
+	}
+	public void setColumn_name(String column_name) {
+		this.column_name = column_name;
+	}
+	public String getValue() {
+		return value;
+	}
+	public void setValue(String value) {
+		this.value = value;
+	}
+	public String getTicketId() {
+		return ticketId;
+	}
+	public void setTicketId(String ticketId) {
+		this.ticketId = ticketId;
+	}
+	public String getTicketDescription() {
+		return ticketDescription;
+	}
+	public void setTicketDescription(String ticketDescription) {
+		this.ticketDescription = ticketDescription;
+	}
+	public String getProjectName() {
+		return projectName;
+	}
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+	public String getModuleName() {
+		return moduleName;
+	}
+	public void setModuleName(String moduleName) {
+		this.moduleName = moduleName;
+	}
+	public String getRequirementName() {
+		return requirementName;
+	}
+	public void setRequirementName(String requirementName) {
+		this.requirementName = requirementName;
+	}
+	public String getAssignedTo() {
+		return assignedTo;
+	}
+	public void setAssignedTo(String assignedTo) {
+		this.assignedTo = assignedTo;
+	}
+	public String getAssignedBy() {
+		return assignedBy;
+	}
+	public void setAssignedBy(String assignedBy) {
+		this.assignedBy = assignedBy;
+	}
+	public String getDateOfIssue() {
+		return dateOfIssue;
+	}
+	public void setDateOfIssue(String dateOfIssue) {
+		this.dateOfIssue = dateOfIssue;
+	}
+	public String getDateOfCompletion() {
+		return dateOfCompletion;
+	}
+	public void setDateOfCompletion(String dateOfCompletion) {
+		this.dateOfCompletion = dateOfCompletion;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getTestAssignedTo() {
+		return testAssignedTo;
+	}
+	public void setTestAssignedTo(String testAssignedTo) {
+		this.testAssignedTo = testAssignedTo;
+	}
 	public boolean isValid2() {
 		return isValid2;
 	}
 	public void setValid2(boolean isValid2) {
 		this.isValid2 = isValid2;
 	}
-	public String getId() {
+	
+	public int getId() {
 		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
 	}
 	public long getMobile() {
 		return mobile;
