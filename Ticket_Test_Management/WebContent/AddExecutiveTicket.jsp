@@ -131,7 +131,7 @@
 		<%
 		ConnectionSteps steps = new ConnectionSteps();
 		Connection conn = steps.connection();
-PreparedStatement pstmt = conn.prepareStatement("select * from tickettable where id=(select MAX(id) from tickettable where username=?) and username=?");
+PreparedStatement pstmt = conn.prepareStatement("select * from tickettable where   username=? and id=(select MAX(id) from tickettable where username=?)");
 pstmt.setString(1, user.getUsername());
 pstmt.setString(2, user.getUsername());
 
@@ -238,7 +238,7 @@ else{
 			  pstmt2.setString(1, user.getDomain());
 			  ResultSet rs2 = pstmt2.executeQuery();
 			  while(rs2.next()){%>
-						<option value=<%=rs2.getString("name")%>><%=rs2.getString("name")%></option>
+						<option value=<%=rs2.getString("username")%>><%=rs2.getString("username")%></option>
 				<%
 			  }
 
@@ -257,7 +257,7 @@ else{
 				<label class="head">Assigned By<span class="w3l-star"> * </span></label>	
 					<select class="category1" required="" name="assignedby">
 					
-						<option value=<%=user.getName() %>><%=user.getName() %></option>
+						<option value=<%=user.getUsername() %>><%=user.getUsername() %></option>
 					   				
                         						
 					

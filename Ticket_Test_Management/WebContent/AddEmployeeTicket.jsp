@@ -126,7 +126,7 @@
                
 <div class="w3l-main">
 <div class="w3l-from">
-		<form action="TicketServlet" method="post">	
+		<form action="EmployeeTicketServlet" method="post">	
 		
 		<%
 		ConnectionSteps steps = new ConnectionSteps();
@@ -238,7 +238,7 @@ else{
 			  pstmt2.setString(1, user.getDomain());
 			  ResultSet rs2 = pstmt2.executeQuery();
 			  while(rs2.next()){%>
-						<option value=<%=rs2.getString("name")%>><%=rs2.getString("name")%></option>
+						<option value=<%=rs2.getString("username")%>><%=rs2.getString("username")%></option>
 				<%
 			  }
 
@@ -267,7 +267,7 @@ else{
 			  pstmt1.setString(1, user.getDomain());
 			  ResultSet rs1 = pstmt1.executeQuery();
 			  while(rs1.next()){%>
-						<option value=<%=rs1.getString("name")%>><%=rs1.getString("name")%></option>
+						<option value=<%=rs1.getString("username")%>><%=rs1.getString("username")%></option>
 				<%
 			  }
 

@@ -166,8 +166,8 @@ public class Email {
 
 	      msg.setSubject(subject, "UTF-8");
 
-	      msg.setText(body, "UTF-8");
-	      
+	      //msg.setText(body, "UTF-8");
+	      msg.setContent(body,"text/html");
 
 	      msg.setSentDate(new Date());
 

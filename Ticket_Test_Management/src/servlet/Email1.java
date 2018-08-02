@@ -192,8 +192,9 @@ public class Email1 {
 		String subject="username&password";
 		
 		
-		String body= "your username is ::"+user.getUsername()+"  , "+"password is::::"+user.getPassword();
+		//String body= "your username is ::"+user.getUsername()+"  , "+"password is::::"+user.getPassword();
 	
+		String body="<table border=1><tr><th>USERNAME</th><th>PASSWORD</th></tr><tr><td>"+user.getUsername()+"</td><td>"+user.getPassword()+"</td></tr></table>";
 		
 		
 		Email.sendEmail(session, toEmail,subject, body);

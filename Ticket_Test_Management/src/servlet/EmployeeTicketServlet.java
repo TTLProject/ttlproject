@@ -13,8 +13,8 @@ import userbean.Userbean;
 /**
  * Servlet implementation class TicketServlet
  */
-@WebServlet("/TicketServlet")
-public class TicketServlet extends HttpServlet {
+@WebServlet("/EmployeeTicketServlet")
+public class EmployeeTicketServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
@@ -44,9 +44,9 @@ public class TicketServlet extends HttpServlet {
 			boolean status=user.isValid();
 			if(status) {
 				
-			response.sendRedirect("AddExecutiveTicketSuccess.jsp");
+			response.sendRedirect("AddEmployeeTicketSuccess.jsp");
 			}else {
-				response.sendRedirect("AddExecutiveTicket.jsp");
+				response.sendRedirect("AddEmployeeTicket.jsp");
 			}
 		}
 		

@@ -376,7 +376,7 @@ if((status==null)||(status.equals("Assign"))){
                 
                 %>
                  <td >
-                 <div   data-id=<%=rs.getString("id")%> data-column="ticketid"> xcvnvv</div>
+                 <div   data-id=<%=rs.getString("id")%> data-column="testassignedto"> xcvnvv</div>
                  </td>
                  <%} %>
                  

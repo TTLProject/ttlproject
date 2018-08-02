@@ -54,6 +54,8 @@ public class LoginServlet extends HttpServlet {
 					session.setAttribute("session1", user);
 					response.sendRedirect("EmployeeIndex.jsp");
 					}else {
+						HttpSession session = request.getSession(true);
+						session.setAttribute("session1", user);
 						response.sendRedirect("Executiveindex.jsp");
 					}
 				} else {

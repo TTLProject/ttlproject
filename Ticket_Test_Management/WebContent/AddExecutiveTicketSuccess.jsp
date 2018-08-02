@@ -39,7 +39,7 @@
 
 <body>
 <%
-		Userbean user = (Userbean) session.getAttribute("LoginSession");
+		Userbean user = (Userbean) session.getAttribute("session1");
 	%>
 <section id="container" >
 <!--header start-->
@@ -123,16 +123,15 @@
 
         <div class="row">
             <div class="col-sm-12">
-   <div align="center" color="red">Ticket assigned succesfully</div>            
+    <div align="center" color="red">Ticket assigned succesfully</div>             
 <div class="w3l-main">
 <div class="w3l-from">
-
 		<form action="TicketServlet" method="post">	
 		
 		<%
 		ConnectionSteps steps = new ConnectionSteps();
 		Connection conn = steps.connection();
-PreparedStatement pstmt = conn.prepareStatement("select * from tickettable where id=(select MAX(id) from tickettable where username=?) and username=?");
+PreparedStatement pstmt = conn.prepareStatement("select * from tickettable where   username=? and id=(select MAX(id) from tickettable where username=?)");
 pstmt.setString(1, user.getUsername());
 pstmt.setString(2, user.getUsername());
 
@@ -231,22 +230,20 @@ else{
 				<label class="head">Assigned To<span class="w3l-star"> * </span></label>	
 					<select class="category1" required="" name="assignedto">
 						<option>select</option>
-							<%-- <% 
-				Class.forName("oracle.jdbc.driver.OracleDriver");
-				Connection conn1= DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","ramya","ramya");
-				PreparedStatement pstmt1 = conn1.prepareStatement("select * from empregistration where domain=?");
+							  <% 
+					    ConnectionSteps steps2 = new ConnectionSteps();
+						Connection conn2 = steps2.connection();
+				PreparedStatement pstmt2 = conn2.prepareStatement("select * from registrationtable where domain=?");
 			
-			  pstmt1.setString(1, user.getDomain());
-			  ResultSet rs1 = pstmt.executeQuery();
-			  while(rs1.next()){
-				  
-				  
-			
-			
-			%> --%>
-						<option value="employee X">Employee X</option>
-						<option value="employee Y">Employee Y</option>
-						<option value="employee Z">Employee Z</option>
+			  pstmt2.setString(1, user.getDomain());
+			  ResultSet rs2 = pstmt2.executeQuery();
+			  while(rs2.next()){%>
+						<option value=<%=rs2.getString("username")%>><%=rs2.getString("username")%></option>
+				<%
+			  }
+
+                %>	   		
+						
 					 					
                   <%--  <%
 			  }
@@ -260,7 +257,7 @@ else{
 				<label class="head">Assigned By<span class="w3l-star"> * </span></label>	
 					<select class="category1" required="" name="assignedby">
 					
-						<option value=<%=user.getName() %>><%=user.getName() %></option>
+						<option value=<%=user.getUsername() %>><%=user.getUsername() %></option>
 					   				
                         						
 					
