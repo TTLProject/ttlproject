@@ -6,7 +6,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import dao.EmployeeNotification;
+import dao.ExecutiveNotification;
 import dao.TicketDao;
 import userbean.Userbean;
 
@@ -43,9 +46,14 @@ public class TicketServlet extends HttpServlet {
 			TicketDao.insert(user);
 			boolean status=user.isValid();
 			if(status) {
-				
+				HttpSession session = request.getSession(true);
+				session.setAttribute("session2", user);
+			
+				ExecutiveNotification.insert(user);
 			response.sendRedirect("AddExecutiveTicketSuccess.jsp");
 			}else {
+				HttpSession session = request.getSession(true);
+				session.setAttribute("session2", user);
 				response.sendRedirect("AddExecutiveTicket.jsp");
 			}
 		}

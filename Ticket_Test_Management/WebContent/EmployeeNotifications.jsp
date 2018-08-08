@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<%@page import="dao.ConnectionSteps"%>
-<%@page import="userbean.Userbean"%>
-<%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
+<%@page import="dao.ConnectionSteps"%>
+<%@page import="userbean.Userbean"%>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -22,8 +21,8 @@
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
 
     <!-- Custom styles for this template -->
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/style-responsive.css" rel="stylesheet" />
+    <link href="css/style1.css" rel="stylesheet">
+    <link href="css/style1-responsive.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]>
@@ -34,12 +33,11 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-	<link rel="stylesheet" href="edit/css/jquery-ui.css"/>
 </head>
 
 <body>
 <%
-		Userbean user = (Userbean) session.getAttribute("session2");
+		Userbean user = (Userbean) session.getAttribute("session1");
 	%>
 <section id="container" >
 <!--header start-->
@@ -47,7 +45,7 @@
 <!--logo start-->
 <div class="brand">
 
-   <a href="ExecutiveIndex.jsp" class="logo">
+   <a href="EmployeeIndex.jsp" class="logo">
         <h4 style="color:white;"><b><i>Ticket&Test Management</i></b></h4>
     </a>
 	
@@ -57,7 +55,7 @@
 </div>
 <!--logo end-->
 
-<h2 align="center" style=color:white>Add Ticket</h2>
+<h2 align="center" style=color:white>Notifications</h2>
 <h5 align="right"><a style="color:white;" href="Login.jsp"><i class="fa fa-key"></i><b> Log Out</b></a></h5>
 </header>
 <!--header end-->
@@ -67,7 +65,7 @@
         <div class="leftside-navigation">
             <ul class="sidebar-menu" id="nav-accordion">
                 <li>
-                    <a class="active" href="EditExecutiveProfile.html">
+                    <a class="active" href="EditExecutiveProfile.jsp">
                         <i class="fa fa-pencil"></i>
                         <span>EditProfile</span>
                     </a>
@@ -78,30 +76,31 @@
                         <span>Ticket Management</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="#">Add Ticket</a></li>
-                        <li><a href="EditExecutiveTicket.jsp">Edit Ticket</a></li>
-                        <li><a href="ViewExecutiveTicket.html">View Ticket</a></li>
+                        <li><a href="AddEmployeeTicket.jsp">Add Ticket</a></li>
+                     
+                        <li><a href="EditEmployeeTicket.jsp">Edit Ticket</a></li>
+                        <li><a href="ViewEmployeeTicket.jsp">View Ticket</a></li>
                     </ul>
                 </li>
                 
                 
                 <li class="sub-menu">
                     <a href="javascript:;">
-                        <i class="fa fa-check-square-o"></i>
+                        <i class="fa fa-laptop"></i>
                         <span>Test Management</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="ExecutiveTestReport.html">Prepare TestReport</a></li>
-                        <li><a href="ExecutiveTestData.html">Prepare TestData </a></li>
-                        <li><a href="ExecutiveBugReport.html">Prepare BugReport</a></li>
-                        <li><a href="ExecutiveViewTestReport.html">ViewTestReport</a></li>
-						 <li><a href="ExecutiveModifyTestReport.html">ModifyTestReport</a></li>
+                        <li><a href="ExecutiveTestReport.jsp">Prepare TestReport</a></li>
+                        <li><a href="ExecutiveTestData.jsp">Prepare TestData </a></li>
+                        <li><a href="ExecutiveBugReport.jsp">Prepare BugReport</a></li>
+                        <li><a href="ViewExecutiveTestReport.jsp">ViewTestReport</a></li>
+						 <li><a href="ModifyExecutiveTestReport.jsp">ModifyTestReport</a></li>
 						
                     </ul>
                 </li>
                 
                <li>
-                    <a href="ExecutiveNotifications.jsp">
+                    <a href="#">
                         <i class="fa fa-bell-o"></i>
                         <span>Notifications </span>
                     </a>
@@ -116,176 +115,109 @@
 </aside>
 <!--sidebar end-->
     <!--main content start-->
-    
-	   <section id="main-content" style="background: url(edit/images/bg3.jpg)"no-repeat;>
+    <section id="main-content" >
         <section class="wrapper">
         <!-- page start-->
 
         <div class="row">
-            <div class="col-sm-12">
-               
-<div class="w3l-main">
-<div class="w3l-from">
-		<form action="TicketServlet" method="post">	
-		
-		<%
-		ConnectionSteps steps = new ConnectionSteps();
-		Connection conn = steps.connection();
-PreparedStatement pstmt = conn.prepareStatement("select * from tickettable where   username=? and id=(select MAX(id) from tickettable where username=?)");
-pstmt.setString(1, user.getUsername());
-pstmt.setString(2, user.getUsername());
-
-ResultSet rs = pstmt.executeQuery();
-String s;
-if(rs.next()){
-s=rs.getString("ticketid");	
-int n1=s.length();
-//System.out.println(s.substring(3));
-int r=Integer.parseInt(s.substring(4)) + 1;
- String s2="TID-00"+r;
- //System.out.println(s2);
- //System.out.println(s2.length());
- int n2=s2.length();
- int n3=n1+1;
-
-if(n1==n2){
-	
-	 %>
-	 	<div class="w3l-user">
-				<label class="head">Ticket-Id<span class="w3l-star"> * </span></label>
-				<input type="text" name="ticketid" placeholder=""  required="" value=<%=s2%>>
-				</div>
+            <div class="col-sm-8">
+ <div class="table-responsive mailbox-messages">
+                <table class="table table-hover table-striped" border=2>
 			
-		<%
-  } 
-
-else if(n3==n2){
-	int r1=Integer.parseInt(s.substring(4)) + 1;
-	 String s3="TID-0"+r1;
-	// System.out.println(s3);
-	 %>
-	 	<div class="w3l-user">
-				<label class="head">Ticket-Id<span class="w3l-star"> * </span></label>
-				<input type="text" name="ticketid" placeholder=""  required="" value=<%=s3%>>
-				</div>
-	 <% 
-}else{
-	int r2=Integer.parseInt(s.substring(4)) + 1;
-	 String s4="TID-"+r2;
-	 //System.out.println(s4);
-	 %>
-	 	<div class="w3l-user">
-				<label class="head">Ticket-Id<span class="w3l-star"> * </span></label>
-				<input type="text" name="ticketid" placeholder=""  required="" value=<%=s4%>>
-				</div>
-	 <% 
-	
-}
-
-}
-else{
-	 String id ="TID-001";
-	
-	%>
-
-	<div class="w3l-user" contenteditable="false">
-	<label class="head">Ticket-Id<span class="w3l-star"> * </span></label>
-	<input type="text" name="ticketid" placeholder=""  required="" value=<%=id%> readonly="readonly">
-	</div>
-<%} %>
-			<div class="w3l-rem">
-				<div class="w3l-right">
-					<label class="head">Ticket-description<span class="w3l-star"> * </span></label>
-					<textarea name="ticketdescription"></textarea>
-				</div>	
-			
-			</div>
-			<!--<div  class="w3l-options1">
-				<label class="head">Domain<span class="w3l-star"> * </span></label>	
-					<select class="category1" required="">
-						<option></option>
-						<option>java</option>
-					    <option>dotnet</option>
-                        <option>testing</option>						
-                        						
+                  <tbody>
+                  <tr>
+                   <%ConnectionSteps steps = new ConnectionSteps();
+       			Connection conn=steps.connection();
+    			PreparedStatement pstmt = conn.prepareStatement("select * from notifications where domain=? and assignedto=? and status=?");
+    			PreparedStatement pstmt1 = conn.prepareStatement("select * from notifications where domain=? and assignedby=? and status=?");
+    			PreparedStatement pstmt2 = conn.prepareStatement("select * from notifications where domain=? and assignedby=? and status=?");
+    			pstmt.setString(1, user.getDomain());
+    			pstmt.setString(2, user.getUsername());
+    			pstmt.setString(3, "issued");
+    			pstmt1.setString(1, user.getDomain());
+    			pstmt1.setString(2, user.getUsername());
+    			pstmt1.setString(3, "declined");
+    			pstmt2.setString(1, user.getDomain());
+    			pstmt2.setString(2, user.getUsername());
+    			pstmt2.setString(3, "approved");
+    			ResultSet rs = pstmt.executeQuery();
+    			ResultSet rs1 = pstmt1.executeQuery();
+    			ResultSet rs2 = pstmt2.executeQuery();
+    			int i=0;
+    			user.setSno(0);
+    			while(rs.next()){
+    			i++;
+    			user.setSno(i);
+    			%>
+                   
+                   
+                   <td><%=i%></td>
+				   <td class="mailbox-name"><b><%=rs.getString("assignedby") %><b></td>
+                    <td class="mailbox-subject"><a href="EmployeeReadMail.jsp?assignby=<%=rs.getString("assignedby") %>&assignto=<%=rs.getString("assignedto") %>&ticketid=<%=rs.getString("ticketid") %>" style=color:blue> <b><%=rs.getString("subject") %><b></a>
+                    </td>
+                    <td class="mailbox-name"><b><%=rs.getString("dateofissue") %><b></td>
 					
-						
-					</select>
-			</div>-->
-			<input type="hidden" name="username" value=<%=user.getUsername() %>>
-			<div class="w3l-user">
-				<label class="head">Project Name<span class="w3l-star"> * </span></label>
-				<input type="text" name="projectname" placeholder=""  "required="">
-			</div>
-			<div class="w3l-user">
-				<label class="head">Module Name<span class="w3l-star"> * </span></label>
-				<input type="text" name="modulename"  placeholder="" required="">
-			</div>
-			<div class="w3l-user">
-				<label class="head">Requirement Name</label>
-				<input type="text" name="requirementname"  placeholder="">
-			</div>
-		
-			<div  class="w3l-options1">
-				<label class="head">Assigned To<span class="w3l-star"> * </span></label>	
-					<select class="category1" required="" name="assignedto">
-						<option>select</option>
-							  <% 
-					    ConnectionSteps steps2 = new ConnectionSteps();
-						Connection conn2 = steps2.connection();
-				PreparedStatement pstmt2 = conn2.prepareStatement("select * from registrationtable where domain=?");
-			
-			  pstmt2.setString(1, user.getDomain());
-			  ResultSet rs2 = pstmt2.executeQuery();
-			  while(rs2.next()){%>
-						<option value=<%=rs2.getString("username")%>><%=rs2.getString("username")%></option>
-				<%
-			  }
-
-                %>	   		
-						
-					 					
-                  <%--  <%
-			  }
-
-%> --%>
-					</select>
-			</div>
-			
-			
-			<div  class="w3l-options1">
-				<label class="head">Assigned By<span class="w3l-star"> * </span></label>	
-					<select class="category1" required="" name="assignedby">
-					
-						<option value=<%=user.getUsername() %>><%=user.getUsername() %></option>
-					   				
-                        						
-					
-						
-					</select>
-			</div>
-			<div class="w3l-date">
-					<label class="head">Date of Issue<span class="w3l-star"> * </span></label>
-						<div class="styled-input">
-							<input  class="date datepicker" name="dateofissue" type="text" placeholder="MM/DD/YYYY" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'MM/DD/YYYY';}" required="">
-						</div><br>
-					</div>
-			
-		
-		
-		         <div class="w3l-rem"  >
+                    </tr>
+          
+                 <!--  <tr>
+                    <td>2</td>
+                    <td class="mailbox-name"><b>niha</b></td>
+                    <td class="mailbox-subject"><a href="Read-Mail.jsp" style=color:blue><b>Trying to find a solution to this problem...<b></a>
+                    </td>
+                    <td><button type="submit" class="btn btn-default btn-sm" style="color:blue">
+															<i class="fa fa-trash-o"></i>
+														</button></td>
+                  </tr>
+                 <tr>
+                    <td>3</td>
+                    <td class="mailbox-name"><b>sanam</b></td>
+                    <td class="mailbox-subject"><a href="Read-Mail.jsp" style=color:blue><b>Trying to find a solution to this problem...</b></a>
+                    </td>
+                    <td><button type="submit" class="btn btn-default btn-sm" style="color:blue">
+															<i class="fa fa-trash-o"></i>
+														</button></td>
+                  </tr>
+                  -->
+                
+                 <%}
+    			
+    			while(rs1.next()){
+                	 int n= user.getSno();
+                	 n++;
+                	 %>
+                
+                   <td><%=n%></td>
+				   <td class="mailbox-name"><b><%=rs1.getString("executive") %><b></td>
+                    <td class="mailbox-subject"><a href="EmployeeReadMail.jsp?assignby=<%=rs1.getString("assignedby") %>&assignto=<%=rs1.getString("assignedto") %>&ticketid=<%=rs1.getString("ticketid") %>" style=color:blue> <b><%=rs1.getString("subject") %><b></a>
+                    </td>
+                    <td class="mailbox-name"><b><%=rs1.getString("dateofissue") %><b></td>
+                    </tr>
+                    <%
+                    user.setSno(n);
+    			}%>
+    			<%
+                 
+                 while(rs2.next()){
+                	 int n= user.getSno();
+                	 n++;
+                	 %>
+                
+                   <td><%=n%></td>
+				   <td class="mailbox-name"><b><%=rs2.getString("executive") %><b></td>
+                    <td class="mailbox-subject"><a href="EmployeeReadMail.jsp?assignby=<%=rs2.getString("assignedby") %>&assignto=<%=rs2.getString("assignedto") %>&ticketid=<%=rs2.getString("ticketid") %>" style=color:blue> <b><%=rs2.getString("subject") %><b></a>
+                    </td>
+                    <td class="mailbox-name"><b><%=rs2.getString("dateofissue") %><b></td>
+                    </tr>
+                    <%
+                  
+                 } %>
+                 
+                         </tr>
+                  </tbody>
+                </table>
+                <!-- /.table -->
+              </div>
 				
-				<div class="btn center-block"  >
-				
-					<input type="submit" name="submit" value="Submit"/>
-				
-				</div>
-			</div>
-			
-		</form>
-	</div>
-		
-</div>		
             </div>
         </div>
         <!-- page end-->
@@ -569,52 +501,16 @@ else{
 <!--common script init for all pages-->
 <script src="js/scripts.js"></script>
 
+
 <script>
 		$(function() {
-		$( ".datepicker" ).datepicker();
+		$( "#datepicker,#datepicker" ).datepicker();
 		});
 	</script>
 		<script type="text/javascript" src="edit/js/jquery-2.1.4.min.js"></script>
 	<script src="edit/js/jquery-ui.js"></script>
+	
+
+
 </body>
 </html>
-<!-- <script>
-
-
-$(document).ready(function(){
-	
-	 function Insert_Ticket(id, column_name, value)
-	  {
-	   $.ajax({
-	    url:"UpdateServlet",
-	    method:"POST",
-	    data:{id:id, column_name:column_name, value:value},
-	    success:function(data)
-	    {
-	     $('#alert_message').html('<div class="alert alert-success">'+data+'</div>');
-	   
-	     
-	    }
-	   });
-	 /*   setInterval(function(){
-	    $('#alert_message').html('');
-	   }, 5000); */
-	  }
-
-	  $(document).on('submit', '.submit', function(){
-	   var ticketid = $('.ticketid').val();
-	   var ticketdescription = $('.ticketdescription').val();
-	   var ticketdescription = $('.ticketdescription').val();
-	   var ticketdescription = $('.ticketdescription').val();
-	   var ticketdescription = $('.ticketdescription').val();
-	   var ticketdescription = $('.ticketdescription').val();
-	   var ticketdescription = $('.ticketdescription').val();
-	  
-	   update_data(id, column_name, value);
-	  });
-	
-	
-
-	
-});
-</script> -->

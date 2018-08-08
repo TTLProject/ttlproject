@@ -39,7 +39,7 @@
 
 <body>
 <%
-		Userbean user = (Userbean) session.getAttribute("session1");
+		Userbean user = (Userbean) session.getAttribute("session2");
 	%>
 <section id="container" >
 <!--header start-->
@@ -101,7 +101,7 @@
                 </li>
                 
                <li>
-                    <a href="Notifications.html">
+                    <a href="ExecutiveNotifications.jsp">
                         <i class="fa fa-bell-o"></i>
                         <span>Notifications </span>
                     </a>

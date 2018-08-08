@@ -3,6 +3,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import userbean.Userbean;
 
@@ -26,7 +27,18 @@ public class TicketDao {
 			pstmt.setString(10, user.getUsername());
 			int i=pstmt.executeUpdate();
 			if(i>0) {
-				
+				{
+					PreparedStatement pstmt1=conn.prepareStatement("select * from registrationtable where username=?");
+					pstmt1.setString(1, user.getAssignedTo());
+					ResultSet rs1 = pstmt1.executeQuery();
+					if(rs1.next()) {
+						
+						user.setDesignation(rs1.getString("designation"));
+						user.setDomain(rs1.getString("domain"));
+					}
+					
+					
+				}
 				System.out.println("insert success");
 				user.setValid(true);
 			}else {

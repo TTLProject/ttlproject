@@ -41,7 +41,7 @@
 <!--logo start-->
 <div class="brand">
 
-   <a href="index.jsp" class="logo">
+   <a href="#" class="logo">
         <h4 style="color:white;"><b><i>Ticket&Test Management</i></b></h4>
     </a>
 	
@@ -96,7 +96,7 @@
                 </li>
                 
                <li>
-                    <a href="Notifications.jsp">
+                    <a href="EmployeeNotifications.jsp">
                         <i class="fa fa-bell-o"></i>
                         <span>Notifications </span>
                     </a>

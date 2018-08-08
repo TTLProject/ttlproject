@@ -47,7 +47,7 @@
 <!--logo start-->
 <div class="brand">
 
-   <a href="ExecutiveIndex.jsp" class="logo">
+   <a href="EmployeeIndex.jsp" class="logo">
         <h4 style="color:white;"><b><i>Ticket&Test Management</i></b></h4>
     </a>
 	
@@ -101,7 +101,7 @@
                 </li>
                 
                <li>
-                    <a href="Notifications.html">
+                    <a href="EmployeeNotifications.jsp">
                         <i class="fa fa-bell-o"></i>
                         <span>Notifications </span>
                     </a>
@@ -126,7 +126,7 @@
          <div align="center" color="red">Ticket assigned succesfully</div>       
 <div class="w3l-main">
 <div class="w3l-from">
-		<form action="TicketServlet" method="post">	
+		<form action="EmployeeTicketServlet" method="post">	
 		
 		
 		<!-- /*author Ramya

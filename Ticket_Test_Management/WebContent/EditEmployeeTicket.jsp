@@ -58,7 +58,7 @@
 <!--logo start-->
 <div class="brand">
 
-    <a href="ExecutiveIndex.html" class="logo">
+    <a href="EmployeeIndex.jsp" class="logo">
         <h4 style="color:white;"><b><i>Ticket&Test Management</i></b></h4>
     </a>
     <div class="sidebar-toggle-box">
@@ -91,9 +91,9 @@
                         <span>Ticket Management</span>
                     </a>
                     <ul class="sub">
-                            <li><a href="AddExecutiveTicket.jsp">Add Ticket</a></li>
+                            <li><a href="AddEmployeeTicket.jsp">Add Ticket</a></li>
                         <li><a href="#">Edit Ticket</a></li>
-                        <li><a href="ViewExecutiveTicket.html">View Ticket</a></li>
+                        <li><a href="ViewEmployeeTicket.html">View Ticket</a></li>
                     </ul>
                 </li>
                 
@@ -114,7 +114,7 @@
                 </li>
                 
                <li>
-                    <a href="Notifications.html">
+                    <a href="EmployeeNotifications.jsp">
                         <i class="fa fa-bell-o"></i>
                         <span>Notifications </span>
                     </a>

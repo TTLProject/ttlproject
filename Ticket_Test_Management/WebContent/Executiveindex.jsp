@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="userbean.Userbean"%>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -31,7 +32,10 @@
 </head>
 
 <body>
-
+<%
+		Userbean user = (Userbean) session.getAttribute("session2");
+System.out.print(user.getDomain());
+	%>
 <section id="container" >
 <!--header start-->
 <header class="header fixed-top clearfix">
@@ -93,7 +97,7 @@
                 </li>
                 
                <li>
-                    <a href="Notifications.jsp">
+                    <a href="ExecutiveNotifications.jsp">
                         <i class="fa fa-bell-o"></i>
                         <span>Notifications </span>
                     </a>

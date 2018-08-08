@@ -2,7 +2,13 @@ package userbean;
 
 
 public class Userbean {
-	private int id;
+	private int id,sno;
+	public int getSno() {
+		return sno;
+	}
+	public void setSno(int sno) {
+		this.sno = sno;
+	}
 	public String getEmpid() {
 		return empid;
 	}

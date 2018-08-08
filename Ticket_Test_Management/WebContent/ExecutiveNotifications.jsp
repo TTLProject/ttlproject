@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="dao.ConnectionSteps"%>
+<%@page import="userbean.Userbean"%>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -31,14 +36,16 @@
 </head>
 
 <body>
-
+<%
+		Userbean user = (Userbean) session.getAttribute("session2");
+	%>
 <section id="container" >
 <!--header start-->
 <header class="header fixed-top clearfix">
 <!--logo start-->
 <div class="brand">
 
-   <a href="index.jsp" class="logo">
+   <a href="ExecutiveIndex.jsp" class="logo">
         <h4 style="color:white;"><b><i>Ticket&Test Management</i></b></h4>
     </a>
 	
@@ -118,17 +125,27 @@
 			
                   <tbody>
                   <tr>
+                   <%ConnectionSteps steps = new ConnectionSteps();
+       			Connection conn=steps.connection();
+    			PreparedStatement pstmt = conn.prepareStatement("select * from notifications where domain=? and status is null");
+    			pstmt.setString(1, user.getDomain());
+    			
+    			ResultSet rs = pstmt.executeQuery();
+    			int i=0;
+    			while(rs.next()){
+    			i++;
+    			%>
                    
-                   <td>1</td>
-				   <td class="mailbox-name"><b>sana<b></td>
-                    <td class="mailbox-subject"><a href="ExecutiveReadMail.jsp" style=color:blue> <b>Verifying the functionality...<b></a>
+                   
+                   <td><%=i%></td>
+				   <td class="mailbox-name"><b><%=rs.getString("assignedby") %><b></td>
+                    <td class="mailbox-subject"><a href="ExecutiveReadMail.jsp?assignby=<%=rs.getString("assignedby") %>&assignto=<%=rs.getString("assignedto") %>&ticketid=<%=rs.getString("ticketid") %>" style=color:blue> <b><%=rs.getString("subject") %><b></a>
                     </td>
-					<td><button type="submit" class="btn btn-default btn-sm" style="color:blue">
-															<i class="fa fa-trash-o"></i>
-														</button></td>
+                    <td class="mailbox-name"><b><%=rs.getString("dateofissue") %><b></td>
+					
                     
                   </tr>
-                  <tr>
+                 <!--  <tr>
                     <td>2</td>
                     <td class="mailbox-name"><b>niha</b></td>
                     <td class="mailbox-subject"><a href="Read-Mail.jsp" style=color:blue><b>Trying to find a solution to this problem...<b></a>
@@ -146,8 +163,8 @@
 															<i class="fa fa-trash-o"></i>
 														</button></td>
                   </tr>
-                 
-                 
+                  -->
+                 <%} %>
                   </tbody>
                 </table>
                 <!-- /.table -->

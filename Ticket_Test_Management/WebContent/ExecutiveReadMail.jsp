@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="dao.ConnectionSteps"%>
+<%@page import="userbean.Userbean"%>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -18,7 +23,7 @@
     <!-- Custom styles for this template -->
     <link href="css/style1.css" rel="stylesheet">
     <link href="css/style1-responsive.css" rel="stylesheet" />
-
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]>
     <script src="js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -31,27 +36,27 @@
 </head>
 
 <body>
-
+<%
+		Userbean user = (Userbean) session.getAttribute("session2");
+	%>
 <section id="container" >
 <!--header start-->
 <header class="header fixed-top clearfix">
 <!--logo start-->
 <div class="brand">
 
-   <a href="index.jsp" class="logo">
+   <a href="ExecutiveIndex.jsp" class="logo">
         <h4 style="color:white;"><b><i>Ticket&Test Management</i></b></h4>
     </a>
 	
     <div class="sidebar-toggle-box">
         <div class="fa fa-bars"></div>
     </div>
-	
 </div>
 <!--logo end-->
-<h2 align="center" style=color:white>Read Mail</h2>
+
+<h2 align="center" style=color:white>Notifications</h2>
 <h5 align="right"><a style="color:white;" href="Login.jsp"><i class="fa fa-key"></i><b> Log Out</b></a></h5>
-
-
 </header>
 <!--header end-->
 <aside>
@@ -80,7 +85,7 @@
                 
                 <li class="sub-menu">
                     <a href="javascript:;">
-                        <i class="fa fa-check-square-o"></i>
+                        <i class="fa fa-laptop"></i>
                         <span>Test Management</span>
                     </a>
                     <ul class="sub">
@@ -115,15 +120,115 @@
 
         <div class="row">
             <div class="col-sm-8">
-  <div class="col-md-9">
+ <div class="col-md-9">
           <div class="box box-primary">
             <div class="box-header with-border">
              
-
+      
               
             </div>
             <!-- /.box-header -->
+           <%
+          
+           String assignby=request.getParameter("assignby");
+           String assignto=request.getParameter("assignto");
+          
+           String tid=request.getParameter("ticketid");
+           
+           
+           
+           ConnectionSteps steps = new ConnectionSteps();
+  			Connection conn=steps.connection();
+			PreparedStatement pstmt = conn.prepareStatement("select * from notifications where assignedby=? and assignedto=? and ticketid=?");
+           pstmt.setString(1, assignby);
+           pstmt.setString(2, assignto);
+           pstmt.setString(3, tid);
+           ResultSet rs = pstmt.executeQuery();
+           
+           if(rs.next()){
+        	   String subject=rs.getString("subject");
+        	   if(subject.equals("Asking for Approval....")){
+        	   
+       
+           %>
+        
+           
+           
+            
             <div class="box-body no-padding">
+              <div class="mailbox-read-info">
+                <h3><%=subject %></h3><br>
+                <h5>From: <%=assignby%>
+                  
+              </div>
+              <!-- /.mailbox-read-info -->
+             <br><hr>
+              <!-- /.mailbox-controls -->
+              <div class="mailbox-read-message">
+                <p>Hello <%=user.getUsername() %>,</p>
+
+                <p style=color:navy><%=assignby %> issued ticket to <%=assignto %></p>
+          
+           <div id="table"  class="table-editable">
+             <table  class="table" border="3">
+           <tr>
+         
+        <th>Ticket Description</th>
+		<th>Project Name</th>
+		<th>Module Name</th>
+		<th>Requirement Name</th>
+		<th>Ticket Assigned By</th>
+		<th>Ticket Assigned To</th>
+		<th>Date of Issue</th>
+		</tr>
+		<tr>
+		
+		<td><%=rs.getString("ticketdescription") %></td>
+		<td><%=rs.getString("projectname") %></td>
+		<td><%=rs.getString("modulename") %></td>
+		<%if(rs.getString("requirementname")==null){ %>
+		<td></td>
+		<%}else{ %>
+		<td><%=rs.getString("requirementname") %></td>
+		<%} %>
+		<td><%=assignby%></td>
+		<td><%=assignto%></td>
+		<td><%=rs.getString("dateofissue")%></td>
+		
+		</tr>
+           
+           
+           
+           </table>
+           </div><br>
+               <form action="ApproveNotifications.jsp" method="post" id="form1">
+           
+               <input type="hidden" name="assignto" value=<%=assignto %>>
+               <input type="hidden" name="assignby" value=<%=assignby %>>
+                <input type="hidden" name="ticketid" value=<%=rs.getString("ticketid") %>>
+             
+                 </form>
+                  <form action="DeclineNotifications.jsp" method="post" id="form2"> 
+               <input type="hidden" name="assignto" value=<%=assignto %>>
+               <input type="hidden" name="assignby" value=<%=assignby %>>
+                <input type="hidden" name="ticketid" value=<%=rs.getString("ticketid") %>>
+               
+                 </form>
+               <input type="submit" value="Approve"  form="form1">&emsp;&emsp;
+            
+               
+                      <input type="submit" value="Decline" form="form2">
+    
+                <br><br>
+
+                <p >Regards,    <%=assignby %></p>
+              </div>
+              <!-- /.mailbox-read-message -->
+            </div>
+            
+            <%}else{ %>
+            
+              <div class="box-body no-padding">
               <div class="mailbox-read-info">
                 <h3>Message Subject Is Placed Here</h3><br>
                 <h5>From: help@example.com
@@ -143,6 +248,8 @@
               </div>
               <!-- /.mailbox-read-message -->
             </div>
+            <%} }%>
+            
             <!-- /.box-body -->
             
             <!-- /.box-footer -->
@@ -151,18 +258,11 @@
           </div>
           <!-- /. box -->
         </div>
-				
             </div>
         </div>
         <!-- page end-->
         </section>
     </section>
-    <!--main content end-->
-<!--right sidebar start-->
-
-<!--right sidebar end-->
-
-</section>
     <!--main content end-->
 <!--right sidebar start-->
 <div class="right-sidebar">
@@ -440,6 +540,17 @@
 
 <!--common script init for all pages-->
 <script src="js/scripts.js"></script>
+
+
+<script>
+		$(function() {
+		$( "#datepicker,#datepicker" ).datepicker();
+		});
+	</script>
+		<script type="text/javascript" src="edit/js/jquery-2.1.4.min.js"></script>
+	<script src="edit/js/jquery-ui.js"></script>
+	
+
 
 </body>
 </html>
