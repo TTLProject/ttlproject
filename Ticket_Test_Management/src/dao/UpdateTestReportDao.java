@@ -1,9 +1,9 @@
-package com.ttm.dao;
+package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-import com.ttm.pojo.Userbean;
+import userbean.Userbean;
 public class UpdateTestReportDao {
 
 	public static void update(Userbean user) {

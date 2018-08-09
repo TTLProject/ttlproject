@@ -1,11 +1,9 @@
- 	package com.ttm.servlet;
+ 	package servlet;
 
 import java.io.IOException;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.ttm.dao.ConnectionSteps;
-import com.ttm.pojo.Userbean;
+import dao.ConnectionSteps;
+import userbean.Userbean;
 
 
 

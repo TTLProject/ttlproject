@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<%@page import="com.ttm.dao.ConnectionSteps"%>
-<%@page import="com.ttm.pojo.Userbean"%>
+
+<%@page import="dao.ConnectionSteps"%>
+<%@page import="userbean.Userbean"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.HashMap"%>

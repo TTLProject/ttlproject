@@ -1,5 +1,6 @@
+<%@page import="dao.ConnectionSteps"%>
+<%@page import="userbean.Userbean"%>
 
-<%@page import="com.ttm.pojo.Userbean"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.Connection"%>
