@@ -1,14 +1,70 @@
-package userbean;
+package com.ttm.pojo;
 
 
 public class Userbean {
-	private int id,sno;
-	public int getSno() {
-		return sno;
+	private int id;
+	
+	private String empid;
+	private long mobile;
+	private String name,domain,username,password,confirmpassword,email,webmail,designation;
+	private boolean isValid, isValid1,isValid2;
+	
+	private String ticketId,ticketDescription,projectName,moduleName,requirementName,assignedTo,assignedBy,dateOfIssue,dateOfCompletion,status,testAssignedTo;
+	
+	
+	
+	private String column_name,value,typeoftesting;
+	public String getTypeoftesting() {
+		return typeoftesting;
 	}
-	public void setSno(int sno) {
-		this.sno = sno;
+	public void setTypeoftesting(String typeoftesting) {
+		this.typeoftesting = typeoftesting;
 	}
+	public String getTestcaseid() {
+		return testcaseid;
+	}
+	public void setTestcaseid(String testcaseid) {
+		this.testcaseid = testcaseid;
+	}
+	public String getTestdescription() {
+		return testdescription;
+	}
+	public void setTestdescription(String testdescription) {
+		this.testdescription = testdescription;
+	}
+	public String getPrecondition() {
+		return precondition;
+	}
+	public void setPrecondition(String precondition) {
+		this.precondition = precondition;
+	}
+	public String getTestdesign() {
+		return testdesign;
+	}
+	public void setTestdesign(String testdesign) {
+		this.testdesign = testdesign;
+	}
+	public String getExpetedresult() {
+		return expetedresult;
+	}
+	public void setExpetedresult(String expetedresult) {
+		this.expetedresult = expetedresult;
+	}
+	public String getActualresult() {
+		return actualresult;
+	}
+	public void setActualresult(String actualresult) {
+		this.actualresult = actualresult;
+	}
+	public String getComments() {
+		return comments;
+	}
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+	private String testcaseid,testdescription,precondition,testdesign,expetedresult,actualresult,comments;
+	
+	
 	public String getEmpid() {
 		return empid;
 	}
@@ -18,12 +74,6 @@ public class Userbean {
 	public void setId(int id) {
 		this.id = id;
 	}
-	private String empid;
-	private long mobile;
-	private String name,domain,username,password,confirmpassword,email,webmail,designation;
-	private boolean isValid, isValid1,isValid2;
-	private String column_name,value;
-	private String ticketId,ticketDescription,projectName,moduleName,requirementName,assignedTo,assignedBy,dateOfIssue,dateOfCompletion,status,testAssignedTo;
 	public String getColumn_name() {
 		return column_name;
 	}

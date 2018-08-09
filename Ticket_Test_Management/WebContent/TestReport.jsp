@@ -1,4 +1,23 @@
 <!DOCTYPE html>
+<%@page import="com.ttm.dao.ConnectionSteps"%>
+<%@page import="com.ttm.pojo.Userbean"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
+
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
+
+<%
+	Userbean user = (Userbean) session.getAttribute("session1");
+Userbean user1=(Userbean) session.getAttribute("testsession");
+%>
+
+
+
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -39,6 +58,43 @@
 @import
 url('scss/style.css')
 </style>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script
+	src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script
+	src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+
+
+<style>
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #fff;
+}
+
+.box {
+	width: 1270px;
+	padding: 20px;
+	background-color: #fff;
+	border: 2px solid #ccc;
+	border-radius: 5px;
+	margin-top: 25px;
+	box-sizing: border-box;
+}
+</style>
+
+
 
 </head>
 
@@ -60,12 +116,16 @@ url('scss/style.css')
 						<div class="fa fa-bars"></div>
 					</div>
 
+
 				</div>
 				<!--logo end-->
 				<h3 style="color: #fff;" align="center">
 					<b>TestReport</b>
 				</h3>
-				<h5 align="right"><a style="color:white;" href="Login.jsp"><i class="fa fa-key"></i><b> Log Out</b></a></h5>
+				<h5 align="right">
+					<a style="color: white;" href="Login.jsp"><i class="fa fa-key"></i><b>
+							Log Out</b></a>
+				</h5>
 
 			</div>
 
@@ -84,9 +144,9 @@ url('scss/style.css')
 								class="fa fa-laptop"></i> <span>Ticket Management</span>
 						</a>
 							<ul class="sub">
-								<li><a href="AddTicket.jsp">Add Ticket</a></li>
-								<li><a href="EditTicket.jsp">Edit Ticket</a></li>
-								<li><a href="ViewTicket.jsp">View Ticket</a></li>
+								<li><a href="AddEmployeeTicket.jsp">Add Ticket</a></li>
+								<li><a href="EditEmployeeTicket.jsp">Edit Ticket</a></li>
+								<li><a href="ViewEmployeeTicket.jsp">View Ticket</a></li>
 							</ul></li>
 
 
@@ -122,79 +182,210 @@ url('scss/style.css')
 
 
 
-				<br> <br>
-				<form action="3" method="post">
-					<div class="card-header">
-						Project Name:&emsp;&emsp;&nbsp;&emsp;<input type="text"
-							name="projectname"> <br> <br> Requirement
-						Name:&nbsp;&nbsp;<input type="text" name="requirementname"><br>
-						<br> Module Name:&emsp;&emsp;&emsp;<input type="text"
-							name="modulename"> <br> <br>
+				<br />
+				<div class="container">
+					<form action="TestReport1.jsp" method="post">
+						<div class="card-header">
 
 
-					</div>
-				</form>
-
-				<div id="table" class="table-editable">
- <div class="form-fields">
-					<table class="table" border="3">
-						<tr>
-							<th>TestCase Id</th>
-							<th>Test Description</th>
-							<th>Precondition</th>
-							<th><ol>Test Design
-								</ol></th>
-							<th>ExpectedResult</th>
-							<th>ActualResult</th>
-							<th>Status</th>
-							<th>Comment</th>
-							<th>Delete Rows </th>
+							Project Name:&emsp;&emsp;&nbsp;&emsp;&nbsp;
+							<!-- 	<input list="hosting-plan" type="text"> -->
 
 
-						</tr>
+							<select id="hosting-plan" name="projectname">
+								<option>----select-----</option>
+								<%
+									List<String> projName = new ArrayList<String>();
+									List<String> reqName = new ArrayList<String>();
+									List<String> modName = new ArrayList<String>();
+									ConnectionSteps steps = new ConnectionSteps();
+									Connection conn = steps.connection();
+									PreparedStatement pstmt = conn.prepareStatement("select * from tickettable");
+									ResultSet rs = pstmt.executeQuery();
+									while (rs.next()) {
+								%>
+								<%
+									projName.add(rs.getString("projectname"));
+										reqName.add(rs.getString("requirementname"));
+										modName.add(rs.getString("modulename"));
+								%>
+								<%
+									}
+								%>
+								<%-- <%
+									System.out.println("projName  =  " + projName);
+									System.out.println("reqName  =  " + reqName);
+									System.out.println("modName  =  " + modName);
+								%> --%>
 
-						<tr id="template">
-							<td contenteditable=true class="form_id">
-							</td>
-
-							<td contenteditable=true></td>
-							<td contenteditable=true></td>
-							<td contenteditable=true></td>
-							<td contenteditable=true></td>
-							<td contenteditable=false></td>
-							<td contenteditable=false></td>
-							<td contenteditable=false></td>
+								<%
+									for (String projectName : projName) {
+								%>
+								<option value=<%=projectName%>><%=projectName%></option>
+								<%
+									}
+								%>
+							</select> <br> <br>
 							
-							<td contenteditable=false><input type="button" class="remove" value="remove" /></td>
+							 
+							Requirement Name:&nbsp;&nbsp;&nbsp; <select
+								id="hosting-plan" name="requirementname">
+								<option>----select-----</option>
+								<%
+									for (String requireName : reqName) {
+								%>
+								<option value=<%=requireName%>><%=requireName%></option>
+								<%
+									}
+								%>
+							</select> <br> <br>
+							
+							
+							 Module Name:&emsp;&emsp;&emsp;&nbsp; <select
+								id="hosting-plan" name="modulename">
+								<option>----select-----</option>
+								<%
+									for (String moduleName : modName) {
+								%>
+
+								<option value=<%=moduleName%>><%=moduleName%></option>
+								<%
+									}
+								%>
+							</select> &emsp;&emsp;&emsp;&nbsp; <input type="submit" name="submit"
+								value="Submit" /><br> <br>
+
+						</div>
+
+					</form>
 
 
-						</tr>
-						<!-- This is our clonable table line -->
-						<tr class="hide">
-							<td contenteditable="true"></td>
-							<td contenteditable="true"></td>
-							<td contenteditable="true"></td>
-							<td contenteditable="true"></td>
-							<td contenteditable="true"></td>
-							<td contenteditable="false"></td>
-							<td contenteditable="false"></td>
-							<td contenteditable="false"></td>
-							<td contenteditable="false"></td>
 
 
-						</tr>
-					</table>
-					 </div>
-					<p align="right">
-						<input type="button" name="submit" value="Submit" />&emsp;&emsp;
-						 <input type="button" id="add-line" value="+" />
+					<br />
+					<%
+						if ((user1.getProjectName().equals("empty")) && (user1.getRequirementName().equals("empty"))
+								&& (user1.getModuleName().equals("empty"))) {
+					%>
 
-					</p>
 
+					<%
+						} else {
+					%>
+
+
+
+					<form method="post" action="deleteRecords" id="insert_form">
+						<div class="table-repsonsive">
+							<span id="error"></span>
+
+							<!-- 	<form id="delete_form" action="TestReportDeleteRows.jsp"> -->
+
+							<input type="submit" name="Delete" class="btn btn-info" onClick="deleteSelectedRows()"
+								value="DeleteRecord" id="delete_Items" />
+
+
+							<!-- <button type="submit" id="" name="delete"
+									value="DeleteRows" form="delete_form">Delete</button>
+								 -->
+							<br> <br> <b>ProjectName:::</b>
+							<%=user1.getProjectName()%>
+							&emsp;&emsp;<b>RequirementName:::</b>
+							<%=user1.getRequirementName()%>
+							&emsp;&emsp;<b>ModuleName:::</b>
+							<%=user1.getModuleName()%>
+							<br> <br>
+
+							<table class="table table-bordered" id="item_table">
+								<tr>
+									<th>Select</th>
+									<th>TestCase Id</th>
+									<th>Test Description</th>
+									<th>PreCondition</th>
+									<th>Test Design</th>
+									<th>Expected Result</th>
+									<th>Actual Result</th>
+									<th>Status</th>
+									<th>Comment</th>
+								</tr>
+								<%
+									/* ConnectionSteps steps1 = new ConnectionSteps();
+										Connection conn1 = steps1.connection(); */
+										PreparedStatement pstmt1 = conn.prepareStatement(
+												"select * from testreporttable where projectname=? and requirementname=? and modulename=? order by testcaseid");
+										pstmt1.setString(1,user1.getProjectName());
+										pstmt1.setString(2, user1.getRequirementName());
+										pstmt1.setString(3, user1.getModuleName());
+										ResultSet rs1 = pstmt1.executeQuery();
+
+										while (rs1.next()) {
+								%>
+								<tr>
+									<td contentedible="false"><input type="checkbox"
+										name="test" value=<%=rs1.getString("testcaseid")%>></td>
+									<td><div contenteditable class="update"
+											data-id=<%=rs1.getInt("id")%> data-column="testcaseid"><%=rs1.getString("testcaseid")%></div></td>
+									<td>
+										<div contenteditable class="update"
+											data-id=<%=rs1.getInt("id")%> data-column="testdescription"><%=rs1.getString("testdescription")%></div>
+									</td>
+									<td>
+										<div contenteditable class="update"
+											data-id=<%=rs1.getInt("id")%> data-column="precondition"><%=rs1.getString("precondition")%></div>
+									</td>
+									<td>
+										<div contenteditable class="update"
+											data-id=<%=rs1.getInt("id")%> data-column="testdesign"><%=rs1.getString("testdesign")%></div>
+									</td>
+									<td>
+										<div contenteditable class="update"
+											data-id=<%=rs1.getInt("id")%> data-column="expectedresult"><%=rs1.getString("expectedresult")%></div>
+									</td>
+									<td>
+										<div contenteditable="false" class="update">
+											<%-- data-id=<%=rs1.getInt("id")%> data-column="actualresult"><%=rs1.getString("actualresult")%> --%>
+										</div>
+									</td>
+									<td>
+										<div contenteditable="false" class="update">
+											<%-- data-id=<%=rs1.getInt("id")%> data-column="status"><%=rs1.getString("status")%> --%>
+										</div>
+									</td>
+									<td>
+										<div contenteditable="false" class="update">
+											<%-- data-id=<%=rs1.getInt("id")%> data-column="comments"><%=rs1.getString("comments")%> --%>
+										</div>
+									</td>
+								</tr>
+								<%
+									}
+								%>
+
+							</table>
+
+							<!-- </form> -->
+
+							<div align="right">
+
+								<input type="submit" name="insert" class="btn btn-info"
+									value="Submit" id="insert_form" />
+
+								<button type="button" name="add"
+									class="btn btn-success btn-sm add">
+									<span class="glyphicon glyphicon-plus"></span>
+								</button>
+							</div>
+
+
+						</div>
+
+						<%
+							}
+						%>
+					
 				</div>
 
-
-
+				</form>
 
 
 				<div class="row">
@@ -479,61 +670,273 @@ url('scss/style.css')
 
 	<script src="table/js/index.js"></script>
 	<script type="text/javascript">
-    <script src="//code.jquery.com/jquery-3.1.0.min.js" type="text/javascript"></script>
+		<script src="//code.jquery.com/jquery-3.1.0.min.js" type="text/javascript">
+	</script>
 
 
 
 
 
 
-	<script type="text/javascript">
 
-    
-    $(window).load(function(){
-		$(document).ready(function() {
-			
-    });
-			var template = $('#template'),
-				id = 0;
-			
-			$("#add-line").click(function() {
-				if(!template.is(':visible'))
-				{
-					template.show();
-					return;
-				}
-				var row = template.clone();
-				template.find("input:text").val("");
-				row.attr('id', 'row_' + (id++));
-				template.before(row);
-                var i=1;
 
-    $('.form_id').each(function(){
-    	 $(this).text('Tc-00'+ i);
-        i++;
-			});
-			
-			$('.form-fields').on('click', '.remove', function(){
-				var row = $(this).closest('tr');
-				if(row.attr('id') == 'template')
-				{
-					row.hide();
-				}
-				else
-				{
-					row.remove();
-                   
-				}
-			});
-		});
-		});
-    
-    
-    </script>
 
+	<!-- 	<script>
+	
+	
+    // Create a new option element.
+    var optionNode = document.createElement("option");
+ 
+    // Set the value
+    optionNode.value = "huge";
+ 
+    // create a text node and append it to the option element
+    optionNode.appendChild(document.createTextNode(""));
+ 
+    // Add the optionNode to the datalist
+    document.getElementById("hosting-plan").appendChild(optionNode);
+</script>
+	
+
+
+ -->
 
 
 
 
 </body>
 </html>
+<script>
+	$(document)
+			.ready(
+					function() {
+
+						function update_data(id, column_name, value) {
+							$.ajax({
+								url : "UpdateTestReportServlet",
+								method : "POST",
+								data : {
+									id : id,
+									column_name : column_name,
+									value : value
+								},
+								success : function(data) {
+									$('#alert_message').html(
+											'<div class="alert alert-success">'
+													+ data + '</div>');
+
+								}
+							});
+							setInterval(function() {
+								$('#alert_message').html('');
+							}, 5000);
+						}
+
+						$(document).on('blur', '.update', function() {
+							var id = $(this).data("id");
+							var column_name = $(this).data("column");
+							var value = $(this).text();
+							update_data(id, column_name, value);
+						});
+
+						$(document)
+								.on(
+										'click',
+										'.add',
+										function() {
+											var i = 1;
+											var html = '';
+											html += '<tr>';
+											html += '<td contentedible="false"><input type="checkbox"/></td>';
+											html += '<td ><input type="text" name="testcaseid[]" class="form-control item_name" value="TC-0" /></td>';
+											html += '<td><input type="text" name="testdescription[]" class="form-control item_name" /></td>';
+											html += '<td><input type="text" name="precondition[]" class="form-control item_name" /></td>';
+											html += '<td><input type="text" name="testdesign[]" class="form-control item_name" /></td>';
+											html += '<td><input type="text" name="expectedresult[]" class="form-control item_name" /></td>';
+											html += '<td class="unselectable"></td>';
+											html += '<td class="unselectable"></td>';
+											html += '<td class="unselectable"></td>';
+											i++;
+
+											$('#item_table').append(html);
+										});
+
+						$(document).on('click', '.remove', function() {
+							$(this).closest('tr').remove();
+						});
+
+						$('#insert_form')
+								.on(
+										'submit',
+										function(event) {
+											event.preventDefault();
+											var error = '';
+											$('.item_name')
+													.each(
+															function() {
+																var count = 1;
+																if ($(this)
+																		.val() == '') {
+																	error += "<p>Enter Item Name at "
+																			+ count
+																			+ " Row</p>";
+																	return false;
+																}
+																count = count + 1;
+															});
+
+											$('.item_quantity')
+													.each(
+															function() {
+																var count = 1;
+																if ($(this)
+																		.val() == '') {
+																	error += "<p>Enter Item Quantity at "
+																			+ count
+																			+ " Row</p>";
+																	return false;
+																}
+																count = count + 1;
+															});
+
+											$('.item_unit')
+													.each(
+															function() {
+																var count = 1;
+																if ($(this)
+																		.val() == '') {
+																	error += "<p>Select Unit at "
+																			+ count
+																			+ " Row</p>";
+																	return false;
+																}
+																count = count + 1;
+															});
+											var form_data = $(this).serialize();
+											console.log("form_data 122  ",
+													form_data);
+											var isDeleteRecord = form_data
+													.includes("test=");
+											if (isDeleteRecord == true) {
+												var reqParam = form_data
+														.split("&");
+												var request = "test=";
+												for (var i = 0; i < reqParam.length; i++) {
+													request = request
+															+ reqParam[i]
+																	.replace(
+																			"test=",
+																			"")
+															+ ",";
+												}
+												console.log("response val ",
+														request);
+												console.log("response   ",
+														request);
+												form_data = request;
+												console.log("form_data  ",
+														form_data);
+											}
+
+											if (error == '') {
+												$
+														.ajax({
+															url : "TestReportInsertServlet",
+															method : "POST",
+															data : form_data,
+															success : function(
+																	data) {
+
+																location
+																		.reload();
+
+															}
+														});
+											} else {
+												$('#error').html(
+														'<div class="alert alert-danger">'
+																+ error
+																+ '</div>');
+											}
+										});
+
+						$('#delete_Items')
+								 .on('submit', function(event) {
+											alert("Data  ");
+											event.preventDefault();
+										 var error = '';
+											 $('.item_name')
+													.each(
+															function() {
+																var count = 1;
+																if ($(this)
+																		.val() == '') {
+																	error += "<p>Enter Item Name at "
+																			+ count
+																			+ " Row</p>";
+																	return false;
+																}
+																count = count + 1;
+															});  
+											$('.item_quantity')
+													.each(
+															function() {
+																var count = 1;
+																if ($(this)
+																		.val() == '') {
+																	error += "<p>Enter Item Quantity at "
+																			+ count
+																			+ " Row</p>";
+																	return false;
+																}
+																count = count + 1;
+															});
+
+											$('.item_unit')
+													.each(
+															function() {
+																var count = 1;
+																if ($(this)
+																		.val() == '') {
+																	error += "<p>Select Unit at "
+																			+ count
+																			+ " Row</p>";
+																	return false;
+																}
+																count = count + 1;
+															});
+											var form_data = $(this).serialize();
+											console.log("form_data   ",
+													form_data);
+											if (error == '') {
+												$
+														.ajax({
+															url : "TestReportInsertServlet",
+															method : "POST",
+															data : form_data,
+															success : function(
+																	data) {
+
+																location
+																		.reload();
+
+															}
+														});
+											} else {
+												$('#error').html(
+														'<div class="alert alert-danger">'
+																+ error
+																+ '</div>');
+											}
+										});
+
+					});
+</script>
+<!-- <script type="text/javascript">
+	$('[type="submit"]').on('click', function() {
+		$('td input:checked').closest('tr').remove();
+	});
+</script> -->
+
+
+
