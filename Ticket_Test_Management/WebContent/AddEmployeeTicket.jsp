@@ -91,11 +91,11 @@
                         <span>Test Management</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="ExecutiveTestReport.html">Prepare TestReport</a></li>
-                        <li><a href="ExecutiveTestData.html">Prepare TestData </a></li>
-                        <li><a href="ExecutiveBugReport.html">Prepare BugReport</a></li>
-                        <li><a href="ExecutiveViewTestReport.html">ViewTestReport</a></li>
-						 <li><a href="ExecutiveModifyTestReport.html">ModifyTestReport</a></li>
+                        <li><a href="TestReport.jsp">Prepare TestReport</a></li>
+                        <li><a href="TestData.jsp">Prepare TestData </a></li>
+                        <li><a href="BugReport.jsp">Prepare BugReport</a></li>
+                        <li><a href="ViewTestReport.jsp">ViewTestReport</a></li>
+						 <li><a href="ModifyTestReport.jsp">ModifyTestReport</a></li>
 						
                     </ul>
                 </li>

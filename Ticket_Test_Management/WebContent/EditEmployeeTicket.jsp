@@ -80,7 +80,7 @@
         <div class="leftside-navigation">
             <ul class="sidebar-menu" id="nav-accordion">
                 <li>
-                    <a class="active" href="EditExecutiveProfile.html">
+                    <a class="active" href="EditExecutiveProfile.jsp">
                         <i class="fa fa-pencil"></i>
                         <span>EditProfile</span>
                     </a>
@@ -93,7 +93,7 @@
                     <ul class="sub">
                             <li><a href="AddEmployeeTicket.jsp">Add Ticket</a></li>
                         <li><a href="#">Edit Ticket</a></li>
-                        <li><a href="ViewEmployeeTicket.html">View Ticket</a></li>
+                        <li><a href="ViewEmployeeTicket.jsp">View Ticket</a></li>
                     </ul>
                 </li>
                 
@@ -104,11 +104,11 @@
                         <span>Test Management</span>
                     </a>
                     <ul class="sub">
-                     <li ><a href="ExecutiveTestReport.html">Prepare TestReport</a></li>
-                        <li><a href="ExecutiveTestData.html">Prepare TestData </a></li>
-                        <li><a href="ExecutiveBugReport.html">Prepare BugReport</a></li>
-                        <li><a href="ExecutiveViewTestReport.html">ViewTestReport</a></li>
-						 <li><a href="ExecutiveModifyTestReport.html">ModifyTestReport</a></li>
+                     <li ><a href="TestReport.jsp">Prepare TestReport</a></li>
+                        <li><a href="TestData.jsp">Prepare TestData </a></li>
+                        <li><a href="BugReport.jsp">Prepare BugReport</a></li>
+                        <li><a href="ViewTestReport.jsp">ViewTestReport</a></li>
+						 <li><a href="ModifyTestReport.jsp">ModifyTestReport</a></li>
 						
                     </ul>
                 </li>
