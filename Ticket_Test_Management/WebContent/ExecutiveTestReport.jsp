@@ -14,7 +14,7 @@
 
 <%
 	Userbean user = (Userbean) session.getAttribute("session1");
-Userbean user1=(Userbean) session.getAttribute("testsession");
+	Userbean user1 = (Userbean) session.getAttribute("testsession");
 %>
 
 
@@ -163,8 +163,8 @@ body {
 
 							</ul></li>
 
-						<li><a href="ExecutiveNotifications.jsp"> <i class="fa fa-bell-o"></i>
-								<span>Notifications </span>
+						<li><a href="ExecutiveNotifications.jsp"> <i
+								class="fa fa-bell-o"></i> <span>Notifications </span>
 						</a></li>
 
 
@@ -185,7 +185,7 @@ body {
 
 				<br />
 				<div class="container">
-					<form action="ExecutiveTestReport1.jsp" method="post">
+					<form action="TestReport1.jsp" method="post">
 						<div class="card-header">
 
 
@@ -226,10 +226,7 @@ body {
 								<%
 									}
 								%>
-							</select> <br> <br>
-							
-							 
-							Requirement Name:&nbsp;&nbsp;&nbsp; <select
+							</select> <br> <br> Requirement Name:&nbsp;&nbsp;&nbsp; <select
 								id="hosting-plan" name="requirementname">
 								<option>----select-----</option>
 								<%
@@ -239,10 +236,7 @@ body {
 								<%
 									}
 								%>
-							</select> <br> <br>
-							
-							
-							 Module Name:&emsp;&emsp;&emsp;&nbsp; <select
+							</select> <br> <br> Module Name:&emsp;&emsp;&emsp;&nbsp; <select
 								id="hosting-plan" name="modulename">
 								<option>----select-----</option>
 								<%
@@ -253,9 +247,10 @@ body {
 								<%
 									}
 								%>
-								
-								<input type="hidden" value=<%=user1.getUsername()%> name="username"/>
-								
+
+								<input type="hidden" value=<%=user.getUsername()%>
+								name="username" />
+
 							</select> &emsp;&emsp;&emsp;&nbsp; <input type="submit" name="submit"
 								value="Submit" /><br> <br>
 
@@ -279,16 +274,17 @@ body {
 
 
 
-					<form method="post"  id="insert_form">
+					<form method="post" id="insert_form">
 						<div class="table-repsonsive">
-							<span id="error"></span>
+							 <input type="submit" name="Delete"
+								class="btn btn-info" value="DeleteRecord" form="insert_form" />&emsp;&emsp;
+                         
 
-
-							<input type="submit" name="Delete" class="btn btn-info" onClick="deleteSelectedRows()"
-								value="DeleteRecord" form="insert_form" />
-
+                         
 
 							
+
+
 							<br> <br> <b>ProjectName:::</b>
 							<%=user1.getProjectName()%>
 							&emsp;&emsp;<b>RequirementName:::</b>
@@ -308,13 +304,14 @@ body {
 									<th>Actual Result</th>
 									<th>Status</th>
 									<th>Comment</th>
+									<th></th>
 								</tr>
 								<%
 									/* ConnectionSteps steps1 = new ConnectionSteps();
-										Connection conn1 = steps1.connection(); */
+														Connection conn1 = steps1.connection(); */
 										PreparedStatement pstmt1 = conn.prepareStatement(
 												"select * from testreporttable where projectname=? and requirementname=? and modulename=? order by testcaseid");
-										pstmt1.setString(1,user1.getProjectName());
+										pstmt1.setString(1, user1.getProjectName());
 										pstmt1.setString(2, user1.getRequirementName());
 										pstmt1.setString(3, user1.getModuleName());
 										ResultSet rs1 = pstmt1.executeQuery();
@@ -357,7 +354,7 @@ body {
 											<%-- data-id=<%=rs1.getInt("id")%> data-column="comments"><%=rs1.getString("comments")%> --%>
 										</div>
 									</td>
-								
+
 								</tr>
 								<%
 									}
@@ -384,14 +381,14 @@ body {
 						<%
 							}
 						%>
-			
-				</form>
+
+					</form>
 
 
-				<div class="row">
-					<div class="col-sm-12"></div>
-				</div>
-				<!-- page end-->
+					<div class="row">
+						<div class="col-sm-12"></div>
+					</div>
+					<!-- page end-->
 			</section>
 		</section>
 		<!--main content end-->
@@ -745,6 +742,7 @@ body {
 										'.add',
 										function() {
 											var i = 1;
+											
 											var html = '';
 											html += '<tr>';
 											html += '<td contentedible="false"><input type="checkbox"/></td>';
@@ -756,7 +754,11 @@ body {
 											html += '<td class="unselectable"></td>';
 											html += '<td class="unselectable"></td>';
 											html += '<td class="unselectable"></td>';
-										
+											html += '<td><button name="Delete"  class="remove" ><i class="fa fa-trash-o"></i></button></td>';
+											
+											
+											
+
 											i++;
 
 											$('#item_table').append(html);
@@ -862,24 +864,27 @@ body {
 										});
 
 						$('#delete_Items')
-								 .on('submit', function(event) {
+								.on(
+										'submit',
+										function(event) {
 											alert("Data  ");
 											event.preventDefault();
-										 var error = '';
-											 $('.item_name')
-													.each(
-															function() {
-																var count = 1;
-																if ($(this)
-																		.val() == '') {
-																	error += "<p>Enter Item Name at "
-																			+ count
-																			+ " Row</p>";
-																	return false;
-																}
-																count = count + 1;
-															});  
-											$('.item_quantity')
+											var error = '';
+										 $('.item_name')
+												.each(
+														function() {
+															var count = 1;
+															if ($(this)
+																	.val() == '') {
+																error += "<p>Enter Item Name at "
+																		+ count
+																		+ " Row</p>";
+																return false;
+															}
+															count = count + 1;
+														});  
+										 
+										 $('.item_quantity')
 													.each(
 															function() {
 																var count = 1;
@@ -891,8 +896,7 @@ body {
 																	return false;
 																}
 																count = count + 1;
-															});
-
+															}); 
 											$('.item_unit')
 													.each(
 															function() {
@@ -934,10 +938,9 @@ body {
 					});
 </script>
 <!-- <script type="text/javascript">
-	$('[type="submit"]').on('click', function() {
+	$('[type="button"]').on('click', function() {
 		$('td input:checked').closest('tr').remove();
 	});
 </script> -->
-
 
 

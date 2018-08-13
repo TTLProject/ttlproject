@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="dao.ConnectionSteps"%>
+<%@page import="userbean.Userbean"%>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -16,8 +21,8 @@
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
 
     <!-- Custom styles for this template -->
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/style-responsive.css" rel="stylesheet" />
+    <link href="css/style1.css" rel="stylesheet">
+    <link href="css/style1-responsive.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]>
@@ -28,19 +33,19 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-	
-	<link rel="stylesheet" href="edit/css/jquery-ui.css"/>
 </head>
 
 <body>
-
+<%
+		Userbean user = (Userbean) session.getAttribute("session1");
+	%>
 <section id="container" >
 <!--header start-->
 <header class="header fixed-top clearfix">
 <!--logo start-->
 <div class="brand">
 
-   <a href="index.jsp" class="logo">
+   <a href="EmployeeIndex.jsp" class="logo">
         <h4 style="color:white;"><b><i>Ticket&Test Management</i></b></h4>
     </a>
 	
@@ -50,8 +55,8 @@
 </div>
 <!--logo end-->
 
-<h4 style="color:#fff;" align="center"><b>Add Ticket</b></h3>
-<h6 align="right"><a style="color:white;" href="Login.jsp"><i class="fa fa-key"></i><b> Log Out</b></a></h6>
+<h2 align="center" style=color:white>Notifications</h2>
+<h5 align="right"><a style="color:white;" href="Login.jsp"><i class="fa fa-key"></i><b> Log Out</b></a></h5>
 </header>
 <!--header end-->
 <aside>
@@ -60,7 +65,7 @@
         <div class="leftside-navigation">
             <ul class="sidebar-menu" id="nav-accordion">
                 <li>
-                    <a class="active" href="EditProfile.jsp">
+                    <a class="active" href="EditExecutiveProfile.jsp">
                         <i class="fa fa-pencil"></i>
                         <span>EditProfile</span>
                     </a>
@@ -71,9 +76,10 @@
                         <span>Ticket Management</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="#">Add Ticket</a></li>
-                        <li><a href="EditTicket.jsp">Edit Ticket</a></li>
-                        <li><a href="ViewTicket.jsp">View Ticket</a></li>
+                        <li><a href="AddEmployeeTicket.jsp">Add Ticket</a></li>
+                     
+                        <li><a href="EditEmployeeTicket.jsp">Edit Ticket</a></li>
+                        <li><a href="ViewEmployeeTicket.jsp">View Ticket</a></li>
                     </ul>
                 </li>
                 
@@ -94,7 +100,7 @@
                 </li>
                 
                <li>
-                    <a href="Notifications.jsp">
+                    <a href="EmployeeNotifications.jsp">
                         <i class="fa fa-bell-o"></i>
                         <span>Notifications </span>
                     </a>
@@ -109,95 +115,256 @@
 </aside>
 <!--sidebar end-->
     <!--main content start-->
-    
-	   <section id="main-content" style="background: url(edit/images/bg3.jpg)"no-repeat;>
+    <section id="main-content" >
         <section class="wrapper">
         <!-- page start-->
 
         <div class="row">
-            <div class="col-sm-12">
-               
-<div class="w3l-main">
-<div class="w3l-from">
-		<form action="#" method="post">	
-			<div class="w3l-user">
-				<label class="head">Ticket-Id<span class="w3l-star"> * </span></label>
-				<input type="text" name="Athlete's Name" placeholder=""  required="">
-			</div>
-			<div class="w3l-user">
-				<label class="head">Ticket-description<span class="w3l-star"> * </span></label>
-				<input type="text" name="Athlete's Name" placeholder=""  required="">
-			</div>
-			<!--<div  class="w3l-options1">
-				<label class="head">Domain<span class="w3l-star"> * </span></label>	
-					<select class="category1" required="">
-						<option></option>
-						<option>java</option>
-					    <option>dotnet</option>
-                        <option>testing</option>						
-                        						
-					
-						
-					</select>
-			</div>-->
-			<div class="w3l-user">
-				<label class="head">Project Name<span class="w3l-star"> * </span></label>
-				<input type="text" name="Athlete's Name" placeholder=""  "required="">
-			</div>
-			<div class="w3l-user">
-				<label class="head">Module Name<span class="w3l-star"> * </span></label>
-				<input type="text" name="Athlete's Name"  placeholder="" required="">
-			</div>
-			<div class="w3l-user">
-				<label class="head">Requirement Name<span class="w3l-star"> * </span></label>
-				<input type="text" name="Athlete's Name"  placeholder="" required="">
-			</div>
-			<div  class="w3l-options1">
-				<label class="head">Assigned To<span class="w3l-star"> * </span></label>	
-					<select class="category1" required="">
-						<option></option>
-						<option>jagfhjva</option>
-					    <option>dodghasgft</option>
-                        <option>teicgdng</option>						
-                        						
-					
-						
-					</select>
-			</div>
-			<div  class="w3l-options1">
-				<label class="head">Assigned By<span class="w3l-star"> * </span></label>	
-					<select class="category1" required="">
-						<option></option>
-						<option>jagfhjva</option>
-					    <option>dodghasgft</option>
-                        <option>teicgdng</option>						
-                        						
-					
-						
-					</select>
-			</div>
-			<div class="w3l-date">
-					<label class="head">Date of Issue<span class="w3l-star"> * </span></label>
-						<div class="styled-input">
-							<input class="date" id="datepicker" name="Text" type="text" value="MM/DD/YYYY" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'MM/DD/YYYY';}" required="">
-						</div><br>
-					</div>
-			
+            <div class="col-sm-8">
+ 
+ 
+   <div class="col-md-9">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+             
+      
+              
+            </div>
+            <!-- /.box-header -->
+           <%
+          
+ 
+      String assignby=request.getParameter("assignby");
+           String assignto=request.getParameter("assignto");
+          
+           String tid=request.getParameter("ticketid");
+           
+           
+           
+           ConnectionSteps steps = new ConnectionSteps();
+  			Connection conn=steps.connection();
+			PreparedStatement pstmt = conn.prepareStatement("select * from notifications where assignedby=? and assignedto=? and ticketid=?");
+           pstmt.setString(1, assignby);
+           pstmt.setString(2, assignto);
+           pstmt.setString(3, tid);
+           ResultSet rs = pstmt.executeQuery();
+           
+           if(rs.next()){
+        	   String subject=rs.getString("subject");
+        	   if(subject.equals("TicketDeclined")){
+        	   
+       
+           %>
+        
+           
+           
+            
+            <div class="box-body no-padding">
+              <div class="mailbox-read-info">
+                <h3><%=subject %></h3><br>
+                <h5>From: <%=assignby%>
+                  
+              </div>
+              <!-- /.mailbox-read-info -->
+           <br><hr color="red">
+              <!-- /.mailbox-controls -->
+              <div class="mailbox-read-message">
+                <p>Hello <%=user.getUsername() %>,</p>
+
+                <p style=color:navy><%=rs.getString("executive") %> declined your ticket issued to <%=assignto %></p>
+          <br>
+          <h5>Ticket details are shown in table below.</h5><br>
+           <div id="table"  class="table-editable">
+             <table  class="table" border="3">
+           <tr>
+         
+        <th>Ticket Description</th>
+		<th>Project Name</th>
+		<th>Module Name</th>
+		<th>Requirement Name</th>
+		<th>Ticket Assigned By</th>
+		<th>Ticket Assigned To</th>
+		<th>Date of Issue</th>
+		</tr>
+		<tr>
 		
+		<td><%=rs.getString("ticketdescription") %></td>
+		<td><%=rs.getString("projectname") %></td>
+		<td><%=rs.getString("modulename") %></td>
+		<%if(rs.getString("requirementname")==null){ %>
+		<td></td>
+		<%}else{ %>
+		<td><%=rs.getString("requirementname") %></td>
+		<%} %>
+		<td><%=assignby%></td>
+		<td><%=assignto%></td>
+		<td><%=rs.getString("dateofissue")%></td>
 		
-		         <div class="w3l-rem"  >
-				
-				<div class="btn center-block"  >
-				
-					<input type="submit" name="submit" value="Submit" />
-				
-				</div>
-			</div>
-			
-		</form>
-	</div>
+		</tr>
+           
+           
+           
+           </table>
+           </div><br>
+              
+
+                <p >Regards,    <%=rs.getString("executive")%></p>
+              </div>
+              <!-- /.mailbox-read-message -->
+            </div>
+            
+            <%}else if(subject.equals("TicketApproved")){
+        	   
+        	   %>
+        	   
+           
+            
+            <div class="box-body no-padding">
+              <div class="mailbox-read-info">
+                <h3><%=subject %></h3><br>
+                <h5>From: <%=rs.getString("empname")%>
+                  
+              </div>
+              <!-- /.mailbox-read-info -->
+             <br><hr color="red">
+              <!-- /.mailbox-controls -->
+              <div class="mailbox-read-message">
+                <p>Hello <%=user.getUsername() %>,</p>
+
+                <p style=color:navy> Ticket was assigned by <%=rs.getString("empname")%></p>
+          <br>
+          <h5>Ticket details are shown in table below.</h5><br>
+           <div id="table"  class="table-editable">
+             <table  class="table" border="3">
+           <tr>
+         
+        <th>Ticket Description</th>
+		<th>Project Name</th>
+		<th>Module Name</th>
+		<th>Requirement Name</th>
+		<th>Ticket Assigned By</th>
+		<th>Ticket Assigned To</th>
+		<th>Date of Issue</th>
+		</tr>
+		<tr>
 		
-</div>		
+		<td><%=rs.getString("ticketdescription") %></td>
+		<td><%=rs.getString("projectname") %></td>
+		<td><%=rs.getString("modulename") %></td>
+		<%if(rs.getString("requirementname")==null){ %>
+		<td></td>
+		<%}else{ %>
+		<td><%=rs.getString("requirementname") %></td>
+		<%} %>
+		<td><%=assignby%></td>
+		<td><%=assignto%></td>
+		<td><%=rs.getString("dateofissue")%></td>
+		
+		</tr>
+           
+           
+           
+           </table>
+           </div><br>
+              
+
+                <p >Regards,   <%=rs.getString("empname")%></p>
+              </div>
+              <!-- /.mailbox-read-message -->
+            </div>
+        	   
+        	   
+        	   <%
+        	   
+            }else{ %>
+           
+            
+            <div class="box-body no-padding">
+              <div class="mailbox-read-info">
+                <h3><%=subject %></h3><br>
+                <h5>From: <%=assignby%>
+                  
+              </div>
+              <!-- /.mailbox-read-info -->
+             <br><hr color="red">
+              <!-- /.mailbox-controls -->
+              <div class="mailbox-read-message">
+                <p>Hello <%=user.getUsername() %>,</p>
+
+                <p style=color:navy> Ticket was  assigned by <%=rs.getString("assignedby") %></p>
+          <br>
+          <h5>Ticket details are shown in table below.</h5><br>
+           <div id="table"  class="table-editable">
+             <table  class="table" border="3">
+           <tr>
+         
+        <th>Ticket Description</th>
+		<th>Project Name</th>
+		<th>Module Name</th>
+		<th>Requirement Name</th>
+		<th>Ticket Assigned By</th>
+		<th>Ticket Assigned To</th>
+		<th>Date of Issue</th>
+		</tr>
+		<tr>
+		
+		<td><%=rs.getString("ticketdescription") %></td>
+		<td><%=rs.getString("projectname") %></td>
+		<td><%=rs.getString("modulename") %></td>
+		<%if(rs.getString("requirementname")==null){ %>
+		<td></td>
+		<%}else{ %>
+		<td><%=rs.getString("requirementname") %></td>
+		<%} %>
+		<td><%=assignby%></td>
+		<td><%=assignto%></td>
+		<td><%=rs.getString("dateofissue")%></td>
+		
+		</tr>
+           
+           
+           
+           </table>
+           </div><br>
+              
+
+                <p >Regards,    <%=rs.getString("assignedby") %></p>
+              </div>
+              <!-- /.mailbox-read-message -->
+            </div> 
+            
+            
+           <!--    <div class="box-body no-padding">
+              <div class="mailbox-read-info">
+                <h3>Message Subject Is Placed Here</h3><br>
+                <h5>From: help@example.com
+                  
+              </div>
+              /.mailbox-read-info
+             <br><hr>
+              /.mailbox-controls
+              <div class="mailbox-read-message">
+                <p>Hello John,</p>
+
+                <p style=color:navy>Ticket was Approved</p>
+                <p>Message body palced here</p>
+                
+
+                <p >Regards,<br>sana</p>
+              </div>
+              /.mailbox-read-message
+            </div> -->
+            <%} }%>
+            
+            <!-- /.box-body -->
+            
+            <!-- /.box-footer -->
+            
+            <!-- /.box-footer -->
+          </div>
+          <!-- /. box -->
+        </div>
+				
             </div>
         </div>
         <!-- page end-->
@@ -481,6 +648,7 @@
 <!--common script init for all pages-->
 <script src="js/scripts.js"></script>
 
+
 <script>
 		$(function() {
 		$( "#datepicker,#datepicker" ).datepicker();
@@ -488,5 +656,8 @@
 	</script>
 		<script type="text/javascript" src="edit/js/jquery-2.1.4.min.js"></script>
 	<script src="edit/js/jquery-ui.js"></script>
+	
+
+
 </body>
 </html>

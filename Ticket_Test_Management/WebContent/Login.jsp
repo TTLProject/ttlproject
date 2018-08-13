@@ -22,18 +22,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 
 <!-- //css files -->
 </head>
-<script>
-							function myFunction() {
-								
-								var r=confirm("Confirm Submission");
-								if(r==true){
-                                return true;
-								}
-								else{
-									return false;
-								}
-							}
-						</script>
+
 <body><br><br><br><br><br>
 	<h3 ><b><strong>Login Form<strong><b></h3>
 <div class="w3l-main">

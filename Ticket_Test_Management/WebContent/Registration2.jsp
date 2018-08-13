@@ -35,23 +35,7 @@ rel="stylesheet">
     }
   }
 </script>
-<script>
-							function myFunction() {
-								
-								var r=confirm("Confirm Submission");
-								if(r==true){
-                                return true;
-								}
-								else{
-									return false;
-								}
-							}
-						</script>
-<script>
 
-    window.history.forward();
-
-</script>
 	
 	
 	

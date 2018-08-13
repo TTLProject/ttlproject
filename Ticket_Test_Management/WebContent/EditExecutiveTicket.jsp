@@ -107,8 +107,8 @@
                      <li ><a href="ExecutiveTestReport.jsp">Prepare TestReport</a></li>
                         <li><a href="ExecutiveTestData.jsp">Prepare TestData </a></li>
                         <li><a href="ExecutiveBugReport.jsp">Prepare BugReport</a></li>
-                        <li><a href="ExecutiveViewTestReport.jsp">ViewTestReport</a></li>
-						 <li><a href="ExecutiveModifyTestReport.jsp">ModifyTestReport</a></li>
+                        <li><a href="ViewExecutiveTestReport.jsp">ViewTestReport</a></li>
+						 <li><a href="ModifyExecutiveTestReport.jsp">ModifyTestReport</a></li>
 						
                     </ul>
                 </li>
