@@ -151,7 +151,7 @@
            
            if(rs.next()){
         	   String subject=rs.getString("subject");
-        	   if(subject.equals("Ticket Declined..")){
+        	   if(subject.equals("TicketDeclined")){
         	   
        
            %>
@@ -213,7 +213,7 @@
               <!-- /.mailbox-read-message -->
             </div>
             
-            <%}else if(subject.equals("Ticket Approved..")){
+            <%}else if(subject.equals("TicketApproved")){
         	   
         	   %>
         	   
@@ -222,7 +222,7 @@
             <div class="box-body no-padding">
               <div class="mailbox-read-info">
                 <h3><%=subject %></h3><br>
-                <h5>From: <%=assignby%>
+                <h5>From: <%=rs.getString("executive")%>
                   
               </div>
               <!-- /.mailbox-read-info -->
@@ -268,7 +268,7 @@
            </div><br>
               
 
-                <p >Regards,    <%=rs.getString("executive") %></p>
+                <p >Regards,   <%=rs.getString("executive") %></p>
               </div>
               <!-- /.mailbox-read-message -->
             </div>

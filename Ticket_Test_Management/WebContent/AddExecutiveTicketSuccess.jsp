@@ -67,7 +67,7 @@
         <div class="leftside-navigation">
             <ul class="sidebar-menu" id="nav-accordion">
                 <li>
-                    <a class="active" href="EditExecutiveProfile.jsp">
+                    <a class="active" href="EditExecutiveProfile.html">
                         <i class="fa fa-pencil"></i>
                         <span>EditProfile</span>
                     </a>
@@ -80,7 +80,7 @@
                     <ul class="sub">
                         <li><a href="#">Add Ticket</a></li>
                         <li><a href="EditExecutiveTicket.jsp">Edit Ticket</a></li>
-                        <li><a href="ViewExecutiveTicket.jsp">View Ticket</a></li>
+                        <li><a href="ViewExecutiveTicket.html">View Ticket</a></li>
                     </ul>
                 </li>
                 
@@ -91,11 +91,11 @@
                         <span>Test Management</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="ExecutiveTestReport.jsp">Prepare TestReport</a></li>
-                        <li><a href="ExecutiveTestData.jsp">Prepare TestData </a></li>
-                        <li><a href="ExecutiveBugReport.jsp">Prepare BugReport</a></li>
-                        <li><a href="ViewExecutiveTestReport.jsp">ViewTestReport</a></li>
-						 <li><a href="ModifyExecutiveTestReport.jsp">ModifyTestReport</a></li>
+                        <li><a href="ExecutiveTestReport.html">Prepare TestReport</a></li>
+                        <li><a href="ExecutiveTestData.html">Prepare TestData </a></li>
+                        <li><a href="ExecutiveBugReport.html">Prepare BugReport</a></li>
+                        <li><a href="ExecutiveViewTestReport.html">ViewTestReport</a></li>
+						 <li><a href="ExecutiveModifyTestReport.html">ModifyTestReport</a></li>
 						
                     </ul>
                 </li>
@@ -271,7 +271,7 @@ else{
 						</div><br>
 					</div>
 			
-		
+			<input type="hidden" name="empname" value=<%=user.getUsername()%>>
 		
 		         <div class="w3l-rem"  >
 				

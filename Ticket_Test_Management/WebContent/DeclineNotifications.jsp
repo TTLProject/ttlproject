@@ -22,7 +22,7 @@ ConnectionSteps steps = new ConnectionSteps();
 		PreparedStatement pstmt = conn.prepareStatement("update notifications set status=?, executive=? ,subject=? where assignedby=? and assignedto=? and ticketid=?");
 		pstmt.setString(1, "declined");
 		pstmt.setString(2, user.getUsername());
-		pstmt.setString(3, "Ticket Declined..");
+		pstmt.setString(3, "TicketDeclined");
 		pstmt.setString(4, assignby);
 		pstmt.setString(5, assignto);
 		pstmt.setString(6, ticketid);

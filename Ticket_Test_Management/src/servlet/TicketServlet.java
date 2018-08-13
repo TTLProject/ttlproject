@@ -30,6 +30,8 @@ public class TicketServlet extends HttpServlet {
 		String assignedBy=request.getParameter("assignedby");
 		String dateOfIssue=request.getParameter("dateofissue");
 		String username=request.getParameter("username");
+		String empname =request.getParameter("empname");
+		
 		Userbean user  = new Userbean();
 		
 		if((ticketId!=null)&&(ticketDescription != null)&&(projectName != null)&&(moduleName != null)&&(assignedTo != null)&&(assignedBy != null)&&(dateOfIssue != null)){
@@ -43,6 +45,7 @@ public class TicketServlet extends HttpServlet {
 			user.setAssignedBy(assignedBy);
 			user.setDateOfIssue(dateOfIssue);
 			user.setUsername(username);
+			user.setEmpname(empname);
 			TicketDao.insert(user);
 			boolean status=user.isValid();
 			if(status) {

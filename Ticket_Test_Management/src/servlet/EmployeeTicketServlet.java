@@ -29,6 +29,7 @@ public class EmployeeTicketServlet extends HttpServlet {
 		String assignedBy=request.getParameter("assignedby");
 		String dateOfIssue=request.getParameter("dateofissue");
 		String username=request.getParameter("username");
+		String empname =request.getParameter("empname");
 		Userbean user  = new Userbean();
 		
 		if((ticketId!=null)&&(ticketDescription != null)&&(projectName != null)&&(moduleName != null)&&(assignedTo != null)&&(assignedBy != null)&&(dateOfIssue != null)){
@@ -42,14 +43,15 @@ public class EmployeeTicketServlet extends HttpServlet {
 			user.setAssignedBy(assignedBy);
 			user.setDateOfIssue(dateOfIssue);
 			user.setUsername(username);
+			user.setEmpname(empname);
 			TicketDao.insert(user);
 			boolean status=user.isValid();
 			if(status) {
 				if((user.getDesignation().equals("softwaretrainee"))||(user.getDesignation().equals("hrdepartment"))||(user.getDesignation().equals("qualityanalyst"))||(user.getDesignation().equals("softwaredeveloper"))) {
+					
+					EmployeeNotification.insert(user);
 					HttpSession session = request.getSession(true);
 					session.setAttribute("session1", user);
-					EmployeeNotification.insert(user);
-				
 			response.sendRedirect("AddEmployeeTicketSuccess.jsp");
 				}
 				else {

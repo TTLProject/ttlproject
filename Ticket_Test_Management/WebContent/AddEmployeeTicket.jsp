@@ -273,7 +273,7 @@ else{
 
                 %>	   				
                         						
-					
+					<input type="hidden" name="empname" value=<%=user.getUsername()%>>
 						
 					</select>
 			</div>

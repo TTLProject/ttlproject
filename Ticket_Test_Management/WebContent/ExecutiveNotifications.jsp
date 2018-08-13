@@ -138,7 +138,7 @@
                    
                    
                    <td><%=i%></td>
-				   <td class="mailbox-name"><b><%=rs.getString("assignedby") %><b></td>
+				   <td class="mailbox-name"><b><%=rs.getString("empname") %><b></td>
                     <td class="mailbox-subject"><a href="ExecutiveReadMail.jsp?assignby=<%=rs.getString("assignedby") %>&assignto=<%=rs.getString("assignedto") %>&ticketid=<%=rs.getString("ticketid") %>" style=color:blue> <b><%=rs.getString("subject") %><b></a>
                     </td>
                     <td class="mailbox-name"><b><%=rs.getString("dateofissue") %><b></td>

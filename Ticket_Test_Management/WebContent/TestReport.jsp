@@ -278,8 +278,7 @@ body {
 						<div class="table-repsonsive">
 							 <input type="submit" name="Delete"
 								class="btn btn-info" value="DeleteRecord" form="insert_form" />&emsp;&emsp;
-                         <input type="button" name="Delete" value="Delete" onClick="deleteSelectedRows()"
-								class="btn btn-info" />
+                         
 
                          
 
@@ -305,6 +304,7 @@ body {
 									<th>Actual Result</th>
 									<th>Status</th>
 									<th>Comment</th>
+									<th></th>
 								</tr>
 								<%
 									/* ConnectionSteps steps1 = new ConnectionSteps();
@@ -742,6 +742,7 @@ body {
 										'.add',
 										function() {
 											var i = 1;
+											
 											var html = '';
 											html += '<tr>';
 											html += '<td contentedible="false"><input type="checkbox"/></td>';
@@ -753,6 +754,10 @@ body {
 											html += '<td class="unselectable"></td>';
 											html += '<td class="unselectable"></td>';
 											html += '<td class="unselectable"></td>';
+											html += '<td><button name="Delete"  class="remove" ><i class="fa fa-trash-o"></i></button></td>';
+											
+											
+											
 
 											i++;
 
@@ -932,10 +937,10 @@ body {
 
 					});
 </script>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	$('[type="button"]').on('click', function() {
 		$('td input:checked').closest('tr').remove();
 	});
-</script>
+</script> -->
 
 

@@ -147,7 +147,7 @@
            
            if(rs.next()){
         	   String subject=rs.getString("subject");
-        	   if(subject.equals("Asking for Approval....")){
+        	   if(subject.equals("AskingforApproval")){
         	   
        
            %>
@@ -157,8 +157,8 @@
             
             <div class="box-body no-padding">
               <div class="mailbox-read-info">
-                <h3><%=subject %></h3><br>
-                <h5>From: <%=assignby%>
+                <h3>Asking for Approval..</h3><br>
+                <h5>From: <%=rs.getString("empname") %>
                   
               </div>
               <!-- /.mailbox-read-info -->
@@ -167,7 +167,7 @@
               <div class="mailbox-read-message">
                 <p>Hello <%=user.getUsername() %>,</p>
 
-                <p style=color:navy><%=assignby %> issued ticket to <%=assignto %></p>
+                <p style=color:navy><%=rs.getString("empname") %> issued ticket to <%=assignto %></p>
           
            <div id="table"  class="table-editable">
              <table  class="table" border="3">
@@ -221,7 +221,7 @@
     
                 <br><br>
 
-                <p >Regards,    <%=assignby %></p>
+                <p >Regards,    <%=rs.getString("empname") %></p>
               </div>
               <!-- /.mailbox-read-message -->
             </div>

@@ -4,7 +4,13 @@ package userbean;
 public class Userbean {
 	private int id,sno;
 
-	private String empid,testcaseid;
+	private String empid,testcaseid,empname;
+	public String getEmpname() {
+		return empname;
+	}
+	public void setEmpname(String empname) {
+		this.empname = empname;
+	}
 	public String getTestcaseid() {
 		return testcaseid;
 	}

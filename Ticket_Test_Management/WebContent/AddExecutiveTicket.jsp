@@ -271,7 +271,7 @@ else{
 						</div><br>
 					</div>
 			
-		
+			<input type="hidden" name="empname" value=<%=user.getUsername()%>>
 		
 		         <div class="w3l-rem"  >
 				

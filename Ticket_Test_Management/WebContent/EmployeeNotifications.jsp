@@ -129,8 +129,9 @@
                    <%ConnectionSteps steps = new ConnectionSteps();
        			Connection conn=steps.connection();
     			PreparedStatement pstmt = conn.prepareStatement("select * from notifications where domain=? and assignedto=? and status=?");
-    			PreparedStatement pstmt1 = conn.prepareStatement("select * from notifications where domain=? and assignedby=? and status=?");
-    			PreparedStatement pstmt2 = conn.prepareStatement("select * from notifications where domain=? and assignedby=? and status=?");
+    			PreparedStatement pstmt1 = conn.prepareStatement("select * from notifications where domain=? and empname=? and status=?");
+    			PreparedStatement pstmt2 = conn.prepareStatement("select * from notifications where domain=? and empname=? and status=?");
+    			PreparedStatement pstmt3 = conn.prepareStatement("select * from notifications where domain=? and assignedto=? and status=?");
     			pstmt.setString(1, user.getDomain());
     			pstmt.setString(2, user.getUsername());
     			pstmt.setString(3, "issued");
@@ -140,9 +141,13 @@
     			pstmt2.setString(1, user.getDomain());
     			pstmt2.setString(2, user.getUsername());
     			pstmt2.setString(3, "approved");
+    			pstmt3.setString(1, user.getDomain());
+    			pstmt3.setString(2, user.getUsername());
+    			pstmt3.setString(3, "approved");
     			ResultSet rs = pstmt.executeQuery();
     			ResultSet rs1 = pstmt1.executeQuery();
     			ResultSet rs2 = pstmt2.executeQuery();
+    			ResultSet rs3 = pstmt3.executeQuery();
     			int i=0;
     			user.setSno(0);
     			while(rs.next()){
@@ -150,7 +155,7 @@
     			user.setSno(i);
     			%>
                    
-                   
+               
                    <td><%=i%></td>
 				   <td class="mailbox-name"><b><%=rs.getString("assignedby") %><b></td>
                     <td class="mailbox-subject"><a href="EmployeeReadMail.jsp?assignby=<%=rs.getString("assignedby") %>&assignto=<%=rs.getString("assignedto") %>&ticketid=<%=rs.getString("ticketid") %>" style=color:blue> <b><%=rs.getString("subject") %><b></a>
@@ -158,7 +163,7 @@
                     <td class="mailbox-name"><b><%=rs.getString("dateofissue") %><b></td>
 					
                     </tr>
-          
+        
                  <!--  <tr>
                     <td>2</td>
                     <td class="mailbox-name"><b>niha</b></td>
@@ -201,17 +206,48 @@
                 	 int n= user.getSno();
                 	 n++;
                 	 %>
-                
+               
                    <td><%=n%></td>
 				   <td class="mailbox-name"><b><%=rs2.getString("executive") %><b></td>
+                    
                     <td class="mailbox-subject"><a href="EmployeeReadMail.jsp?assignby=<%=rs2.getString("assignedby") %>&assignto=<%=rs2.getString("assignedto") %>&ticketid=<%=rs2.getString("ticketid") %>" style=color:blue> <b><%=rs2.getString("subject") %><b></a>
                     </td>
+                  
                     <td class="mailbox-name"><b><%=rs2.getString("dateofissue") %><b></td>
                     </tr>
                     <%
+                    user.setSno(n);
+                } %>
+                 <%
+                  while(rs3.next()){
+                	 int n= user.getSno();
+                	 n++;
+                	 %>
+                
+                   
+				  
+                    <%if(rs3.getString("assignedby").equals(rs3.getString("empname"))){ 
+                    	if(rs3.getString("assignedby").equals(rs3.getString("empname"))){
+                    
+                    %>
+                     <%}else{ %>
+                  <td><%=n%></td>
+                    <td class="mailbox-name"><b><%=rs3.getString("executive") %><b></td>
+                    <td class="mailbox-subject"><a href="EmployeeReadMail.jsp?assignby=<%=rs3.getString("assignedby") %>&assignto=<%=rs3.getString("assignedto") %>&ticketid=<%=rs3.getString("ticketid") %>" style=color:blue> <b><%=rs3.getString("subject") %><b></a>
+                    </td>
+                    <td class="mailbox-name"><b><%=rs3.getString("dateofissue") %><b></td>
+                    <%}}else{ %>
+                  <td><%=n%></td>
+                    <td class="mailbox-name"><b><%=rs3.getString("empname") %><b></td>
+                    <td class="mailbox-subject"><a href="EmployeeReadMail1.jsp?assignby=<%=rs3.getString("assignedby") %>&assignto=<%=rs3.getString("assignedto") %>&ticketid=<%=rs3.getString("ticketid") %>" style=color:blue> <b>Ticket Assigned...<b></a>
+                    </td>
+                     <td class="mailbox-name"><b><%=rs3.getString("dateofissue") %><b></td>
+                    <%} %>
+                   
+                    </tr>
+                    <%
                   
-                 } %>
-                 
+                    }   %>
                          </tr>
                   </tbody>
                 </table>

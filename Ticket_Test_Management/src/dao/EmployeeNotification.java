@@ -13,9 +13,9 @@ public class EmployeeNotification {
 		ConnectionSteps steps =new ConnectionSteps();
 		try {
 			Connection conn= steps.connection();
-			PreparedStatement pstmt=conn.prepareStatement("Insert into notifications(assignedby,subject,assignedto,dateofissue,domain,ticketid,projectname,requirementname,modulename,ticketdescription) values(?,?,?,?,?,?,?,?,?,?)");
+			PreparedStatement pstmt=conn.prepareStatement("Insert into notifications(assignedby,subject,assignedto,dateofissue,domain,ticketid,projectname,requirementname,modulename,ticketdescription,empname) values(?,?,?,?,?,?,?,?,?,?,?)");
 			pstmt.setString(1, user.getAssignedBy());
-			pstmt.setString(2, "Asking for Approval....");
+			pstmt.setString(2, "AskingforApproval");
 		
 			pstmt.setString(3,user.getAssignedTo());
 			pstmt.setString(4, user.getDateOfIssue());
@@ -25,6 +25,7 @@ public class EmployeeNotification {
 			pstmt.setString(8, user.getRequirementName());
 			pstmt.setString(9, user.getModuleName());
 			pstmt.setString(10, user.getTicketDescription());
+			pstmt.setString(11, user.getEmpname());
 			int i = pstmt.executeUpdate();
 			if(i>0) {
 				System.out.println("notification sent to employee");
