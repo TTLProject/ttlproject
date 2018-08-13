@@ -17,17 +17,18 @@
 String projectName=request.getParameter("projectname");
 String requirementName=request.getParameter("requirementname");
 String moduleName=request.getParameter("modulename");
-
+String username= request.getParameter("username");
 System.out.println(projectName);
 System.out.println(requirementName);
 System.out.println(moduleName);
+System.out.println(username);
 
  Userbean user1=new Userbean();
  
  user1.setProjectName(projectName);
  user1.setRequirementName(requirementName);
  user1.setModuleName(moduleName);
- 
+ user1.setUsername(username);
  session.setAttribute("testsession",user1);
  response.sendRedirect("TestReport.jsp");
 

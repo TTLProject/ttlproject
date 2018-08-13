@@ -193,7 +193,7 @@
 
 							</ul></li>
 
-						<li><a href="Notifications.jsp"> <i class="fa fa-bell-o"></i>
+						<li><a href="EmployeeNotifications.jsp"> <i class="fa fa-bell-o"></i>
 								<span>Notifications </span>
 						</a></li>
 

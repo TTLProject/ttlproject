@@ -85,8 +85,10 @@ public class TestReportInsertServlet extends HttpServlet {
 		{
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "ttm", "ttm");
-			String insertQuery = "insert into testreporttable(id,testcaseid,testdescription,precondition,testdesign,expectedresult,projectname,requirementname,modulename) values(?,?,?,?,?,?,?,?,?)";
+			String insertQuery = "insert into testreporttable(testcaseid,testdescription,precondition,testdesign,expectedresult,projectname,requirementname,modulename,username) values(?,?,?,?,?,?,?,?,?)";
 			PreparedStatement pstmt = conn.prepareStatement(insertQuery);
+			
+			
 			
 			/*System.out.println("testcaseid[i]  "+testcaseid[i]);
 			System.out.println("testdescription[i]  "+testdescription[i]);
@@ -96,20 +98,22 @@ public class TestReportInsertServlet extends HttpServlet {
 			System.out.println("user.getProjectName()  "+user.getProjectName());
 			System.out.println("user.getProjectName()  "+user.getRequirementName());
 			System.out.println("user.getProjectName()  "+user.getModuleName());*/
+			System.out.println("Username  "+user1.getUsername());
 			
-			int id = Integer.parseInt(testcaseid[i].split("TC-")[1]);
-			pstmt.setInt(1,id);
-			pstmt.setString(2, testcaseid[i]); 
-			pstmt.setString(3, testdescription[i]);
-			pstmt.setString(4, precondition[i]); 
-			pstmt.setString(5, testdesign[i]);
-			pstmt.setString(6, expectedresult[i]); 
+			//int id = Integer.parseInt(testcaseid[i].split("TC-")[1]);
+			
+			pstmt.setString(1, testcaseid[i]); 
+			pstmt.setString(2, testdescription[i]);
+			pstmt.setString(3, precondition[i]); 
+			pstmt.setString(4, testdesign[i]);
+			pstmt.setString(5, expectedresult[i]); 
 		/*	pstmt.setString(6, actualresult[i]);
 			pstmt.setString(7, status[i]); 
 			pstmt.setString(8, comment[i]);*/
-			pstmt.setString(7, user1.getProjectName());
-			pstmt.setString(8, user1.getRequirementName());
-			pstmt.setString(9, user1.getModuleName());
+			pstmt.setString(6, user1.getProjectName());
+			pstmt.setString(7, user1.getRequirementName());
+			pstmt.setString(8, user1.getModuleName());
+			pstmt.setString(9, user1.getUsername());
 			int n =pstmt.executeUpdate();
 			if(n>0) {
 				

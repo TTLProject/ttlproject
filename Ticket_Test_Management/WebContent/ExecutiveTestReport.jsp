@@ -108,7 +108,7 @@ body {
 				<!--logo start-->
 				<div class="brand">
 
-					<a href="index.jsp" class="logo">
+					<a href="ExecutiveIndex.jsp" class="logo">
 						<h4 style="color: white;">
 							<b><i>Ticket&Test Management</i></b>
 						</h4>
@@ -253,6 +253,9 @@ body {
 								<%
 									}
 								%>
+								
+								<input type="hidden" value=<%=user1.getUsername()%> name="username"/>
+								
 							</select> &emsp;&emsp;&emsp;&nbsp; <input type="submit" name="submit"
 								value="Submit" /><br> <br>
 
@@ -276,19 +279,16 @@ body {
 
 
 
-					<form method="post" action="deleteRecords" id="insert_form">
+					<form method="post"  id="insert_form">
 						<div class="table-repsonsive">
 							<span id="error"></span>
 
-							<!-- 	<form id="delete_form" action="TestReportDeleteRows.jsp"> -->
 
 							<input type="submit" name="Delete" class="btn btn-info" onClick="deleteSelectedRows()"
-								value="DeleteRecord" id="delete_Items" />
+								value="DeleteRecord" form="insert_form" />
 
 
-							<!-- <button type="submit" id="" name="delete"
-									value="DeleteRows" form="delete_form">Delete</button>
-								 -->
+							
 							<br> <br> <b>ProjectName:::</b>
 							<%=user1.getProjectName()%>
 							&emsp;&emsp;<b>RequirementName:::</b>
@@ -357,6 +357,7 @@ body {
 											<%-- data-id=<%=rs1.getInt("id")%> data-column="comments"><%=rs1.getString("comments")%> --%>
 										</div>
 									</td>
+								
 								</tr>
 								<%
 									}
@@ -383,9 +384,7 @@ body {
 						<%
 							}
 						%>
-					
-				</div>
-
+			
 				</form>
 
 
@@ -757,6 +756,7 @@ body {
 											html += '<td class="unselectable"></td>';
 											html += '<td class="unselectable"></td>';
 											html += '<td class="unselectable"></td>';
+										
 											i++;
 
 											$('#item_table').append(html);

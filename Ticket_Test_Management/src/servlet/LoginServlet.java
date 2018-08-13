@@ -48,6 +48,7 @@ public class LoginServlet extends HttpServlet {
 				user1.setRequirementName("empty");
 				user1.setModuleName("empty");
 				user1.setTestcaseid("empty");
+				user1.setUsername(username);
 				
 				
 				Boolean employeestatus = user.isValid();
