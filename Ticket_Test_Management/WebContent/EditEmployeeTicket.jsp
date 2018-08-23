@@ -68,7 +68,7 @@
 </div>
 <!--logo end-->
 <h3 style="color:#fff;" align="center"><b>EditTicket</b></h3>
-<h5 align="right"><a style="color:white;" href="Login.jsp"><i class="fa fa-key"></i><b> Log Out</b></a></h5>
+<h5 align="right"><a style="color:white;" href="Logout.jsp"><i class="fa fa-key"></i><b> Log Out</b></a></h5>
 </div>
 
 </header>
@@ -768,7 +768,7 @@ if((status==null)||(status.equals("Assign"))){
 	   update_data(id, column_name, value);
 	  });
  
-  $(document).on('blur', '.update5', function(){
+  $(document).on('change', '.update5', function(){
 	  var tr = $(this).closest("tr");
 	   var id = $(this).data("id");
 	   var column_name = $(this).data("column");

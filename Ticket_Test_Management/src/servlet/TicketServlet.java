@@ -49,14 +49,11 @@ public class TicketServlet extends HttpServlet {
 			TicketDao.insert(user);
 			boolean status=user.isValid();
 			if(status) {
-				HttpSession session = request.getSession(true);
-				session.setAttribute("session2", user);
-			
+				
 				ExecutiveNotification.insert(user);
 			response.sendRedirect("AddExecutiveTicketSuccess.jsp");
 			}else {
-				HttpSession session = request.getSession(true);
-				session.setAttribute("session2", user);
+				
 				response.sendRedirect("AddExecutiveTicket.jsp");
 			}
 		}

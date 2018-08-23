@@ -51,7 +51,7 @@
 	
 </div>
 <!--logo end-->
-<h5 align="right"><a style="color:white;" href="Login.jsp"><i class="fa fa-key"></i><b> Log Out</b></a></h5>
+<h5 align="right"><a style="color:white;" href="Logout.jsp"><i class="fa fa-key"></i><b> Log Out</b></a></h5>
 
 
 </header>

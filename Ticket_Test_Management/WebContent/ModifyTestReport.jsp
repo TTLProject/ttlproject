@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<%@page import="java.util.Iterator"%>
+<%@page import="java.util.HashSet"%>
+<%@page import="userbean.Userbean"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="dao.ConnectionSteps"%>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -59,7 +66,24 @@
 </head>
 
 <body>
+<%
+		Userbean user = (Userbean) session.getAttribute("session1");
+Userbean user1 = (Userbean) session.getAttribute("modifysession");
+String pname=request.getParameter("projectname");
+String rname=request.getParameter("requirementname");
+String mname= request.getParameter("modulename");
 
+if(pname==null){
+	pname="none";
+}
+if(rname==null){
+	rname="";
+}
+if(mname==null){
+	mname="none";
+}
+	%>
+	%>
 <section id="container" >
 <!--header start-->
 <header class="header fixed-top clearfix">
@@ -78,7 +102,7 @@
 
 
 <h3 style="color:#fff;" align="center"><b>ModifyTestReport</b></h3>
-<h5 align="right"><a style="color:white;" href="Login.jsp"><i class="fa fa-key"></i><b> Log Out</b></a></h5>
+<h5 align="right"><a style="color:white;" href="Logout.jsp"><i class="fa fa-key"></i><b> Log Out</b></a></h5>
 </div>
 </header>
 <!--header end-->
@@ -140,11 +164,184 @@
     <section id="main-content">
         <section class="wrapper">
         <!-- page start-->
-<br><br>
+<div id="div1">
+					<%
+						
+						/* 
+						Userbean user2 = (Userbean) session.getAttribute("modifysession1");
+						Userbean user3 = (Userbean) session.getAttribute("modifysession2"); */
+						String  modulename = "none", requirementname = "none", projectname = "none";
 			
+					%>
+					<%
+						ConnectionSteps steps = new ConnectionSteps();
+						Connection conn = steps.connection();
+						
+					%>
+				
+					<div class="card-header">
 
-<br>
-<br>
+
+						Project Name:&emsp;&emsp;&nbsp;&emsp;<select id="meetingPlace1" style="width:200px; overflow:hidden">
+							<option>------select project name------</option>
+							<table>
+								<%
+									PreparedStatement pstmt2 = conn.prepareStatement("select * from testreporttable where username=?");
+									pstmt2.setString(1, user.getUsername());
+									ResultSet rs2 = pstmt2.executeQuery();
+									HashSet<String> hs1 = new HashSet();
+									while (rs2.next()) {
+										hs1.add(rs2.getString("projectname"));
+									}
+									Iterator<String> itr1 = hs1.iterator();
+									while (itr1.hasNext()) {
+										String proname = itr1.next();
+								%>
+								<tr>
+									<option value=<%=proname%>><%=proname%></option>
+								</tr>
+								<%
+									}
+								%>
+							</table>
+						</select> &emsp;&emsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<%
+							if (user1 == null) {
+
+							} else if (user1.getProjectName().equals("none")) {
+							} else {
+						%>
+						<%-- <input type="text" value=<%=user1.getProjectName()%>
+							readonly="readonly"> --%>
+							<br>
+							<span  style="color:blue">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+							<%=user1.getProjectName() %></span>
+						<%
+							}
+						%>
+						
+						
+						<br> <br> Module Name:&emsp;&emsp;&nbsp;&nbsp;
+						<select id="meetingPlace2" style="width:200px; overflow:hidden">
+							<option>------select module name-----</option>
+							<table>
+								<%
+									PreparedStatement pstmt3 = conn
+											.prepareStatement("select * from testreporttable where username=? and projectname=?");
+									pstmt3.setString(1, user.getUsername());
+
+									// System.out.print(user2.getProjectName());
+									if (user1 == null) {
+										pstmt3.setString(2, projectname);
+									} else if (user1.getProjectName().equals("none")) {
+
+										pstmt3.setString(2, projectname);
+									} else {
+										pstmt3.setString(2, user1.getProjectName());
+									}
+
+									ResultSet rs3 = pstmt3.executeQuery();
+									HashSet<String> hs2 = new HashSet();
+									while (rs3.next()) {
+										hs2.add(rs3.getString("modulename"));
+									}
+									Iterator<String> itr2 = hs2.iterator();
+									while (itr2.hasNext()) {
+										String modname = itr2.next();
+								%>
+								<tr>
+									<option value=<%=modname%>><%=modname%></option>
+								</tr>
+								<%
+									}
+								%>
+							</table>
+						</select> 
+						
+						&emsp;&emsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<%
+							if (user1 == null) {
+
+							} else if (user1.getModuleName().equals("none")) {
+							} else {
+						%>
+						<%-- <input type="text" value=<%=user1.getModuleName()%>
+							readonly="readonly"> --%>
+							<br>
+							<span  style="color:blue">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+							<%=user1.getModuleName() %></span>
+						<%
+							}
+						%>
+		<form action="ModifyTestReport.jsp" method="post">
+						<br>   Requirement
+						Name:&nbsp;<select id="meetingPlace3" style="width:200px; overflow:hidden">
+							<option>--select requirement name--</option>
+							<%
+								PreparedStatement pstmt4 = conn.prepareStatement(
+										"select * from testreporttable where username=? and projectname=? and modulename=? ");
+								pstmt4.setString(1, user.getUsername());
+								if (user1 == null) {
+									pstmt4.setString(2, projectname);
+								} else if (user1.getProjectName().equals("none")) {
+									pstmt4.setString(2, projectname);
+
+								} else {
+									pstmt4.setString(2, user1.getProjectName());
+								}
+
+								if (user1 == null) {
+									pstmt4.setString(3, modulename);
+								} else if (user1.getModuleName().equals("none")) {
+									pstmt4.setString(3, modulename);
+								} else {
+									pstmt4.setString(3, user1.getModuleName());
+								}
+								ResultSet rs4 = pstmt4.executeQuery();
+								HashSet<String> hs3 = new HashSet();
+								while (rs4.next()) {
+									hs3.add(rs4.getString("requirementname"));
+								}
+								Iterator<String> itr3 = hs3.iterator();
+								while (itr3.hasNext()) {
+									String reqname = itr3.next();
+							%>
+							<tr>
+								<option value=<%=reqname%>><%=reqname%></option>
+							</tr>
+							<%
+								}
+							%>
+							</table>
+
+						</select>
+				
+							&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<%
+								if (user1 == null) {
+
+								} else if (user1.getRequirementName().equals("none")) {
+								} else {
+							%>
+							<input type="hidden" name="projectname"
+								value=<%=user1.getProjectName()%>> <input type="hidden"
+								name="modulename" value=<%=user1.getModuleName()%>> <input
+								type="hidden" name="username" value=<%=user1.getUname()%>>
+							<input type="hidden" value=<%=user1.getRequirementName()%> name="requirementname"
+								readonly="readonly">
+								<br>
+							<span  style="color:blue">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+							<%=user1.getRequirementName() %></span>
+							<%
+								}
+							%>
+							<br>
+							&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+							&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="submit" name="submit" />
+						</form>
+					</div>
+				</div>
+				<br>
 
 <table id="customers">
       <tr>
@@ -156,37 +353,56 @@
 		<th>ActualResult</th>
 		<th>Status</th>
 		<th>Comment</th>
-		     
+		<form action="ModifyEmployeeServlet" method="post">
       </tr>
+       <%
        
+PreparedStatement pstmt5 = conn.prepareStatement("select * from testreporttable where username=?  and projectname=? and requirementname=? and modulename=? and report=?");
+
+pstmt5.setString(1, user.getUsername());
+pstmt5.setString(2, pname);
+pstmt5.setString(3, rname);
+pstmt5.setString(4, mname);
+pstmt5.setString(5, "modify");
+ResultSet rs5 = pstmt5.executeQuery();
+ while(rs5.next()){      
+       %>
 	  <tr>
-        <td contenteditable=true >Tc-001</td>
-        <td contenteditable=true>stisjdhdsgfjgj</td>
-		 <td contenteditable=true>dev</td>
-		  <td contenteditable=true>svsdt</td>
-		   <td contenteditable=true>ndsfnsm</td>
-		    <td contenteditable=false>sdvsdv</td>
-			 <td contenteditable=false >haaa</td>
-			 <td contenteditable=false >ashdgsah</td>
-			 
-			 
+        <td ><%=rs5.getString("testcaseid") %></td>
+        <td ><textarea rows="1" name="testdescription[]"><%=rs5.getString("testdescription") %></textarea></td>
+		 <td><textarea rows="1" name="precondition[]"><%=rs5.getString("precondition") %></textarea></td>
+		  <td><textarea rows="1" name="testdesign[]"><%=rs5.getString("testdesign") %></textarea></td>
+		   <td><textarea rows="1" name="expectedresult[]"><%=rs5.getString("expectedresult") %></textarea></td>
+		    <%if(rs5.getString("actualresult")==null){ %>
+		      <td></td>
+		    <%}else{ %>
+		    <td class="unselectable"><%=rs5.getString("actualresult") %></td>
+		    <%} %>
+		    <%if(rs5.getString("status")==null){ %>
+		    <td></td>
+		    <%}else{ %>
+		    
+			 <td class="unselectable"><%=rs5.getString("status") %></td>
+			 <%} %>
+			  <%if(rs5.getString("comments")==null){ %>
+		      <td></td>
+		    <%}else{ %>
+			 <td class="unselectable"><%=rs5.getString("comments") %></td>
+			 <%} %>
+			 <input type="hidden" name="id[]" value=<%=rs5.getString("id") %>>
 			  
       </tr>
       <!-- This is our clonable table line -->
-      
+  <%} %>    
     </table><br> <br>
 
-	<form>
-	<p align="right">
-  <input type="button" name="submit" value="Submit" />
+<p align="right">
+  <input type="submit" name="submit" value="Submit" />
   
 </p>
-	
 	</form>
-		
-		
-		
-		
+	
+	
 		
         <div class="row">
             <div class="col-sm-12">
@@ -476,3 +692,114 @@
 
 </body>
 </html>
+<script type="text/javascript" language="javascript">
+	$(document).ready(function() {
+		/* function update_data1(id, column_name, value)
+		 {
+		 $.ajax({
+		 url:"Modify.jsp",
+		 method:"POST",
+		 data:{id:id, column_name:column_name, value:value},
+		 success:function(data)
+		 {
+		 //$("#btn").load("EditExecutiveTicket.jsp #btn");
+		 location.reload();
+		
+		 }
+		 });
+
+		 }
+		 $(document).on('blur', '.update5', function(){
+		 var tr = $(this).closest("tr");
+		 var id = $(this).data("id");
+		 var column_name = $(this).data("column");
+		 var value = tr.find('.update5').val();
+		 update_data1(id, column_name, value);
+		 }); */
+
+		$("#meetingPlace").on("change", function() {
+			var value = $(this).val();
+
+			update_data1(value);
+		});
+		function update_data1(value) {
+			$.ajax({
+				url : "Modify.jsp",
+				method : "POST",
+				data : {
+					value : value
+				},
+				success : function(data) {
+					// 	$("#div1").load("NewFile.jsp #div1");
+
+					location.reload();
+
+				}
+			});
+
+		}
+
+		$("#meetingPlace1").on("change", function() {
+			var value1 = $(this).val();
+
+			update_data(value1);
+		});
+		function update_data(value1) {
+			$.ajax({
+				url : "Modify1-1.jsp",
+				method : "POST",
+				data : {
+					value1 : value1
+				},
+				success : function(data) {
+					//$("#div2").load("NewFile.jsp #div2");
+					location.reload();
+
+				}
+			});
+
+		}
+
+		$("#meetingPlace2").on("change", function() {
+			var value2 = $(this).val();
+
+			update_data2(value2);
+		});
+		function update_data2(value2) {
+			$.ajax({
+				url : "Modify2.jsp",
+				method : "POST",
+				data : {
+					value2 : value2
+				},
+				success : function(data) {
+					//	$("#div3").load("NewFile.jsp #div3");
+					location.reload();
+
+				}
+			});
+
+		}
+		$("#meetingPlace3").on("change", function() {
+			var value2 = $(this).val();
+
+			update_data3(value2);
+		});
+		function update_data3(value2) {
+			$.ajax({
+				url : "Modify3.jsp",
+				method : "POST",
+				data : {
+					value2 : value2
+				},
+				success : function(data) {
+					//	$("#div3").load("NewFile.jsp #div3");
+					location.reload();
+
+				}
+			});
+
+		}
+
+	});
+</script>

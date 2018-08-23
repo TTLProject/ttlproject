@@ -4,7 +4,19 @@ package userbean;
 public class Userbean {
 	private int id,sno;
 
-	private String empid,testcaseid,empname;
+	private String empid,testcaseid,empname,uname,table;
+	public String getTable() {
+		return table;
+	}
+	public void setTable(String table) {
+		this.table = table;
+	}
+	public String getUname() {
+		return uname;
+	}
+	public void setUname(String uname) {
+		this.uname = uname;
+	}
 	public String getEmpname() {
 		return empname;
 	}

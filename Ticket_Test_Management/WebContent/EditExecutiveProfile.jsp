@@ -69,7 +69,7 @@ $('#confirm_password').keyup(function(){
     </div>
 </div>
 <!--logo end-->
-<h5 align="right"><a style="color:white;" href="Login.jsp"><i class="fa fa-key"></i><b> Log Out</b></a></h5>
+<h5 align="right"><a style="color:white;" href="Logout.jsp"><i class="fa fa-key"></i><b> Log Out</b></a></h5>
 <h2 align="center" style=color:white>Edit Profile</h2>
 
 </header>
