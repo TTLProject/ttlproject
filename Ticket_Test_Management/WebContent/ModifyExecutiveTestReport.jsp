@@ -114,7 +114,7 @@ $(document).ready(function() {
 		
 		$( this ).css( "background-color", "#cacaca" );
 				
-     	$('#destinationtable tr:last').after('<tr id="dest' + theid + '"><td><input type="text" name="testcaseid[]"  value=' 
+     	$('#destinationtable tr:last').after('<tr id="dest' + theid + '"  class="shifts_clickable"><td><input type="text" readonly="readonly" name="testcaseid[]"  value=' 
 		                               + $(this).find("td").eq(0).html() + ' /></td><td><textarea rows="1" name="testdescription[]">' 
 		                               + $(this).find("td").eq(1).html() + '</textarea></td><td><textarea rows="1" name="precondition[]">' 
 		                               + $(this).find("td").eq(2).html() + '</textarea></td><td><textarea rows="1" name="testdesign[]">' 
@@ -546,7 +546,7 @@ if(mname==null){
 
 					<table id="destinationtable" border="1">
 						<thead>
-							<tr>
+							<tr class="shifts_clickable">
 								<th>TestCase Id</th>
 								<th>TestDescription</th>
 								<th>Precondition</th>
