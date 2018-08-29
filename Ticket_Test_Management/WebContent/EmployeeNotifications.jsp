@@ -56,7 +56,7 @@
 <!--logo end-->
 
 <h2 align="center" style=color:white>Notifications</h2>
-<h5 align="right"><a style="color:white;" href="Logout.jsp"><i class="fa fa-key"></i><b> Log Out</b></a></h5>
+<h5 align="right"><a style="color:white;" href="Login.jsp"><i class="fa fa-key"></i><b> Log Out</b></a></h5>
 </header>
 <!--header end-->
 <aside>
@@ -125,45 +125,103 @@
                 <table class="table table-hover table-striped" border=2>
 			
                   <tbody>
-                  <tr>
+                 
                    <%ConnectionSteps steps = new ConnectionSteps();
        			Connection conn=steps.connection();
-    			PreparedStatement pstmt = conn.prepareStatement("select * from notifications where domain=? and assignedto=? and status=?");
-    			PreparedStatement pstmt1 = conn.prepareStatement("select * from notifications where domain=? and empname=? and status=?");
-    			PreparedStatement pstmt2 = conn.prepareStatement("select * from notifications where domain=? and empname=? and status=?");
-    			PreparedStatement pstmt3 = conn.prepareStatement("select * from notifications where domain=? and assignedto=? and status=?");
+    			PreparedStatement pstmt = conn.prepareStatement("select * from notifications where domain=?");
     			pstmt.setString(1, user.getDomain());
-    			pstmt.setString(2, user.getUsername());
-    			pstmt.setString(3, "issued");
-    			pstmt1.setString(1, user.getDomain());
-    			pstmt1.setString(2, user.getUsername());
-    			pstmt1.setString(3, "declined");
-    			pstmt2.setString(1, user.getDomain());
-    			pstmt2.setString(2, user.getUsername());
-    			pstmt2.setString(3, "approved");
-    			pstmt3.setString(1, user.getDomain());
-    			pstmt3.setString(2, user.getUsername());
-    			pstmt3.setString(3, "approved");
+    			
     			ResultSet rs = pstmt.executeQuery();
-    			ResultSet rs1 = pstmt1.executeQuery();
-    			ResultSet rs2 = pstmt2.executeQuery();
-    			ResultSet rs3 = pstmt3.executeQuery();
+    			
     			int i=0;
     			user.setSno(0);
+    			String check="true";
     			while(rs.next()){
+    		if(check.equals("true")){
     			i++;
-    			user.setSno(i);
+    		}
+    		else{
+    			
+    		}
     			%>
-                   
+    			<tr>
+    			<%
+    			if((rs.getString("assignedto").equals(user.getUsername())) && (rs.getString("status").equals("issued"))){
+    				check="true";
+               %>
                
-                   <td><%=i%></td>
+                  <td><%=i%></td>
 				   <td class="mailbox-name"><b><%=rs.getString("assignedby") %><b></td>
+				   <%
+				   if(rs.getString("subject").equals("TicketAssigned")){
+				   %>
+                    <td class="mailbox-subject"><a href="EmployeeReadMail.jsp?assignby=<%=rs.getString("assignedby") %>&assignto=<%=rs.getString("assignedto") %>&ticketid=<%=rs.getString("ticketid") %>" style=color:blue> <b><%=rs.getString("subject") %><b></a>
+                   </td>
+                   <%}else if(rs.getString("subject").equals("ApprovedReport")){ %>
+                   <td class="mailbox-subject"><a href="EmployeeReadMail.jsp?assignby=<%=rs.getString("assignedby") %>&assignto=<%=rs.getString("assignedto") %>&ticketid=<%=rs.getString("ticketid") %>" style=color:blue> <b>Test Cases Approved<b></a>
+                   </td>
+                   
+                  <%}else{ %>  
+                   
+                    
+                    <td class="mailbox-subject"><a href="EmployeeReadMail.jsp?assignby=<%=rs.getString("assignedby") %>&assignto=<%=rs.getString("assignedto") %>&ticketid=<%=rs.getString("ticketid") %>" style=color:blue> <b>Check your Modifications<b></a>
+                    </td>
+                    <%} %>
+                    <td class="mailbox-name"><b><%=rs.getString("dateofissue") %><b></td>
+					
+                  
+        <%}else if((rs.getString("empname").equals(user.getUsername()))&&(rs.getString("status").equals("declined"))){
+        	check="true";
+        %>
+         <td><%=i%></td>
+				   <td class="mailbox-name"><b><%=rs.getString("executive") %><b></td>
                     <td class="mailbox-subject"><a href="EmployeeReadMail.jsp?assignby=<%=rs.getString("assignedby") %>&assignto=<%=rs.getString("assignedto") %>&ticketid=<%=rs.getString("ticketid") %>" style=color:blue> <b><%=rs.getString("subject") %><b></a>
                     </td>
                     <td class="mailbox-name"><b><%=rs.getString("dateofissue") %><b></td>
-					
-                    </tr>
+                
         
+        <%}else if((rs.getString("empname").equals(user.getUsername()))&&(rs.getString("status").equals("approved"))){ 
+        
+        check="true";%>
+        <td><%=i%></td>
+				   <td class="mailbox-name"><b><%=rs.getString("executive") %><b></td>
+                    
+                    <td class="mailbox-subject"><a href="EmployeeReadMail.jsp?assignby=<%=rs.getString("assignedby") %>&assignto=<%=rs.getString("assignedto") %>&ticketid=<%=rs.getString("ticketid") %>" style=color:blue> <b><%=rs.getString("subject") %><b></a>
+                    </td>
+                  
+                    <td class="mailbox-name"><b><%=rs.getString("dateofissue") %><b></td>
+                 
+         <%}else if((rs.getString("assignedto").equals(user.getUsername()))&&(rs.getString("status").equals("approved"))){ 
+         
+         check="true";%>
+        
+        <%if(rs.getString("assignedby").equals(rs.getString("empname"))){ 
+                    	if(rs.getString("assignedby").equals(rs.getString("empname"))){
+                    
+                    %>
+                     <%}else{ %>
+          <td><%=i%></td>
+                    <td class="mailbox-name"><b><%=rs.getString("executive") %><b></td>
+                    <td class="mailbox-subject"><a href="EmployeeReadMail.jsp?assignby=<%=rs.getString("assignedby") %>&assignto=<%=rs.getString("assignedto") %>&ticketid=<%=rs.getString("ticketid") %>" style=color:blue> <b><%=rs.getString("subject") %><b></a>
+                    </td>
+                    <td class="mailbox-name"><b><%=rs.getString("dateofissue") %><b></td>
+                    <%}}else{ %>
+                  <td><%=i%></td>
+                    <td class="mailbox-name"><b><%=rs.getString("empname") %><b></td>
+                    <td class="mailbox-subject"><a href="EmployeeReadMail1.jsp?assignby=<%=rs.getString("assignedby") %>&assignto=<%=rs.getString("assignedto") %>&ticketid=<%=rs.getString("ticketid") %>" style=color:blue> <b>Ticket Assigned...<b></a>
+                    </td>
+                     <td class="mailbox-name"><b><%=rs.getString("dateofissue") %><b></td>
+                     <%
+                  
+                    }   %>
+                     <%}else{
+                    	 check="false";
+                     }
+    			
+    			%>
+    			</tr>
+    			<%
+    			}%>
                  <!--  <tr>
                     <td>2</td>
                     <td class="mailbox-name"><b>niha</b></td>
@@ -184,71 +242,8 @@
                   </tr>
                   -->
                 
-                 <%}
-    			
-    			while(rs1.next()){
-                	 int n= user.getSno();
-                	 n++;
-                	 %>
-                
-                   <td><%=n%></td>
-				   <td class="mailbox-name"><b><%=rs1.getString("executive") %><b></td>
-                    <td class="mailbox-subject"><a href="EmployeeReadMail.jsp?assignby=<%=rs1.getString("assignedby") %>&assignto=<%=rs1.getString("assignedto") %>&ticketid=<%=rs1.getString("ticketid") %>" style=color:blue> <b><%=rs1.getString("subject") %><b></a>
-                    </td>
-                    <td class="mailbox-name"><b><%=rs1.getString("dateofissue") %><b></td>
-                    </tr>
-                    <%
-                    user.setSno(n);
-    			}%>
-    			<%
                  
-                 while(rs2.next()){
-                	 int n= user.getSno();
-                	 n++;
-                	 %>
-               
-                   <td><%=n%></td>
-				   <td class="mailbox-name"><b><%=rs2.getString("executive") %><b></td>
-                    
-                    <td class="mailbox-subject"><a href="EmployeeReadMail.jsp?assignby=<%=rs2.getString("assignedby") %>&assignto=<%=rs2.getString("assignedto") %>&ticketid=<%=rs2.getString("ticketid") %>" style=color:blue> <b><%=rs2.getString("subject") %><b></a>
-                    </td>
-                  
-                    <td class="mailbox-name"><b><%=rs2.getString("dateofissue") %><b></td>
-                    </tr>
-                    <%
-                    user.setSno(n);
-                } %>
-                 <%
-                  while(rs3.next()){
-                	 int n= user.getSno();
-                	 n++;
-                	 %>
-                
                    
-				  
-                    <%if(rs3.getString("assignedby").equals(rs3.getString("empname"))){ 
-                    	if(rs3.getString("assignedby").equals(rs3.getString("empname"))){
-                    
-                    %>
-                     <%}else{ %>
-                  <td><%=n%></td>
-                    <td class="mailbox-name"><b><%=rs3.getString("executive") %><b></td>
-                    <td class="mailbox-subject"><a href="EmployeeReadMail.jsp?assignby=<%=rs3.getString("assignedby") %>&assignto=<%=rs3.getString("assignedto") %>&ticketid=<%=rs3.getString("ticketid") %>" style=color:blue> <b><%=rs3.getString("subject") %><b></a>
-                    </td>
-                    <td class="mailbox-name"><b><%=rs3.getString("dateofissue") %><b></td>
-                    <%}}else{ %>
-                  <td><%=n%></td>
-                    <td class="mailbox-name"><b><%=rs3.getString("empname") %><b></td>
-                    <td class="mailbox-subject"><a href="EmployeeReadMail1.jsp?assignby=<%=rs3.getString("assignedby") %>&assignto=<%=rs3.getString("assignedto") %>&ticketid=<%=rs3.getString("ticketid") %>" style=color:blue> <b>Ticket Assigned...<b></a>
-                    </td>
-                     <td class="mailbox-name"><b><%=rs3.getString("dateofissue") %><b></td>
-                    <%} %>
-                   
-                    </tr>
-                    <%
-                  
-                    }   %>
-                         </tr>
                   </tbody>
                 </table>
                 <!-- /.table -->

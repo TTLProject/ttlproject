@@ -353,54 +353,90 @@ if(mname==null){
 		<th>ActualResult</th>
 		<th>Status</th>
 		<th>Comment</th>
-		<form action="ModifyEmployeeServlet" method="post">
+
       </tr>
        <%
        
-PreparedStatement pstmt5 = conn.prepareStatement("select * from testreporttable where username=?  and projectname=? and requirementname=? and modulename=? and report=?");
+PreparedStatement pstmt5 = conn.prepareStatement("select * from duplicatetable where username=? and projectname=? and modulename=? and requirementname=? order by id");
 
 pstmt5.setString(1, user.getUsername());
-pstmt5.setString(2, pname);
-pstmt5.setString(3, rname);
-pstmt5.setString(4, mname);
-pstmt5.setString(5, "modify");
+pstmt5.setString(2,pname);
+pstmt5.setString(3,mname);
+pstmt5.setString(4,rname);
+
 ResultSet rs5 = pstmt5.executeQuery();
- while(rs5.next()){      
+
+ while(rs5.next()){   
+	 if(rs5.getString("testid").equals("red")||rs5.getString("testdescription").equals("red")||rs5.getString("precondition").equals("red")||rs5.getString("testdesign").equals("red")||rs5.getString("expectedresult").equals("red")||rs5.getString("actualresult").equals("red")||rs5.getString("status").equals("red")||rs5.getString("comments").equals("red")){
+	 PreparedStatement pstmt6 = conn.prepareStatement("select * from testreporttable where id=?");
+	
+	 pstmt6.setInt(1, rs5.getInt("id"));
+	 ResultSet rs6 = pstmt6.executeQuery();
+	 if(rs6.next()){
        %>
 	  <tr>
-        <td ><%=rs5.getString("testcaseid") %></td>
-        <td ><textarea rows="1" name="testdescription[]"><%=rs5.getString("testdescription") %></textarea></td>
-		 <td><textarea rows="1" name="precondition[]"><%=rs5.getString("precondition") %></textarea></td>
-		  <td><textarea rows="1" name="testdesign[]"><%=rs5.getString("testdesign") %></textarea></td>
-		   <td><textarea rows="1" name="expectedresult[]"><%=rs5.getString("expectedresult") %></textarea></td>
-		    <%if(rs5.getString("actualresult")==null){ %>
-		      <td></td>
+	  <%if(rs5.getString("testid").equals("red")){ %>
+	     <td bgcolor="#FF0000" style="color:white" class="testcaseid"><%=rs6.getString("testcaseid") %></td>
+	     <%}else{ %>
+        <td class="testcaseid"><%=rs6.getString("testcaseid") %></td>
+        <%} %>
+         <%if(rs5.getString("testdescription").equals("red")){ %>
+        <td bgcolor="#FF0000" style="color:white" class="testdescription" contenteditable="true"><%=rs6.getString("testdescription") %></td>
+        <%}else{ %>
+        <td class="testdescription" contenteditable="true"><%=rs6.getString("testdescription") %></td>
+        <%} %>
+        <%if(rs5.getString("precondition").equals("red")){ %>
+         <td bgcolor="#FF0000" style="color:white" class="precondition" contenteditable="true"><%=rs6.getString("precondition") %></td>
+         <%}else{ %>
+		 <td class="precondition" contenteditable="true"><%=rs6.getString("precondition") %></td>
+		 <%} %>
+		     <%if(rs5.getString("testdesign").equals("red")){ %>
+		       <td bgcolor="#FF0000" style="color:white" class="testdesign" contenteditable="true"><%=rs6.getString("testdesign") %></td>
+		       <%}else{ %>
+		  <td class="testdesign" contenteditable="true"><%=rs6.getString("testdesign") %></td>
+		  <%} %>
+		  
+		    <%if(rs5.getString("expectedresult").equals("red")){ %>
+		   <td  bgcolor="#FF0000" style="color:white" class="expectedresult" contenteditable="true"><%=rs6.getString("expectedresult") %></td>
+		   <%}else{ %>
+		      <td class="expectedresult" contenteditable="true"><%=rs6.getString("expectedresult") %></td>
+		      <%} %>
+		    <%if(rs6.getString("actualresult")==null){ %>
+		      <td ></td>
 		    <%}else{ %>
-		    <td class="unselectable"><%=rs5.getString("actualresult") %></td>
+		    <td class="unselectable"><%=rs6.getString("actualresult") %></td>
 		    <%} %>
-		    <%if(rs5.getString("status")==null){ %>
+		    <%if(rs6.getString("status")==null){ %>
 		    <td></td>
 		    <%}else{ %>
 		    
-			 <td class="unselectable"><%=rs5.getString("status") %></td>
+			 <td class="unselectable"><%=rs6.getString("status") %></td>
 			 <%} %>
-			  <%if(rs5.getString("comments")==null){ %>
+			  <%if(rs6.getString("comments")==null){ %>
+			   <%if(rs5.getString("comments").equals("red")){ %>
+		      <td  bgcolor="#FF0000" style="color:white"></td>
+		      <%}else{ %>
 		      <td></td>
+		      <%} %>
 		    <%}else{ %>
-			 <td class="unselectable"><%=rs5.getString("comments") %></td>
-			 <%} %>
-			 <input type="hidden" name="id[]" value=<%=rs5.getString("id") %>>
+		    <%if(rs5.getString("comments").equals("red")){ %>
+			 <td class="unselectable" bgcolor="#FF0000" style="color:white"><%=rs6.getString("comments") %></td>
+			 <%}else{ %>
+			  <td class="unselectable"><%=rs6.getString("comments") %></td>
+			 <%}} %>
+			  <td style="display:none;" class="id"><%=rs6.getString("id")%></td>
+			 <input type="hidden" name="id[]" value=<%=rs6.getString("id") %>>
 			  
       </tr>
       <!-- This is our clonable table line -->
-  <%} %>    
+  <%}} }%>    
     </table><br> <br>
 
 <p align="right">
-  <input type="submit" name="submit" value="Submit" />
+  <button type="button" name="save" id="save" class="btn btn-info">Submit</button>
   
 </p>
-	</form>
+
 	
 	
 		
@@ -694,6 +730,46 @@ ResultSet rs5 = pstmt5.executeQuery();
 </html>
 <script type="text/javascript" language="javascript">
 	$(document).ready(function() {
+		$('#save').click(function(){
+			 
+			  var testdescription = [];
+			  var precondition = [];
+			  var testdesign = [];
+			  var expectedresult = [];
+			  var id = [];
+		
+				  $('.testdescription').each(function(){
+					
+					  testdescription.push($(this).text());
+					 
+				  });
+				  $('.precondition').each(function(){
+					  
+					  precondition.push($(this).text());
+				  });
+				  $('.testdesign').each(function(){
+					 
+					  testdesign.push($(this).text());
+				  });
+				  $('.expectedresult').each(function(){
+					 
+					  expectedresult.push($(this).text());
+				  });
+				  $('.id').each(function(){
+					  id.push($(this).text());
+				  });
+		
+				  $.ajax({
+					   url:"ModifyEmployeeServlet",
+					   method:"POST",
+					   data:{testdescription:testdescription, precondition:precondition, testdesign:testdesign, expectedresult:expectedresult, id:id},
+					   success:function(data){
+						   
+					   location.reload();
+					   }
+					  });
+					 });
+		
 		/* function update_data1(id, column_name, value)
 		 {
 		 $.ajax({

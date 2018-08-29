@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -50,12 +51,15 @@ public class TestReportInsertServlet extends HttpServlet {
 		wherClasuse = wherClasuse.substring(0,wherClasuse.lastIndexOf("OR")).trim();
 		System.out.println("Where Clause  =  "+wherClasuse);
 		String deleteSQLQuery = "delete from testreporttable "+wherClasuse;
+		String deleteSQLQuery1 = "delete from duplicatetable "+wherClasuse;
 		ConnectionSteps conn = new ConnectionSteps();
 		try
 		{
 			Connection connection = conn.connection();
 			PreparedStatement ps = connection.prepareStatement(deleteSQLQuery);
+			PreparedStatement ps1 = connection.prepareStatement(deleteSQLQuery1);
 			int updateCount = ps.executeUpdate();
+			int updateCount1 = ps1.executeUpdate();
 			connection.commit();
 			System.out.println("Update Count  "+updateCount);
 		}
@@ -114,11 +118,34 @@ public class TestReportInsertServlet extends HttpServlet {
 			pstmt.setString(7, user1.getRequirementName());
 			pstmt.setString(8, user1.getModuleName());
 			pstmt.setString(9, user1.getUsername());
+			
 			int n =pstmt.executeUpdate();
 			if(n>0) {
 				
 				System.out.println("success");
-			}
+				PreparedStatement pstmt2 = conn.prepareStatement("select * from testreporttable where projectname=? and requirementname=? and testcaseid=? and username=? and modulename=?");
+				
+				pstmt2.setString(1, user1.getProjectName());
+				pstmt2.setString(2, user1.getRequirementName());
+				pstmt2.setString(3, testcaseid[i]); 
+				pstmt2.setString(5, user1.getModuleName());
+				pstmt2.setString(4, user1.getUsername());
+				ResultSet rs = pstmt2.executeQuery();
+				if(rs.next())
+				{
+				PreparedStatement pstmt1 = conn.prepareStatement("insert into duplicatetable(projectname,modulename,requirementname,username,testcaseid,id ) values(?,?,?,?,?,?)");
+				
+				pstmt1.setString(1, user1.getProjectName());
+				
+				pstmt1.setString(2, user1.getModuleName());
+				pstmt1.setString(3, user1.getRequirementName());
+				
+				pstmt1.setString(4, user1.getUsername());
+				pstmt1.setString(5, testcaseid[i]); 
+				pstmt1.setInt(6, rs.getInt("id"));
+				int n1=pstmt1.executeUpdate();
+				
+			}}
 			else {
 				
 				System.out.println("fails");

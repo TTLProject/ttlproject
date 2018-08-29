@@ -37,7 +37,7 @@
 
 <body>
 <%
-		Userbean user = (Userbean) session.getAttribute("session2");
+		Userbean user = (Userbean) session.getAttribute("session1");
 	%>
 <section id="container" >
 <!--header start-->
@@ -45,7 +45,7 @@
 <!--logo start-->
 <div class="brand">
 
-   <a href="ExecutiveIndex.jsp" class="logo">
+   <a href="EmployeeIndex.jsp" class="logo">
         <h4 style="color:white;"><b><i>Ticket&Test Management</i></b></h4>
     </a>
 	
@@ -76,9 +76,10 @@
                         <span>Ticket Management</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="AddExecutiveTicket.jsp">Add Ticket</a></li>
-                        <li><a href="EditExecutiveTicket.jsp">Edit Ticket</a></li>
-                        <li><a href="ViewExecutiveTicket.jsp">View Ticket</a></li>
+                        <li><a href="AddEmployeeTicket.jsp">Add Ticket</a></li>
+                     
+                        <li><a href="EditEmployeeTicket.jsp">Edit Ticket</a></li>
+                        <li><a href="ViewEmployeeTicket.jsp">View Ticket</a></li>
                     </ul>
                 </li>
                 
@@ -89,11 +90,11 @@
                         <span>Test Management</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="ExecutiveTestReport.jsp">Prepare TestReport</a></li>
-                        <li><a href="ExecutiveTestData.jsp">Prepare TestData </a></li>
-                        <li><a href="ExecutiveBugReport.jsp">Prepare BugReport</a></li>
-                        <li><a href="ViewExecutiveTestReport.jsp">ViewTestReport</a></li>
-						 <li><a href="ModifyExecutiveTestReport.jsp">ModifyTestReport</a></li>
+                        <li><a href="TestReport.jsp">Prepare TestReport</a></li>
+                        <li><a href="TestData.jsp">Prepare TestData </a></li>
+                        <li><a href="BugReport.jsp">Prepare BugReport</a></li>
+                        <li><a href="ViewTestReport.jsp">ViewTestReport</a></li>
+						 <li><a href="ModifyTestReport.jsp">ModifyTestReport</a></li>
 						
                     </ul>
                 </li>
@@ -120,140 +121,120 @@
 
         <div class="row">
             <div class="col-sm-8">
- <div class="col-md-9">
-          <div class="box box-primary">
-            <div class="box-header with-border">
-             
-      
-              
-            </div>
-            <!-- /.box-header -->
-           <%
-          
-           String assignby=request.getParameter("assignby");
-           String assignto=request.getParameter("assignto");
-          
-           String tid=request.getParameter("ticketid");
-           
-           
-           
-           ConnectionSteps steps = new ConnectionSteps();
-  			Connection conn=steps.connection();
-			PreparedStatement pstmt = conn.prepareStatement("select * from notifications where assignedby=? and assignedto=? and ticketid=?");
-           pstmt.setString(1, assignby);
-           pstmt.setString(2, assignto);
-           pstmt.setString(3, tid);
-           ResultSet rs = pstmt.executeQuery();
-           
-           if(rs.next()){
-        	   String subject=rs.getString("subject");
-        	   if(subject.equals("Asking for Approval....")){
-        	   
-       
-           %>
-        
-           
-           
-            
-            <div class="box-body no-padding">
-              <div class="mailbox-read-info">
-                <h3><%=subject %></h3><br>
-                <h5>From: <%=assignby%>
+ <div class="table-responsive mailbox-messages">
+                <table class="table table-hover table-striped" border=2>
+			
+                  <tbody>
+                 
+                   <%ConnectionSteps steps = new ConnectionSteps();
+       			Connection conn=steps.connection();
+    			PreparedStatement pstmt = conn.prepareStatement("select * from notifications where domain=?");
+    			pstmt.setString(1, user.getDomain());
+    			
+    			ResultSet rs = pstmt.executeQuery();
+    			
+    			int i=0;
+    			user.setSno(0);
+    			while(rs.next()){
+    			i=user.getSno();
+    			i++;
+    			%>
+    			<tr>
+    			<%
+    			if((rs.getString("assignedto").equals(user.getUsername())) && (rs.getString("status").equals("issued"))){
                   
-              </div>
-              <!-- /.mailbox-read-info -->
-             <br><hr>
-              <!-- /.mailbox-controls -->
-              <div class="mailbox-read-message">
-                <p>Hello <%=user.getUsername() %>,</p>
-
-                <p style=color:navy><%=assignby %> issued ticket to <%=assignto %></p>
-          
-           <div id="table"  class="table-editable">
-             <table  class="table" border="3">
-           <tr>
-         
-        <th>Ticket Description</th>
-		<th>Project Name</th>
-		<th>Module Name</th>
-		<th>Requirement Name</th>
-		<th>Ticket Assigned By</th>
-		<th>Ticket Assigned To</th>
-		<th>Date of Issue</th>
-		</tr>
-		<tr>
-		
-		<td><%=rs.getString("ticketdescription") %></td>
-		<td><%=rs.getString("projectname") %></td>
-		<td><%=rs.getString("modulename") %></td>
-		<td><%=rs.getString("requirementname") %></td>
-		<td><%=assignby%></td>
-		<td><%=assignto%></td>
-		<td><%=rs.getString("dateofissue")%></td>
-		
-		</tr>
-           
-           
-           
-           </table>
-           </div><br>
-               <form action="ApproveNotifications.jsp" method="post" id="form1">
-           
-               <input type="hidden" name="assignto" value=<%=assignto %>>
-               <input type="hidden" name="assignby" value=<%=assignby %>>
-                <input type="hidden" name="ticketid" value=<%=rs.getString("ticketid") %>>
-             
-                 </form>
-                  <form action="DeclineNotifications.jsp" method="post" id="form2"> 
-               <input type="hidden" name="assignto" value=<%=assignto %>>
-               <input type="hidden" name="assignby" value=<%=assignby %>>
-                <input type="hidden" name="ticketid" value=<%=rs.getString("ticketid") %>>
+               %>
                
-                 </form>
-               <input type="submit" value="Approve"  form="form1">&emsp;&emsp;
-            
-               
-                      <input type="submit" value="Decline" form="form2">
-    
-                <br><br>
-
-                <p >Regards,    <%=assignby %></p>
-              </div>
-              <!-- /.mailbox-read-message -->
-            </div>
-            
-            <%}else{ %>
-            
-              <div class="box-body no-padding">
-              <div class="mailbox-read-info">
-                <h3>Message Subject Is Placed Here</h3><br>
-                <h5>From: help@example.com
+                  <td><%=i%></td>
+				   <td class="mailbox-name"><b><%=rs.getString("assignedby") %><b></td>
+				   <%
+				   if(rs.getString("status").equals("TicketAssigned")){
+				   %>
+                    <td class="mailbox-subject"><a href="EmployeeReadMail.jsp?assignby=<%=rs.getString("assignedby") %>&assignto=<%=rs.getString("assignedto") %>&ticketid=<%=rs.getString("ticketid") %>" style=color:blue> <b><%=rs.getString("subject") %><b></a>
+                   </td>
+                  <%}else{ %>  
+                   
+                    
+                    <td class="mailbox-subject"><a href="EmployeeReadMail.jsp?assignby=<%=rs.getString("assignedby") %>&assignto=<%=rs.getString("assignedto") %>&ticketid=<%=rs.getString("ticketid") %>" style=color:blue> <b>Check your Modifications<b></a>
+                    </td>
+                    <%} %>
+                    <td class="mailbox-name"><b><%=rs.getString("dateofissue") %><b></td>
+					
                   
-              </div>
-              <!-- /.mailbox-read-info -->
-             <br><hr>
-              <!-- /.mailbox-controls -->
-              <div class="mailbox-read-message">
-                <p>Hello John,</p>
-
-                <p style=color:navy>Ticket was Approved</p>
-                <p>Message body palced here</p>
+        <%}else if((rs.getString("empname").equals(user.getUsername()))&&(rs.getString("status").equals("declined"))){%>
+         <td><%=i%></td>
+				   <td class="mailbox-name"><b><%=rs.getString("executive") %><b></td>
+                    <td class="mailbox-subject"><a href="EmployeeReadMail.jsp?assignby=<%=rs.getString("assignedby") %>&assignto=<%=rs.getString("assignedto") %>&ticketid=<%=rs.getString("ticketid") %>" style=color:blue> <b><%=rs.getString("subject") %><b></a>
+                    </td>
+                    <td class="mailbox-name"><b><%=rs.getString("dateofissue") %><b></td>
                 
-
-                <p >Regards,<br>sana</p>
+        
+        <%}else if((rs.getString("empname").equals(user.getUsername()))&&(rs.getString("status").equals("declined"))){ %>
+        <td><%=i%></td>
+				   <td class="mailbox-name"><b><%=rs.getString("executive") %><b></td>
+                    
+                    <td class="mailbox-subject"><a href="EmployeeReadMail.jsp?assignby=<%=rs.getString("assignedby") %>&assignto=<%=rs.getString("assignedto") %>&ticketid=<%=rs.getString("ticketid") %>" style=color:blue> <b><%=rs.getString("subject") %><b></a>
+                    </td>
+                  
+                    <td class="mailbox-name"><b><%=rs.getString("dateofissue") %><b></td>
+                 
+         <%}else if((rs.getString("assignedto").equals(user.getUsername()))&&(rs.getString("status").equals("approved"))){ %>
+        
+        <%if(rs.getString("assignedby").equals(rs.getString("empname"))){ 
+                    	if(rs.getString("assignedby").equals(rs.getString("empname"))){
+                    
+                    %>
+                     <%}else{ %>
+          <td><%=i%></td>
+                    <td class="mailbox-name"><b><%=rs.getString("executive") %><b></td>
+                    <td class="mailbox-subject"><a href="EmployeeReadMail.jsp?assignby=<%=rs.getString("assignedby") %>&assignto=<%=rs.getString("assignedto") %>&ticketid=<%=rs.getString("ticketid") %>" style=color:blue> <b><%=rs.getString("subject") %><b></a>
+                    </td>
+                    <td class="mailbox-name"><b><%=rs.getString("dateofissue") %><b></td>
+                    <%}}else{ %>
+                  <td><%=i%></td>
+                    <td class="mailbox-name"><b><%=rs.getString("empname") %><b></td>
+                    <td class="mailbox-subject"><a href="EmployeeReadMail1.jsp?assignby=<%=rs.getString("assignedby") %>&assignto=<%=rs.getString("assignedto") %>&ticketid=<%=rs.getString("ticketid") %>" style=color:blue> <b>Ticket Assigned...<b></a>
+                    </td>
+                     <td class="mailbox-name"><b><%=rs.getString("dateofissue") %><b></td>
+                     <%
+                  
+                    }   %>
+                     <%}else{
+                    	 i=user.getSno();
+                    	 user.setSno(i);
+                     }
+    			
+    			%>
+    			</tr>
+    			<%
+    			}%>
+                 <!--  <tr>
+                    <td>2</td>
+                    <td class="mailbox-name"><b>niha</b></td>
+                    <td class="mailbox-subject"><a href="Read-Mail.jsp" style=color:blue><b>Trying to find a solution to this problem...<b></a>
+                    </td>
+                    <td><button type="submit" class="btn btn-default btn-sm" style="color:blue">
+															<i class="fa fa-trash-o"></i>
+														</button></td>
+                  </tr>
+                 <tr>
+                    <td>3</td>
+                    <td class="mailbox-name"><b>sanam</b></td>
+                    <td class="mailbox-subject"><a href="Read-Mail.jsp" style=color:blue><b>Trying to find a solution to this problem...</b></a>
+                    </td>
+                    <td><button type="submit" class="btn btn-default btn-sm" style="color:blue">
+															<i class="fa fa-trash-o"></i>
+														</button></td>
+                  </tr>
+                  -->
+                
+                 
+                   
+                  </tbody>
+                </table>
+                <!-- /.table -->
               </div>
-              <!-- /.mailbox-read-message -->
-            </div>
-            <%} }%>
-            
-            <!-- /.box-body -->
-            
-            <!-- /.box-footer -->
-            
-            <!-- /.box-footer -->
-          </div>
-          <!-- /. box -->
-        </div>
+				
             </div>
         </div>
         <!-- page end-->

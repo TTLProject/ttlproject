@@ -127,8 +127,9 @@
                   <tr>
                    <%ConnectionSteps steps = new ConnectionSteps();
        			Connection conn=steps.connection();
-    			PreparedStatement pstmt = conn.prepareStatement("select * from notifications where domain=? and status is null");
+    			PreparedStatement pstmt = conn.prepareStatement("select * from notifications where domain=? and status=?");
     			pstmt.setString(1, user.getDomain());
+    			pstmt.setString(2, "approval");
     			
     			ResultSet rs = pstmt.executeQuery();
     			int i=0;

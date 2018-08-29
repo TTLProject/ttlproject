@@ -80,7 +80,7 @@ System.out.print(user.getDomain());
                     </ul>
                 </li>
                 
-                
+
                 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-check-square-o"></i>
@@ -94,8 +94,7 @@ System.out.print(user.getDomain());
 						 <li><a href="ModifyExecutiveTestReport.jsp">ModifyTestReport</a></li>
 						
                     </ul>
-                </li>
-                
+                </li> 
                <li>
                     <a href="ExecutiveNotifications.jsp">
                         <i class="fa fa-bell-o"></i>

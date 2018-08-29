@@ -37,7 +37,7 @@
     <![endif]-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	
-<style>
+<!-- <style>
 table {
   border-collapse: initial;
   border-spacing: 0;
@@ -63,6 +63,36 @@ td {
 }
 .not_active {
 	background-color: #FF0000;
+}
+</style>
+ -->
+<style>
+table {
+  border-collapse: initial;
+  border-spacing: 0;
+  margin: 1em auto;
+  width: 98%;
+ }
+thead, th {
+	background: $header-background;
+	color: $header-color;
+	text-align: center;
+	font-family: 'open_sans_semibold';
+	font-size: 1.08em;
+}
+td {
+	border: 0.1em solid #9a9a9a;
+	color: $hilight-contrast;
+	font-size: 1.03em;
+	 
+	  padding: 8px;
+	 background-color: #ffffff;
+}
+.registered_active {
+	background-color: red;
+}
+.not_active {
+	background-color: rgb(255,255,255);
 }
 </style>
 <script type="text/javascript" language="javascript" src="jquery-2.1.1.js"></script>
@@ -114,7 +144,7 @@ $(document).ready(function() {
 		
 		$( this ).css( "background-color", "#cacaca" );
 				
-     	$('#destinationtable tr:last').after('<tr id="dest' + theid + '"  class="shifts_clickable"><td><input type="text" readonly="readonly" name="testcaseid[]"  value=' 
+     	$('#destinationtable tr:last').after('<tr class="shifts_clickable" id="dest' + theid + '"  ><td><input type="text" readonly="readonly" name="testcaseid[]"  value=' 
 		                               + $(this).find("td").eq(0).html() + ' /></td><td><textarea rows="1" name="testdescription[]">' 
 		                               + $(this).find("td").eq(1).html() + '</textarea></td><td><textarea rows="1" name="precondition[]">' 
 		                               + $(this).find("td").eq(2).html() + '</textarea></td><td><textarea rows="1" name="testdesign[]">' 
@@ -462,7 +492,7 @@ if(mname==null){
 				
 				<form action="ModifyTestReportServlet1" method="post">
 					<table border="1" cellspacing="5" id="sourcetable">
-						<tr>
+						<tr class="shifts_clickable">
 						<thead>
 							<th>TestCase Id</th>
 							<th>TestDescription</th>
@@ -493,7 +523,7 @@ if(mname==null){
 							%>
 							  <tr id=<%=value %>>
 	
-        <td name="testcaseid[]"><%=rs1.getString("testcaseid") %></td>
+        <td name="testcaseid[]" ><%=rs1.getString("testcaseid") %></td>
         <td  name="testdescription[]"><%=rs1.getString("testdescription") %></td>
 		 <td  name="precondition[]"><%=rs1.getString("precondition") %></td>
 		  <td name="testdesign[]"><%=rs1.getString("testdesign") %></td>
@@ -545,7 +575,7 @@ if(mname==null){
 
 
 					<table id="destinationtable" border="1">
-						<thead>
+					
 							<tr class="shifts_clickable">
 								<th>TestCase Id</th>
 								<th>TestDescription</th>
@@ -557,7 +587,7 @@ if(mname==null){
 								<th>Comment</th>
 
 							</tr>
-						</thead>
+						
 
 					</table>
 					<p align="right">
@@ -837,15 +867,7 @@ if(mname==null){
 <!-- Placed js at the end of the document so the pages load faster -->
 
 
-<script>
-$('.shifts_clickable td').on('click',function() {
-							if ($(this).hasClass('registered_active')) {
-								$(this).removeClass('registered_active').addClass('not_active');
-							} else {
-								$(this).removeClass('not_active').addClass('registered_active');
-							}
-						})
-    </script>
+
 
 <!--Core js-->
 <script src="js/jquery.js"></script>
@@ -867,6 +889,7 @@ $('.shifts_clickable td').on('click',function() {
 
 <!--common script init for all pages-->
 <script src="js/scripts.js"></script>
+
 
 </body>
 </html>
@@ -981,3 +1004,12 @@ $('.shifts_clickable td').on('click',function() {
 
 	});
 </script>
+<script>
+$('.shifts_clickable td').on('click',function() {
+							if ($(this).hasClass('registered_active')) {
+								$(this).removeClass('registered_active').addClass('not_active');
+							} else {
+								$(this).removeClass('not_active').addClass('registered_active');
+							}
+						})
+    </script>

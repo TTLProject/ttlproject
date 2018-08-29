@@ -118,6 +118,10 @@ with min 8 and max 16 characters"
 					</select>
 			</div><br>
 			<br><br><br>
+			<div class="w3l-user">
+				Image:
+				<input type="file" name="image" placeholder="" required="">
+			</div>
 				
 				<!--<div class="w3l-date">
 					<label class="head">Birth Date<span class="w3l-star"> * </span></label>

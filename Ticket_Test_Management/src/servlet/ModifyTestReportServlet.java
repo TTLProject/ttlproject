@@ -1,17 +1,21 @@
 package servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.ConnectionSteps;
+import dao.ExecutiveModifyNotification;
 import userbean.Userbean;
 
 /**
@@ -29,9 +33,13 @@ public class ModifyTestReportServlet extends HttpServlet {
 		String expectedresult[]=request.getParameterValues("expectedresult[]");
 		String actualresult[]=request.getParameterValues("actualresult[]");
 		String status[]=request.getParameterValues("status[]");
-		String comment[]=request.getParameterValues("comment[]");
-		String id1[]=request.getParameterValues("id1[]");
-		
+		String comment[]=request.getParameterValues("comments[]");
+		String id1[]=request.getParameterValues("id[]");
+		String color1[]=request.getParameterValues("color1[]");
+		String color2[]=request.getParameterValues("color2[]");
+		String color3[]=request.getParameterValues("color3[]");
+		String color4[]=request.getParameterValues("color4[]");
+		String color5[]=request.getParameterValues("color5[]");
 		try {
 			ConnectionSteps steps = new ConnectionSteps();
 			Connection conn=steps.connection();
@@ -40,9 +48,8 @@ public class ModifyTestReportServlet extends HttpServlet {
 				
 				String insertQuery = "update  testreporttable set testcaseid=?,testdescription=?,precondition=?,testdesign=?,expectedresult=?,actualresult=?,status=?,comments=?,report=? where id=?";
 				PreparedStatement pstmt = conn.prepareStatement(insertQuery);
-				
-				
-				
+				PreparedStatement pstmt1 = conn.prepareStatement("update duplicatetable set testdescription=?,precondition=?,testdesign=?,expectedresult=?,comments=? where id=?");
+				/*
 				System.out.println("testcaseid[i]  "+testcaseid[i]);
 				System.out.println("testdescription[i]  "+testdescription[i]);
 				System.out.println("precondition[i]  "+precondition[i]);
@@ -51,7 +58,7 @@ public class ModifyTestReportServlet extends HttpServlet {
 				System.out.println("actualresult[i]  "+actualresult[i]);
 				System.out.println("status[i]  "+status[i]);
 				System.out.println("comment[i]  "+comment[i]);
-				System.out.println("id"+id1[i]);
+				System.out.println("id"+id1[i]);*/
 				
 				//int id = Integer.parseInt(testcaseid[i].split("TC-")[1]);
 				
@@ -66,15 +73,25 @@ public class ModifyTestReportServlet extends HttpServlet {
 				pstmt.setString(9, "modify");
 				pstmt.setString(10, id1[i]);
 				int n =pstmt.executeUpdate();
+				
+				pstmt1.setString(1, color1[i]); 
+				pstmt1.setString(2, color2[i]);
+				pstmt1.setString(3, color3[i]); 
+				pstmt1.setString(4, color4[i]);
+				pstmt1.setString(5, color5[i]); 
+				
+				pstmt1.setString(6, id1[i]);
+				
+				int n1 =pstmt1.executeUpdate();
 				if(n>0) {
 					
-					System.out.println("success");
+				
 					user.setValid(true);
 				
 				}
 				else {
 					
-					System.out.println("fails");
+					
 					user.setValid(false);
 					
 				}
@@ -83,15 +100,33 @@ public class ModifyTestReportServlet extends HttpServlet {
 			
 			
 			
+			}	
+			boolean status1 = user.isValid();
+			if(status1) {
+				PreparedStatement pstmt2 = conn.prepareStatement("select * from testreporttable where id=?");
+				pstmt2.setString(1, id1[1]);
+				ResultSet rs= pstmt2.executeQuery();
+				if(rs.next()) {
+					user.setEmpname(rs.getString("username"));
+					user.setProjectName(rs.getString("projectname"));
+					user.setRequirementName(rs.getString("requirementname"));
+					user.setModuleName(rs.getString("modulename"));
+				}
+				HttpSession session = request.getSession();
+				Userbean user1 = (Userbean) session.getAttribute("session2");
+				user.setUsername(user1.getUsername());
+				user.setDomain(user1.getDomain());
+				ExecutiveModifyNotification.insert(user);
+			
+				String greetings = "Modifications sent to employee";
+				
+				response.setContentType("text/plain");
+				response.getWriter().write(greetings);
+				
 			}
+			
 		}catch (Exception e) {
 	System.out.println(e);
-		}
-		boolean state = user.isValid();
-		if(state) {
-			response.sendRedirect("ModifyExecutiveTestReport.jsp");
-		}else {
-			response.sendRedirect("ModifyExecutiveTestReport.jsp");
 		}
 		
 	}
